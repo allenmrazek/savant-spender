@@ -1,0 +1,39 @@
+<resources>
+    // general
+    <string name="app_name">Savant Spender</string>
+    <string name="placeholderText">Placeholder</string>
+
+    // Notifications
+    <string name="notification_channel_id">default</string>
+    <string name="notification_channel_name">SavantSpender</string>
+    <string name="notification_channel_desc">All notifications</string>
+
+    // bottom nav
+    <string name="title_overview">Overview</string>
+    <string name="title_transactions">Transactions</string>
+    <string name="title_categories">Categories</string>
+    <string name="title_settings">Settings</string>
+
+
+
+
+    // toast messages
+    <string name="toast_error_auth">Failed to authorize!</string>
+    <string name="toast_link_success">Successfully linked!</string>
+
+
+    // Activities
+        // auth
+            <string name="auth_message">Authorizing...</string>
+
+        // Transactions
+            <string name="transactions_name">Transactions</string>
+
+    // ListItems
+        // Transaction
+            <string name="listitem_defaultName">Working...</string>
+            <string name="listitem_defaultPrice">$ ...</string>
+            <string name="listitem_defaultDate">date</string>
+            <string name="listitem_defaultSep">|</string>
+
+</resources>
