@@ -3,8 +3,10 @@ package com.savantspender.db.entity;
 import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
+import androidx.room.Relation;
 
 import java.util.Date;
+import java.util.List;
 
 @Entity(tableName = "employees")
 public class EmployeeEntity {
@@ -22,6 +24,9 @@ public class EmployeeEntity {
     public Date Bdate;
 
     public int Dno;
+
+//    @Relation(entity = ProjectEntity.class, parentColumn = "Ssn", entityColumn = "Essn")
+//    public List<ProjectEntity> Projects;
 
     public EmployeeEntity(String Ssn, String Fname, String Lname, Date Bdate, int Dno) {
         this.Ssn = Ssn;
