@@ -11,7 +11,9 @@ import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import com.savantspender.AppExecutors;
 import com.savantspender.db.converter.DateConverter;
+import com.savantspender.db.dao.EmployeeDao;
 import com.savantspender.db.dao.PlaidItemDao;
+import com.savantspender.db.entity.EmployeeEntity;
 import com.savantspender.db.entity.PlaidItemEntity;
 import com.savantspender.model.PlaidAccount;
 import com.savantspender.model.PlaidItem;
@@ -20,7 +22,8 @@ import com.savantspender.model.Tag;
 
 
 @Database(entities = {
-        PlaidItemEntity.class
+        PlaidItemEntity.class,
+        EmployeeEntity.class
 //        PlaidAccount.class,
 //        PlaidTransaction.class,
 //        Tag.class
@@ -33,6 +36,7 @@ public abstract class AppDatabase extends RoomDatabase {
 
 
     public abstract PlaidItemDao plaidItemDao();
+    public abstract EmployeeDao employeeDao();
 
 
     public static AppDatabase getInstance(final Context appContext, final AppExecutors executors) {
