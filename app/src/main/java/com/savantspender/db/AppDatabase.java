@@ -12,17 +12,11 @@ import androidx.sqlite.db.SupportSQLiteDatabase;
 import com.savantspender.AppExecutors;
 import com.savantspender.db.converter.DateConverter;
 import com.savantspender.db.dao.EmployeeDao;
-import com.savantspender.db.dao.PlaidItemDao;
 import com.savantspender.db.dao.ProjectDao;
 import com.savantspender.db.dao.WorksOnDao;
 import com.savantspender.db.entity.EmployeeEntity;
-import com.savantspender.db.entity.PlaidItemEntity;
 import com.savantspender.db.entity.ProjectEntity;
 import com.savantspender.db.entity.WorksOnEntity;
-import com.savantspender.model.PlaidAccount;
-import com.savantspender.model.PlaidItem;
-import com.savantspender.model.PlaidTransaction;
-import com.savantspender.model.Tag;
 
 
 @Database(entities = {
