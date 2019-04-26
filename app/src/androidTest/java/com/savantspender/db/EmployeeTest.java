@@ -65,6 +65,7 @@ public class EmployeeTest extends DefaultDatabaseTest {
         assertThat(employeeEntities.size(), is(0));
     }
 
+    @Test
     public void project_relations() throws Exception {
         EmployeeEntity emp = new EmployeeEntity("888665555", "James", "Borg", mFormatter.parse("1937-11-10"), 1);
         ProjectEntity proj = new ProjectEntity("Project 1", 1);
@@ -89,6 +90,7 @@ public class EmployeeTest extends DefaultDatabaseTest {
 
         ProjectEntity feProj = projects.get(0);
 
-        assertThat(feProj, equalTo(proj));
+        assertThat(feProj.Pname, equalTo(proj.Pname));
+        assertThat(feProj.Pnumber, equalTo(proj.Pnumber));
     }
 }
