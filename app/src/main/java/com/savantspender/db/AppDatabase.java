@@ -20,13 +20,9 @@ import com.savantspender.db.entity.WorksOnEntity;
 
 
 @Database(entities = {
-        PlaidItemEntity.class,
         EmployeeEntity.class,
         WorksOnEntity.class,
         ProjectEntity.class
-//        PlaidAccount.class,
-//        PlaidTransaction.class,
-//        Tag.class
 }, version = 1, exportSchema = false)
 @TypeConverters(DateConverter.class)
 @SuppressWarnings("deprecation")
@@ -35,7 +31,6 @@ public abstract class AppDatabase extends RoomDatabase {
     private static final String DATABASE_NAME = "SavantSpenderDB";
 
 
-    public abstract PlaidItemDao plaidItemDao();
     public abstract EmployeeDao employeeDao();
     public abstract WorksOnDao worksOnDao();
     public abstract ProjectDao projectDao();

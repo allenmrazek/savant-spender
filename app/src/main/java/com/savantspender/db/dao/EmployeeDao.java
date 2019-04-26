@@ -27,7 +27,7 @@ public interface EmployeeDao {
     @Delete
     void delete(EmployeeEntity emp);
 
-    @Query("SELECT Pname, Pnumber, Pno FROM employees INNER JOIN works_on ON Ssn = :ssn AND Ssn = Essn INNER JOIN projects WHERE Pno = Pnumber ORDER BY Pname ASC")
+    @Query("SELECT Pname, Pnumber FROM employees INNER JOIN works_on ON Ssn = :ssn AND Ssn = Essn INNER JOIN projects WHERE Pno = Pnumber ORDER BY Pname ASC")
     LiveData<List<ProjectEntity>> getProjects(@NonNull String ssn);
 
     // examples
