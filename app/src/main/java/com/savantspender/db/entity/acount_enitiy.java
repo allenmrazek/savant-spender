@@ -5,7 +5,7 @@ import androidx.room.Entity;
 import androidx.room.ForeignKey;
 import androidx.room.PrimaryKey;
 
-@Entity(foreignKeys = @ForeignKey(entity = insitution_entity, parentColumns = "id",childColumns = "insitutionid"))
+@Entity(foreignKeys = @ForeignKey(entity = insitution_entity.class, parentColumns = "id",childColumns = "insitutionid"))
 public class acount_enitiy {
     @PrimaryKey
     protected String id;
