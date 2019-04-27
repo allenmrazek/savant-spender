@@ -1,5 +1,6 @@
 package com.savantspender.db;
 
+import androidx.lifecycle.LiveData;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import com.savantspender.LiveDataTestUtil;
@@ -14,7 +15,9 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import java.lang.reflect.Array;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.List;
 
 import static org.hamcrest.Matchers.equalTo;
@@ -64,6 +67,22 @@ public class EmployeeTest extends DefaultDatabaseTest {
 
         assertThat(employeeEntities.size(), is(0));
     }
+
+    @Test
+    public void insert_list() throws Exception {
+        EmployeeEntity emp1 = new EmployeeEntity("888665555", "James", "Borg", mFormatter.parse("1937-11-10"), 1);
+        EmployeeEntity emp2 = new EmployeeEntity("111222333", "Kevin", "Crane", mFormatter.parse("1957-09-22"), 2);
+
+        mEmpDao.insert(Arrays.asList(emp1, emp2));
+
+        List<EmployeeEntity> employees = LiveDataTestUtil.getValue(mEmpDao.loadEmployees());
+        assertThat(employees.size(), is(2));
+
+        mEmpDao.delete(Arrays.asList(emp1, emp2));
+        employees = LiveDataTestUtil.getValue(mEmpDao.loadEmployees());
+        assertThat(employees.size(), is(0));
+    }
+
 
     @Test
     public void project_relations() throws Exception {
