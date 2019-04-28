@@ -11,7 +11,9 @@ import android.os.Bundle;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.savantspender.R;
 import com.savantspender.TransactionActivity;
+import com.savantspender.ui.frag.CategoryFragment;
 import com.savantspender.ui.frag.OverviewFragment;
+import com.savantspender.ui.frag.SettingsFragment;
 import com.savantspender.ui.frag.TransactionFragment;
 
 import androidx.annotation.Nullable;
@@ -136,24 +138,23 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-        FragmentManager sfm = getSupportFragmentManager();
+        // todo: don't transition if already in correct state
 
         switch (menuItem.getItemId()) {
             case R.id.navigation_overview:
+                TransitionTo(new OverviewFragment());
+                return true;
+
             case R.id.navigation_categories:
+                TransitionTo(new CategoryFragment());
+                return true;
+
             case R.id.navigation_settings:
+                TransitionTo(new SettingsFragment());
                 return true;
 
             case R.id.navigation_transactions:
-                //startActivity(new Intent(this, TransactionActivity.class));
-                FragmentTransaction transaction = sfm.beginTransaction();
-
-                transaction.setCustomAnimations(R.anim.enter, R.anim.exit, R.anim.pop_enter, R.anim.pop_exit);
-                transaction.replace(R.id.fragment_container, new TransactionFragment());
-                transaction.addToBackStack(null);
-
-                transaction.commit();
-
+                TransitionTo(new TransactionFragment());
                 return true;
         }
 
@@ -161,6 +162,12 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     }
 
     private void TransitionTo(Fragment fragment) {
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
 
+        transaction.setCustomAnimations(R.anim.enter, R.anim.exit, R.anim.pop_enter, R.anim.pop_exit);
+        transaction.replace(R.id.fragment_container, fragment);
+        transaction.addToBackStack(null);
+
+        transaction.commit();
     }
 }

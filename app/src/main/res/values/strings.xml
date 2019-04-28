@@ -22,12 +22,17 @@
     <string name="toast_link_success">Successfully linked!</string>
 
 
-    // Activities
+    // Activities and Fragments
         // auth
             <string name="auth_message">Authorizing...</string>
 
         // Transactions
             <string name="transactions_name">Transactions</string>
+
+        // Categories
+            <string name="categories_heading">Categories</string>
+            <string name="add_category">add a new category</string>
+            <string name="searchbox_text_initial">search a category</string>
 
     // ListItems
         // Transaction
