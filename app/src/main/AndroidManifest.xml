@@ -21,12 +21,6 @@
         </activity>
 
         <activity
-            android:name=".TransactionActivity"
-            android:label="Transactions">
-
-        </activity>
-
-        <activity
             android:name=".ui.LinkActivity"
             android:label="Savant Spender Link">
         </activity>

@@ -11,12 +11,18 @@ import android.os.Bundle;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.savantspender.R;
 import com.savantspender.TransactionActivity;
+import com.savantspender.ui.frag.OverviewFragment;
+import com.savantspender.ui.frag.TransactionFragment;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.util.Log;
 import android.view.MenuItem;
@@ -38,7 +44,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         setContentView(R.layout.activity_main);
         BottomNavigationView navView = findViewById(R.id.nav_view);
 
-        mTextMessage = findViewById(R.id.message);
         navView.setOnNavigationItemSelectedListener(this);
 
         Button b = findViewById(R.id.btn_link);
@@ -47,6 +52,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
             startActivityForResult(new Intent(this, LinkActivity.class), LinkActivity.REQUEST_NEW_LINK);
         });
 
+        getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, new OverviewFragment()).commitNow();
 
         // temp: testing notifications
         if (Build.VERSION.SDK_INT >= 26) {
@@ -130,6 +136,8 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+        FragmentManager sfm = getSupportFragmentManager();
+
         switch (menuItem.getItemId()) {
             case R.id.navigation_overview:
             case R.id.navigation_categories:
@@ -137,10 +145,22 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 return true;
 
             case R.id.navigation_transactions:
-                startActivity(new Intent(this, TransactionActivity.class));
+                //startActivity(new Intent(this, TransactionActivity.class));
+                FragmentTransaction transaction = sfm.beginTransaction();
+
+                transaction.setCustomAnimations(R.anim.enter, R.anim.exit, R.anim.pop_enter, R.anim.pop_exit);
+                transaction.replace(R.id.fragment_container, new TransactionFragment());
+                transaction.addToBackStack(null);
+
+                transaction.commit();
+
                 return true;
         }
 
         return false;
+    }
+
+    private void TransitionTo(Fragment fragment) {
+
     }
 }

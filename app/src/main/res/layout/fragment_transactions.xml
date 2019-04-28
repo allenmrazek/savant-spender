@@ -39,15 +39,4 @@
 
     </androidx.recyclerview.widget.RecyclerView>
 
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/nav_view"
-        android:layout_width="0dp"
-        android:layout_height="51dp"
-        android:background="?android:attr/windowBackground"
-        app:labelVisibilityMode="selected"
-        app:layout_constraintBottom_toBottomOf="@id/transactions_view"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:menu="@menu/bottom_nav_menu" />
-
 </androidx.constraintlayout.widget.ConstraintLayout>
