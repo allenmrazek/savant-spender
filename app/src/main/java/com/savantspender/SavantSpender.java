@@ -22,6 +22,8 @@ public class SavantSpender extends Application {
         super.onCreate();
 
         mAppExecutors = new AppExecutors();
+
+        if (BuildConfig.DEBUG) Log.w("Spender", "initializing SavantSpender");
     }
 
     public AppDatabase getDatabase() {
