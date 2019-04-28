@@ -5,13 +5,13 @@ import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 
-import com.savantspender.db.entity.PlaidAccountEntity;
+import com.savantspender.db.entity.AccountEntity;
 
 @Dao
-public interface PlaidAccountDao {
+public interface AccountDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insert(PlaidAccountEntity entity);
+    void insert(AccountEntity entity);
 
     @Delete
-    void delete(PlaidAccountEntity entity);
+    void delete(AccountEntity entity);
 }

@@ -8,22 +8,22 @@ import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 
-import com.savantspender.db.entity.PlaidItemEntity;
+import com.savantspender.db.entity.ItemEntity;
 
 import java.util.List;
 
 @Dao
-public interface PlaidItemDao {
+public interface ItemDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insert(PlaidItemEntity entity);
+    void insert(ItemEntity entity);
 
     @Query("SELECT * FROM items")
-    LiveData<List<PlaidItemEntity>> getItems();
+    LiveData<List<ItemEntity>> getItems();
 
     @Query("SELECT * FROM items WHERE inst_id == :instid")
-    LiveData<List<PlaidItemEntity>> getItemsFromInstitution(@NonNull String instid);
+    LiveData<List<ItemEntity>> getItemsFromInstitution(@NonNull String instid);
 
     @Delete
-    void delete(PlaidItemEntity entity);
+    void delete(ItemEntity entity);
 }

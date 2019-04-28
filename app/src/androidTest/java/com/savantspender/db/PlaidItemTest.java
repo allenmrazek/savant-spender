@@ -2,7 +2,6 @@ package com.savantspender.db;
 
 import com.savantspender.LiveDataTestUtil;
 import com.savantspender.db.dao.PlaidItemDao;
-import com.savantspender.db.entity.PlaidItemEntity;
 
 import org.junit.Before;
 import org.junit.Test;
