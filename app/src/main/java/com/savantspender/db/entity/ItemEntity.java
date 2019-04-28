@@ -1,23 +1,25 @@
 package com.savantspender.db.entity;
 
 
+import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
+import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
 @Entity(
-        tableName = "institutions",
+        tableName = "items",
         foreignKeys = @ForeignKey(
                 entity = InstitutionEntity.class,
                 parentColumns = "id",
-                childColumns = "id"))
+                childColumns = "institutionId"),
+        indices = @Index("institutionId")
+)
 public class ItemEntity {
     @PrimaryKey
-    protected String id;
-    protected String access_token;
-    protected String public_token;
-
-    public String getId() {return this.id;}
-    public String getPublicToken() {return this.access_token;}
-    public String getAccessToken() {return this.public_token;}
+    @NonNull
+    public String id; // itemId
+    public String institutionId;
+    public String access_token;
+    public String public_token;
 }

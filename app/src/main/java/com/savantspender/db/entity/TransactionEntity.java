@@ -1,7 +1,5 @@
 package com.savantspender.db.entity;
 
-// Transactions table: {AccountID, TransactionID} -> Name, Amount, Pending, PostDate
-
 import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.Index;
@@ -10,18 +8,18 @@ import java.util.Date;
 
 @Entity (
     primaryKeys = {
-        "AccountID", "TransactionID"
+        "accountId", "id"
     },
     tableName = "transactions",
     indices = {
-        @Index("TransactionId")
+        @Index("id")
     })
 public class TransactionEntity {
-    public @NonNull String AccountID;
-    public @NonNull String TransactionID;
+    public @NonNull String accountId;
+    public @NonNull String id;
 
-    public String Name;
-    public float Amount;
-    public boolean Pending;
-    public Date PostDate;
+    public String name;
+    public float amount;
+    public boolean pending;
+    public Date postDate;
 }
