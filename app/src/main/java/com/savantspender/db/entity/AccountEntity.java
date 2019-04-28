@@ -9,38 +9,18 @@ import androidx.room.PrimaryKey;
 // Accounts table: {InstitutionID, AccountID} -> account_name
 
 @Entity(
+        tableName = "accounts",
         primaryKeys = {
-                "instId",
-                "accountId"
+                "institutionId",
+                "id"
         },
         foreignKeys = @ForeignKey(
                 entity = InstitutionEntity.class,
                 parentColumns = "id",
-                childColumns = "id")
+                childColumns = "institutionId")
 )
 public class AccountEntity {
-    protected @NonNull String instId;
-    protected @NonNull String accountId;
-    protected @NonNull String accountName;
-
-    public AccountEntity(@NonNull String instId, @NonNull String accountId, @NonNull String accountName) {
-        this.instId = instId;
-        this.accountId = accountId;
-        this.accountName = accountName;
-    }
-
-    @NonNull
-    public String getInstId() {
-        return instId;
-    }
-
-    @NonNull
-    public String getAccountId() {
-        return accountId;
-    }
-
-    @NonNull
-    public String getAccountName() {
-        return accountName;
-    }
+    public @NonNull String institutionId;
+    public @NonNull String id;
+    public @NonNull String name;
 }

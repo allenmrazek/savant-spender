@@ -21,8 +21,6 @@ public interface ItemDao {
     @Query("SELECT * FROM items")
     LiveData<List<ItemEntity>> getItems();
 
-    @Query("SELECT * FROM items WHERE inst_id == :instid")
-    LiveData<List<ItemEntity>> getItemsFromInstitution(@NonNull String instid);
 
     @Delete
     void delete(ItemEntity entity);

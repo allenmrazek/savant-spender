@@ -10,23 +10,25 @@ import androidx.room.Index;
         tableName = "catalogged",
         foreignKeys = {
                 @ForeignKey(
-                        parentColumns = "AccountId",
-                        childColumns = "id",
+                        parentColumns = { "id", "institutionId" },
+                        childColumns = { "accountId", "institutionId" },
                         entity = AccountEntity.class),
                 @ForeignKey(
-                        parentColumns = "TransactionId",
-                        childColumns = "id",
+                        parentColumns = { "accountId", "id" },
+                        childColumns = {"accountId", "transactionId"},
                         entity = TransactionEntity.class),
                 @ForeignKey(
-                        parentColumns = "TagId",
-                        childColumns = "id",
+                        parentColumns = "id",
+                        childColumns = "tagId",
                         entity = TagEntity.class
                 )
         },
-        indices = { @Index("TransactionId")},
-        primaryKeys = {"AccountId", "TransactionId", "TagId"})
+        indices = { @Index("transactionId"), @Index({"accountId", "institutionId"}), @Index("tagId")},
+        primaryKeys = {"accountId", "transactionId", "tagId"}
+)
 public class CataloggedEntity {
-    public @NonNull String AccountId;
-    public @NonNull String TransactionId;
-    public int TagId;
+    public @NonNull String accountId;
+    public @NonNull String transactionId;
+    public @NonNull String institutionId;
+    public int tagId;
 }

@@ -1,28 +1,16 @@
 package com.savantspender.db.entity;
 
 
+import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-@Entity
+@Entity(
+        tableName = "institutions"
+)
 public class InstitutionEntity {
     @PrimaryKey
-    protected String id;
-    protected String name;
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
+    @NonNull
+    public String id;
+    public String name;
 }
