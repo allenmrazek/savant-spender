@@ -1,64 +1,45 @@
 package com.savantspender.db.entity;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.room.ColumnInfo;
 import androidx.room.Entity;
-import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
-import com.savantspender.model.PlaidAccount;
-import com.savantspender.model.PlaidItem;
-
-import java.util.List;
-
-@Entity(tableName = "plaidItems"
-    /* foreign keys here -- todo */)
-public class PlaidItemEntity implements PlaidItem {
+@Entity (tableName = "items")
+public class PlaidItemEntity {
     @PrimaryKey
-    @NonNull
-    private String mId;
+    @ColumnInfo(name = "id")
+    private @NonNull String mId;
 
-    @NonNull
-    private String mPublicToken;
+    @ColumnInfo(name = "access_token")
+    private @NonNull String mAccessToken;
 
-    @NonNull
-    private String mAccessToken;
+    @ColumnInfo(name = "inst_id")
+    private @NonNull String mInstId;
 
-
-    @Override
-    public String getPublicToken() {
-        return mPublicToken;
-    }
-
-    public void setPublicToken(String token) {
-        mPublicToken = token;
-    }
-
-    @Override
-    public String getAccessToken() {
-        return mAccessToken;
-    }
-
-    public void setAccessToken(String token) {
-        mAccessToken = token;
-    }
-
-    @Override
     public String getId() {
         return mId;
     }
+    public String getAccessToken() {
+        return mAccessToken;
+    }
+    public String getInstId() { return mInstId; }
 
-    public void setId(String id) {
+
+    public PlaidItemEntity(@NonNull String id, @NonNull String accessToken, @NonNull String instId) {
         mId = id;
-    }
-
-    public PlaidItemEntity() {
-
-    }
-
-    @Ignore
-    public PlaidItemEntity(String itemId, String publicToken, String accessToken) {
-        mId = itemId;
-        mPublicToken = publicToken;
         mAccessToken = accessToken;
+        mInstId = instId;
+    }
+
+    @Override
+    public boolean equals(@Nullable Object obj) {
+        if (obj == this) return true;
+        if (obj.getClass() != getClass()) return false;
+
+        PlaidItemEntity ple = (PlaidItemEntity)obj;
+
+        return mId.equals(ple.mId) && mAccessToken.equals(ple.mAccessToken) && mInstId.equals(ple.mInstId);
     }
 }

@@ -1,40 +1,13 @@
 package com.savantspender.db.entity;
 
+import androidx.annotation.NonNull;
 import androidx.room.Entity;
 
-import com.savantspender.model.PlaidAccount;
+@Entity(tableName = "accounts", primaryKeys = { "id", "institutionId"})
+public class PlaidAccountEntity {
+    public @NonNull String id;               // account id
+    public @NonNull String institutionId;    // + instid -> unique
 
-// TODO
-public class PlaidAccountEntity implements PlaidAccount {
-
-
-//    @Override
-//    public String getInstitutionId() {
-//        return null;
-//    }
-//
-//    @Override
-//    public String getAccessToken() {
-//        return null;
-//    }
-//
-//    @Override
-//    public String getPublicToken() {
-//        return null;
-//    }
-//
-//    @Override
-//    public String getInstitutionName() {
-//        return null;
-//    }
-//
-//    @Override
-//    public String getType() {
-//        return null;
-//    }
-//
-//    @Override
-//    public String getSubType() {
-//        return null;
-//    }
+    public String mask;
+    public String name;
 }

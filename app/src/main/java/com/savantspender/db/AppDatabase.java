@@ -11,19 +11,24 @@ import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import com.savantspender.AppExecutors;
 import com.savantspender.db.converter.DateConverter;
+import com.savantspender.db.dao.EmployeeDao;
+import com.savantspender.db.dao.PlaidAccountDao;
 import com.savantspender.db.dao.PlaidItemDao;
+import com.savantspender.db.dao.ProjectDao;
+import com.savantspender.db.dao.WorksOnDao;
+import com.savantspender.db.entity.EmployeeEntity;
+import com.savantspender.db.entity.PlaidAccountEntity;
 import com.savantspender.db.entity.PlaidItemEntity;
-import com.savantspender.model.PlaidAccount;
-import com.savantspender.model.PlaidItem;
-import com.savantspender.model.PlaidTransaction;
-import com.savantspender.model.Tag;
+import com.savantspender.db.entity.ProjectEntity;
+import com.savantspender.db.entity.WorksOnEntity;
 
 
 @Database(entities = {
-        PlaidItemEntity.class
-//        PlaidAccount.class,
-//        PlaidTransaction.class,
-//        Tag.class
+        EmployeeEntity.class,
+        WorksOnEntity.class,
+        ProjectEntity.class,
+        PlaidItemEntity.class,
+        PlaidAccountEntity.class
 }, version = 1, exportSchema = false)
 @TypeConverters(DateConverter.class)
 @SuppressWarnings("deprecation")
@@ -32,8 +37,12 @@ public abstract class AppDatabase extends RoomDatabase {
     private static final String DATABASE_NAME = "SavantSpenderDB";
 
 
-    public abstract PlaidItemDao plaidItemDao();
+    public abstract EmployeeDao employeeDao();
+    public abstract WorksOnDao worksOnDao();
+    public abstract ProjectDao projectDao();
 
+    public abstract PlaidItemDao itemDao();
+    public abstract PlaidAccountDao accountDao();
 
     public static AppDatabase getInstance(final Context appContext, final AppExecutors executors) {
         if (mAppDatabase == null) {

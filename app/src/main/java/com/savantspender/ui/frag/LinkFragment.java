@@ -118,6 +118,19 @@ public class LinkFragment extends Fragment {
                     Log.w("Spender", kvp.getKey() + " -> " + kvp.getValue());
                 }
 
+                /*
+  -26 00:48:02.988 20519-20519/com.savantspender W/Spender: public_token -> public-sandbox-70af9b4e-f4d5-424a-90b5-456be8ee2c7d
+04-26 00:48:02.988 20519-20519/com.savantspender W/Spender: account_mask -> 1111
+04-26 00:48:02.988 20519-20519/com.savantspender W/Spender: link_session_id -> 53939766-f0cf-4ac3-83e5-d177363655d1
+04-26 00:48:02.988 20519-20519/com.savantspender W/Spender: accounts -> [{"_id":"xPj3voMgKKHoMM9BlpM3CZGo3wKqGAfnGQRd5","balance":{"available":200,"current":210},"meta":{"name":"Plaid Saving","number":"1111"},"type":"depository","subtype":"savings"}]
+04-26 00:48:02.988 20519-20519/com.savantspender W/Spender: account_subtype -> savings
+04-26 00:48:02.988 20519-20519/com.savantspender W/Spender: account_type -> depository
+04-26 00:48:02.988 20519-20519/com.savantspender W/Spender: institution_id -> ins_3
+04-26 00:48:02.988 20519-20519/com.savantspender W/Spender: institution_name -> Chase
+04-26 00:48:02.988 20519-20519/com.savantspender W/Spender: account_name -> Plaid Saving
+04-26 00:48:02.988 20519-20519/com.savantspender W/Spender: account_id -> xPj3voMgKKHoMM9BlpM3CZGo3wKqGAfnGQRd5
+                 */
+
                 mViewModel.extractLinkDetails(linkData);
             } else if (action.equals("exit")) {
                 mViewModel.setCancelled();
