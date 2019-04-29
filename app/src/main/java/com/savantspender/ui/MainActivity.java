@@ -77,17 +77,17 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
 
 
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "default")
-                .setContentTitle("Test title")
-                .setContentText("Test text here")
-                .setSmallIcon(R.drawable.ic_query_builder_black_24dp)
-                .setContentIntent(pendingIntent)
-                .setAutoCancel(true);
-
-        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
+//        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "default")
+//                .setContentTitle("Test title")
+//                .setContentText("Test text here")
+//                .setSmallIcon(R.drawable.ic_query_builder_black_24dp)
+//                .setContentIntent(pendingIntent)
+//                .setAutoCancel(true);
+//
+//        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
 
         // notificationId is a unique int for each notification that you must define
-        notificationManager.notify(1234, builder.build());
+//        notificationManager.notify(1234, builder.build());
     }
 
     @Override
