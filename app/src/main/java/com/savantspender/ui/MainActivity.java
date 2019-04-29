@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
             startActivityForResult(new Intent(this, LinkActivity.class), LinkActivity.REQUEST_NEW_LINK);
         });
 
-        getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, new OverviewFragment()).commitNow();
+        getSupportFragmentManager().beginTransaction().add(R.id.action_fragment_container, new OverviewFragment()).commitNow();
 
         // temp: testing notifications
         if (Build.VERSION.SDK_INT >= 26) {
@@ -165,7 +165,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
 
         transaction.setCustomAnimations(R.anim.enter, R.anim.exit, R.anim.pop_enter, R.anim.pop_exit);
-        transaction.replace(R.id.fragment_container, fragment);
+        transaction.replace(R.id.action_fragment_container, fragment);
         transaction.addToBackStack(null);
 
         transaction.commit();
