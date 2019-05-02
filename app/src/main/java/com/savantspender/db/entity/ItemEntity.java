@@ -22,4 +22,11 @@ public class ItemEntity {
     public String institutionId;
     public String access_token;
     public String public_token;
+
+    public ItemEntity(@NonNull String id, String institutionId, String access_token, String public_token) {
+        this.id = id;
+        this.institutionId = institutionId;
+        this.access_token = access_token;
+        this.public_token = public_token;
+    }
 }
