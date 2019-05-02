@@ -25,8 +25,7 @@ public class ItemTest extends InstitutionTest {
 
     @Test
     public void test_insert_read_delete() throws InterruptedException {
-        super.test_insert_read_delete();
-
+        super.preliminary_loader();
         ItemEntity e = new ItemEntity("654321", "123456", "instid-123", "public_blah");
 
         mItems.insert(e);
