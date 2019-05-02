@@ -25,7 +25,7 @@ public class ItemTest extends DefaultDatabaseTest {
 
     @Test
     public void test_insert_read_delete() throws InterruptedException {
-        ItemEntity e = new ItemEntity("654321", "123456", "instid-123", "public_blah");
+        ItemEntity e = new ItemEntity("123456", "sandbox-123456", "instid-123", "public_blah");
 
         mItems.insert(e);
 
