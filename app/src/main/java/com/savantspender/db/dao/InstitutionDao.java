@@ -15,4 +15,7 @@ public interface InstitutionDao {
 
     @Query("SELECT * FROM institutions WHERE id = :instid")
     LiveData<InstitutionEntity> getById(@NonNull String instid);
+    
+    @Delete
+    void delete(InstitutionEntity institution);
 }
