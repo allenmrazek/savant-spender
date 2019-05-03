@@ -6,6 +6,8 @@ import android.util.Log;
 import com.savantspender.db.AppDatabase;
 import com.savantspender.model.DataRepository;
 
+import java.util.concurrent.Executor;
+
 public class SavantSpender extends Application {
     private AppExecutors mAppExecutors;
 
@@ -26,5 +28,9 @@ public class SavantSpender extends Application {
 
     public DataRepository getRepository() {
         return DataRepository.getInstance(getDatabase());
+    }
+
+    public AppExecutors getExecutors() {
+        return mAppExecutors;
     }
 }

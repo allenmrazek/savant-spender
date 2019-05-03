@@ -73,6 +73,7 @@ public abstract class AppDatabase extends RoomDatabase {
         return mAppDatabase;
     }
 
+
     private static AppDatabase buildDatabase(final Context appContext,
                                              final AppExecutors executors) {
 

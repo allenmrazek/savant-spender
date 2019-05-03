@@ -3,6 +3,8 @@ package com.savantspender.model;
 
 import com.savantspender.db.AppDatabase;
 
+import java.util.concurrent.Executor;
+
 public class DataRepository {
     private static DataRepository mRepository;
 
@@ -22,5 +24,6 @@ public class DataRepository {
         return mRepository;
     }
 
-    // todo: data we need to expose goes here
+
+    // todo: data we need to expose goes here (stuff that views might be interested in observing)
 }
