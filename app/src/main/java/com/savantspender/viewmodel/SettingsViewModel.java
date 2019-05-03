@@ -24,9 +24,30 @@ public class SettingsViewModel extends ViewModel {
 
     public void onDeleteDatabaseClicked() {
         Log.w("Spender", "Deleting database");
-        mExecutor.execute(() -> mDatabase.clearAllTables());
+        mExecutor.execute(() -> {
+            mDatabase.clearAllTables();
+            // todo: add toast message
+        });
     }
 
+    public void onGenerateRandomTransactionClicked() {
+        Log.w("Spender", "Generate random transaction here");
+
+        // todo: insert dummy instid if none
+        // todo: add toast message
+    }
+
+
+    public void onDeleteAccountClicked() {
+        Log.w("Spender", "delete an account here");
+
+        // todo: launch delete account activity
+    }
+
+
+    public void onLinkAccountClicked() {
+        Log.w("Spender", "launch link account activity here");
+    }
 
     public static class Factory extends ViewModelProvider.NewInstanceFactory {
         @NonNull

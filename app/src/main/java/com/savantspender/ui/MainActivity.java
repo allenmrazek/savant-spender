@@ -7,33 +7,24 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.MenuItem;
+import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.savantspender.R;
-import com.savantspender.TransactionActivity;
 import com.savantspender.ui.frag.CategoryFragment;
 import com.savantspender.ui.frag.OverviewFragment;
 import com.savantspender.ui.frag.SettingsFragment;
 import com.savantspender.ui.frag.TransactionFragment;
 
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.annotation.NonNull;
-import androidx.core.app.NotificationCompat;
-import androidx.core.app.NotificationManagerCompat;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
-import android.util.Log;
-import android.view.MenuItem;
-import android.widget.Button;
-import android.widget.TextView;
-import android.widget.Toast;
-
-// TODO: put all activities into fragments, share bottom navigation bar between them, use
-// fragment manager animations to swap
 public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
     private TextView mTextMessage;
 
@@ -49,13 +40,13 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
         navView.setOnNavigationItemSelectedListener(this);
 
-        Button b = findViewById(R.id.btn_link);
+//        Button b = findViewById(R.id.btn_link);
 
-        b.setOnClickListener(view -> {
-            startActivityForResult(new Intent(this, LinkActivity.class), LinkActivity.REQUEST_NEW_LINK);
-        });
-
-        getSupportFragmentManager().beginTransaction().add(R.id.action_fragment_container, new OverviewFragment()).commitNow();
+//        b.setOnClickListener(view -> {
+//            startActivityForResult(new Intent(this, LinkActivity.class), LinkActivity.REQUEST_NEW_LINK);
+//        });
+//
+//        getSupportFragmentManager().beginTransaction().add(R.id.action_fragment_container, new OverviewFragment()).commitNow();
 
         // temp: testing notifications
         if (Build.VERSION.SDK_INT >= 26) {
@@ -106,15 +97,15 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         }
     }
 
-    protected void onFinishedLink(int resultCode, @Nullable Intent data) {
-        if (resultCode != RESULT_OK) {
-            // something went wrong!
-            Toast.makeText(getApplicationContext(), R.string.toast_error_auth, Toast.LENGTH_SHORT).show();
-        } else {
-            Toast.makeText(getApplicationContext(), R.string.toast_link_success, Toast.LENGTH_SHORT).show();
-        }
-
-    }
+//    protected void onFinishedLink(int resultCode, @Nullable Intent data) {
+//        if (resultCode != RESULT_OK) {
+//            // something went wrong!
+//            Toast.makeText(getApplicationContext(), R.string.toast_error_auth, Toast.LENGTH_SHORT).show();
+//        } else {
+//            Toast.makeText(getApplicationContext(), R.string.toast_link_success, Toast.LENGTH_SHORT).show();
+//        }
+//
+//    }
 
 
     private void createNotificationChannel() {
@@ -140,6 +131,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         // todo: don't transition if already in correct state
+        // todo: appropriate animation directions
 
         switch (menuItem.getItemId()) {
             case R.id.navigation_overview:

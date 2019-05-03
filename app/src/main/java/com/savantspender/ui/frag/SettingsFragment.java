@@ -36,16 +36,25 @@ public class SettingsFragment extends Fragment {
                 view.findViewById(id).setVisibility(View.VISIBLE);
         }
 
+        // delete database button
+        setListener(view, R.id.btnDeleteDatabase, v -> {
+                    mViewModel.onDeleteDatabaseClicked();
+                });
 
-        view.findViewById(R.id.btnDeleteDatabase).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mViewModel.onDeleteDatabaseClicked();
-            }
-        });
+        // random transaction buttton
+        setListener(view, R.id.btnRandomTransaction,
+                (v) -> mViewModel.onGenerateRandomTransactionClicked());
+
+        // link account button
+        setListener(view, R.id.btnLinkNew, v -> mViewModel.onLinkAccountClicked());
+
+        // delete account button
+        setListener(view, R.id.btnDeleteAccount, v -> mViewModel.onDeleteAccountClicked());
 
         return view;
     }
 
-
+    private void setListener(@NonNull View view, int resViewId, @NonNull View.OnClickListener l) {
+        view.findViewById(resViewId).setOnClickListener(l);
+    }
 }
