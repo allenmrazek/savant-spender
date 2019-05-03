@@ -35,7 +35,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class AuthFragment extends Fragment implements Observer<LinkViewModel.PlaidLink_ItemData>, Callback<ItemPublicTokenExchangeResponse> {
+public class AuthFragment extends Fragment implements /*Observer<LinkViewModel.PlaidLink_ItemData>, */Callback<ItemPublicTokenExchangeResponse> {
     private LinkViewModel mViewModel;
     private PlaidClient mClient;
     private String mAccountID; // todo: remove this
@@ -45,7 +45,7 @@ public class AuthFragment extends Fragment implements Observer<LinkViewModel.Pla
         super.onCreate(savedInstanceState);
 
         mViewModel = ViewModelProviders.of(getActivity()).get(LinkViewModel.class);
-        mViewModel.getItemData().observe(this, this);
+        //mViewModel.getItemData().observe(this, this);
     }
 
     @Override
@@ -54,21 +54,21 @@ public class AuthFragment extends Fragment implements Observer<LinkViewModel.Pla
         return view;
     }
 
-    @Override
-    public void onChanged(LinkViewModel.PlaidLink_ItemData item) {
-
-        // this is the bit that should normally be protected behind a remote server
-        mClient = PlaidClient.newBuilder()
-                .clientIdAndSecret("5c54506a47679a00117ebada", "7be0aefd21b235efcb5717101969ca")
-                .publicKey("efebb105ab905b6e6cbe0a12e4689b") // optional. only needed to call endpoints that require a public key
-                .sandboxBaseUrl() // or equivalent, depending on which environment you're calling into
-                .build();
-
-        mAccountID = item.getAccounts().get(0).getId();
-
-        mClient.service().itemPublicTokenExchange(new ItemPublicTokenExchangeRequest(item.getPublicToken()))
-                .enqueue(this);
-    }
+//    @Override
+//    public void onChanged(LinkViewModel.PlaidLink_ItemData item) {
+//
+//        // this is the bit that should normally be protected behind a remote server
+//        mClient = PlaidClient.newBuilder()
+//                .clientIdAndSecret("5c54506a47679a00117ebada", "7be0aefd21b235efcb5717101969ca")
+//                .publicKey("efebb105ab905b6e6cbe0a12e4689b") // optional. only needed to call endpoints that require a public key
+//                .sandboxBaseUrl() // or equivalent, depending on which environment you're calling into
+//                .build();
+//
+//        mAccountID = item.getAccounts().get(0).getId();
+//
+//        mClient.service().itemPublicTokenExchange(new ItemPublicTokenExchangeRequest(item.getPublicToken()))
+//                .enqueue(this);
+//    }
 
     @Override
     public void onResponse(Call<ItemPublicTokenExchangeResponse> call, Response<ItemPublicTokenExchangeResponse> response) {

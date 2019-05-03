@@ -16,17 +16,18 @@ import androidx.room.PrimaryKey;
         indices = @Index("institutionId")
 )
 public class ItemEntity {
-    @PrimaryKey
-    @NonNull
+    @PrimaryKey @NonNull
     public String id; // itemId
-    public String institutionId;
-    public String access_token;
-    public String public_token;
 
-    public ItemEntity(@NonNull String id, String institutionId, String access_token, String public_token) {
+    @NonNull
+    public String institutionId;
+
+    @NonNull
+    public String access_token;
+
+    public ItemEntity(@NonNull String id, @NonNull String institutionId, @NonNull String access_token) {
         this.id = id;
         this.institutionId = institutionId;
         this.access_token = access_token;
-        this.public_token = public_token;
     }
 }

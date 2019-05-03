@@ -1,9 +1,13 @@
 package com.savantspender.ui.frag;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -12,6 +16,7 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.savantspender.BuildConfig;
 import com.savantspender.R;
+import com.savantspender.ui.LinkActivity;
 import com.savantspender.viewmodel.SettingsViewModel;
 
 import java.util.ArrayList;
@@ -19,6 +24,11 @@ import java.util.Arrays;
 
 public class SettingsFragment extends Fragment {
     private SettingsViewModel mViewModel;
+
+    private View mLinkButton;
+    private View mDeleteAccountButton;
+    private View mDeleteDbButton;
+    private View mGenerateTransactionButton;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -37,24 +47,56 @@ public class SettingsFragment extends Fragment {
         }
 
         // delete database button
-        setListener(view, R.id.btnDeleteDatabase, v -> {
-                    mViewModel.onDeleteDatabaseClicked();
-                });
+        mDeleteDbButton = view.findViewById(R.id.btnDeleteDatabase);
+        mDeleteDbButton.setOnClickListener(v -> {
+            mViewModel.onDeleteDatabaseClicked();
+        });
 
-        // random transaction buttton
-        setListener(view, R.id.btnRandomTransaction,
-                (v) -> mViewModel.onGenerateRandomTransactionClicked());
+        // random transaction button
+        mGenerateTransactionButton = view.findViewById(R.id.btnRandomTransaction);
+        mGenerateTransactionButton.setOnClickListener(v ->
+                mViewModel.onGenerateRandomTransactionClicked()
+        );
 
         // link account button
-        setListener(view, R.id.btnLinkNew, v -> mViewModel.onLinkAccountClicked());
+        mLinkButton = view.findViewById(R.id.btnLinkNew);
+        mLinkButton.setOnClickListener( v -> {
+            // todo: disable link button?
+            startActivityForResult(new Intent(this.getContext(), LinkActivity.class), LinkActivity.REQUEST_NEW_LINK);
+        });
 
         // delete account button
-        setListener(view, R.id.btnDeleteAccount, v -> mViewModel.onDeleteAccountClicked());
+        mDeleteAccountButton = view.findViewById(R.id.btnDeleteAccount);
+        mDeleteAccountButton.setOnClickListener(v -> mViewModel.onDeleteAccountClicked());
 
         return view;
     }
 
-    private void setListener(@NonNull View view, int resViewId, @NonNull View.OnClickListener l) {
-        view.findViewById(resViewId).setOnClickListener(l);
+
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        switch (requestCode) {
+            case LinkActivity.REQUEST_NEW_LINK:
+                onFinishedLink(resultCode, data);
+                break;
+
+            default:
+                Log.e("Spender", "Unrecognized activity request code: " + requestCode);
+                break;
+        }
+    }
+
+    protected void onFinishedLink(int resultCode, @Nullable Intent data) {
+        if (resultCode != Activity.RESULT_OK) {
+            // something went wrong!
+            // todo: better error handling
+            Toast.makeText(getActivity().getApplicationContext(), R.string.toast_error_auth, Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(getActivity().getApplicationContext(), R.string.toast_link_success, Toast.LENGTH_SHORT).show();
+        }
+
     }
 }

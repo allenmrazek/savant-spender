@@ -9,7 +9,6 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.savantspender.SavantSpender;
 import com.savantspender.db.AppDatabase;
-import com.savantspender.model.DataRepository;
 
 import java.util.concurrent.Executor;
 
@@ -45,9 +44,6 @@ public class SettingsViewModel extends ViewModel {
     }
 
 
-    public void onLinkAccountClicked() {
-        Log.w("Spender", "launch link account activity here");
-    }
 
     public static class Factory extends ViewModelProvider.NewInstanceFactory {
         @NonNull
@@ -58,6 +54,7 @@ public class SettingsViewModel extends ViewModel {
         }
 
         @Override
+        @SuppressWarnings("unchecked")
         public <T extends ViewModel> T create(Class<T> modelClass) {
             //noinspection unchecked
             return (T) new SettingsViewModel(mApplication.getDatabase(), mApplication.getExecutors().diskIO());

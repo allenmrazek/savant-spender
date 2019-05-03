@@ -6,21 +6,25 @@ import androidx.room.Entity;
 import androidx.room.ForeignKey;
 import androidx.room.PrimaryKey;
 
-// Accounts table: {InstitutionID, AccountID} -> account_name
-
 @Entity(
         tableName = "accounts",
         primaryKeys = {
-                "institutionId",
+                "itemId",
                 "id"
         },
         foreignKeys = @ForeignKey(
-                entity = InstitutionEntity.class,
+                entity = ItemEntity.class,
                 parentColumns = "id",
-                childColumns = "institutionId")
+                childColumns = "itemId")
 )
 public class AccountEntity {
-    public @NonNull String institutionId;
     public @NonNull String id;
+    public @NonNull String itemId;
     public @NonNull String name;
+
+    public AccountEntity(@NonNull String id, @NonNull String itemId, @NonNull String name) {
+        this.id = id;
+        this.itemId = itemId;
+        this.name = name;
+    }
 }

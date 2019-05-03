@@ -46,7 +46,9 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 //            startActivityForResult(new Intent(this, LinkActivity.class), LinkActivity.REQUEST_NEW_LINK);
 //        });
 //
-//        getSupportFragmentManager().beginTransaction().add(R.id.action_fragment_container, new OverviewFragment()).commitNow();
+
+        // launch the overview fragment immediately, else there won't be anything useful onscreen
+        getSupportFragmentManager().beginTransaction().add(R.id.action_fragment_container, new OverviewFragment()).commitNow();
 
         // temp: testing notifications
         if (Build.VERSION.SDK_INT >= 26) {
@@ -81,31 +83,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         // notificationId is a unique int for each notification that you must define
 //        notificationManager.notify(1234, builder.build());
     }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        switch (requestCode) {
-            case LinkActivity.REQUEST_NEW_LINK:
-                onFinishedLink(resultCode, data);
-                break;
-
-            default:
-                Log.e("Spender", "Unrecognized activity request code: " + requestCode);
-                break;
-        }
-    }
-
-//    protected void onFinishedLink(int resultCode, @Nullable Intent data) {
-//        if (resultCode != RESULT_OK) {
-//            // something went wrong!
-//            Toast.makeText(getApplicationContext(), R.string.toast_error_auth, Toast.LENGTH_SHORT).show();
-//        } else {
-//            Toast.makeText(getApplicationContext(), R.string.toast_link_success, Toast.LENGTH_SHORT).show();
-//        }
-//
-//    }
 
 
     private void createNotificationChannel() {

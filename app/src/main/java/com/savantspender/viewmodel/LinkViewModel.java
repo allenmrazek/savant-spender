@@ -20,12 +20,12 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class LinkViewModel extends ViewModel {
-    public static class PlaidLink_ItemData {
+    private static class PlaidLink_ItemData {
         private String mPublicToken;
         private String mInstitutionId;
-        private List<Account> mAccounts;
+        private List<PlaidLink_Account> mAccounts;
 
-        public PlaidLink_ItemData(@NonNull String publicToken, @NonNull String instId, @NonNull Collection<Account> accounts) {
+        public PlaidLink_ItemData(@NonNull String publicToken, @NonNull String instId, @NonNull Collection<PlaidLink_Account> accounts) {
             mPublicToken = publicToken;
             mInstitutionId = instId;
             mAccounts = new LinkedList<>(accounts);
@@ -33,9 +33,9 @@ public class LinkViewModel extends ViewModel {
 
         public String getPublicToken() { return mPublicToken; }
         public String getInstitutionId() { return mInstitutionId; }
-        @NonNull public List<Account> getAccounts() { return new LinkedList<>(mAccounts); /* send a copy */ }
+        @NonNull public List<PlaidLink_Account> getAccounts() { return new LinkedList<>(mAccounts); /* send a copy */ }
 
-        public static class Account {
+        public static class PlaidLink_Account {
             private String _id;
             private Meta meta;
 
@@ -49,13 +49,13 @@ public class LinkViewModel extends ViewModel {
     }
 
 
-    private MutableLiveData<PlaidLink_ItemData> mItemData = new MutableLiveData<>();
+    //private MutableLiveData<PlaidLink_ItemData> mItemData = new MutableLiveData<>();
     private MutableLiveData<Pair<Integer, Intent>> mIntent = new MutableLiveData<>();
 
 
-    public LiveData<PlaidLink_ItemData> getItemData() {
-        return mItemData;
-    }
+//    public LiveData<PlaidLink_ItemData> getItemData() {
+//        return mItemData;
+//    }
 
 
     public LiveData<Pair<Integer, Intent>> getCompletionIntent() {
@@ -88,13 +88,13 @@ public class LinkViewModel extends ViewModel {
         String json = linkData.get("accounts");
         Gson gson = new Gson();
 
-        Type collectionType = new TypeToken<Collection<PlaidLink_ItemData.Account>>(){}.getType();
-        Collection<PlaidLink_ItemData.Account> tokens = gson.fromJson(json, collectionType);
+        Type collectionType = new TypeToken<Collection<PlaidLink_ItemData.PlaidLink_Account>>(){}.getType();
+        Collection<PlaidLink_ItemData.PlaidLink_Account> tokens = gson.fromJson(json, collectionType);
 
-        for (PlaidLink_ItemData.Account acc : tokens)
+        for (PlaidLink_ItemData.PlaidLink_Account acc : tokens)
             Log.e("Spender", "Found: " + acc.getName() + " , " + acc.getId());
 
-        mItemData.postValue(new PlaidLink_ItemData(linkData.get("public_token"), linkData.get("institution_id"), tokens));
+        //mItemData.postValue(new PlaidLink_ItemData(linkData.get("public_token"), linkData.get("institution_id"), tokens));
     }
 
 
@@ -112,8 +112,8 @@ public class LinkViewModel extends ViewModel {
 
         intent.putExtra("itemId", itemId);
         intent.putExtra("accessToken", accessToken);
-        intent.putExtra("public_token", mItemData.getValue().getPublicToken());
-        intent.putExtra("instId", mItemData.getValue().getInstitutionId());
+//        intent.putExtra("public_token", mItemData.getValue().getPublicToken());
+//        intent.putExtra("instId", mItemData.getValue().getInstitutionId());
 
         mIntent.postValue(new Pair<Integer, Intent>(Activity.RESULT_OK, intent));
     }

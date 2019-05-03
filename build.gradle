@@ -25,6 +25,7 @@ allprojects {
         //options.compilerArgs << '-Xlint:none'
         options.compilerArgs << '-Xlint:-deprecation' // temporary: Room-alpha04 has some deprecation warnings
         options.compilerArgs << '-Xlint:-overrides'
+        options.compilerArgs << '-Xlint:unchecked'
     }
 }
 

@@ -9,12 +9,12 @@ import androidx.room.PrimaryKey;
         tableName = "institutions"
 )
 public class InstitutionEntity {
-    @PrimaryKey
-    @NonNull
+    @PrimaryKey @NonNull
     public String id;
-    public String name;
 
-    public InstitutionEntity(@NonNull String id, String name) {
+    @NonNull public String name;
+
+    public InstitutionEntity(@NonNull String id, @NonNull String name) {
         this.id = id;
         this.name = name;
     }

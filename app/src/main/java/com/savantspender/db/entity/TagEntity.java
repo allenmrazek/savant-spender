@@ -3,11 +3,13 @@ package com.savantspender.db.entity;
 
 import androidx.annotation.NonNull;
 import androidx.room.Entity;
+import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
 import java.util.TreeMap;
 
-@Entity(tableName = "tags")
+@Entity(tableName = "tags",
+    indices = { @Index("id"), @Index(value = "name", unique = true) })
 public class TagEntity {
     @PrimaryKey
     int id;
