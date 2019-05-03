@@ -13,4 +13,9 @@ public class InstitutionEntity {
     @NonNull
     public String id;
     public String name;
+
+    public InstitutionEntity(@NonNull String id, String name) {
+        this.id = id;
+        this.name = name;
+    }
 }

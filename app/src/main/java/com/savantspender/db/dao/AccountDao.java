@@ -9,7 +9,7 @@ import com.savantspender.db.entity.AccountEntity;
 
 @Dao
 public interface AccountDao {
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.ABORT)
     void insert(AccountEntity entity);
 
     @Delete
