@@ -3,16 +3,8 @@ package com.savantspender;
 import android.app.Application;
 import android.util.Log;
 
-import com.savantspender.AppExecutors;
 import com.savantspender.db.AppDatabase;
-import com.savantspender.db.entity.EmployeeEntity;
 import com.savantspender.model.DataRepository;
-
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
 
 public class SavantSpender extends Application {
     private AppExecutors mAppExecutors;
@@ -23,7 +15,9 @@ public class SavantSpender extends Application {
 
         mAppExecutors = new AppExecutors();
 
-        if (BuildConfig.DEBUG) Log.w("Spender", "initializing SavantSpender");
+        if (BuildConfig.DEBUG) {
+            Log.w("Spender", "initializing SavantSpender");
+        }
     }
 
     public AppDatabase getDatabase() {

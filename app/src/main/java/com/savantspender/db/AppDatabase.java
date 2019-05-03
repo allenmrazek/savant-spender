@@ -65,6 +65,7 @@ public abstract class AppDatabase extends RoomDatabase {
     public static AppDatabase getInstance(final Context appContext, final AppExecutors executors) {
         if (mAppDatabase == null) {
             synchronized (AppDatabase.class) {
+                Log.i("Spender", "... initializing database");
                 mAppDatabase = buildDatabase(appContext.getApplicationContext(), executors);
             }
         }
