@@ -13,61 +13,59 @@ import org.junit.Test;
 import java.util.List;
 
 import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 
 
 public class AcountTest extends DefaultDatabaseTest {
     private InstitutionDao DOAInstitution;
+    private String IDInstitution = "123456";
+    private String ID2Institution = "234567";
+    private AccountEntity inputE = new AccountEntity("654321",this.IDInstitution,"main");
+    private AccountEntity inputE2 = new AccountEntity("654321",this.ID2Institution,"savings");
+
+
     @Test
-    public void test_insert_read_delete() throws InterruptedException {
-        //populate nessarcy items in database
-        //declare dumby varibles
-        String IDInstitution = "123456";
-        String ID2Institution = "234567";
-        InstitutionEntity inputE = new InstitutionEntity(IDInstitution, "BofA");
-        InstitutionEntity expectedE = inputE;
-        InstitutionEntity inputE2 = new InstitutionEntity(ID2Institution, "Chase");
-        InstitutionEntity expectedE2 = inputE2;
-        //prepopulate database
-        DOAInstitution.insert(inputE);
-        DOAInstitution.insert(inputE2);
-        ////////////////////////////////////////
-
-        String ID = "654321";
-        String ID2 = "abcdefg";
-
-        AccountEntity inputTestE = new AccountEntity(ID,IDInstitution,"main");
-        AccountEntity inputTestE2 = new AccountEntity(ID2,ID2Institution,"savings");
-        DOAAccount.insert(inputTestE);
-        DOAAccount.insert(inputTestE2);
-
+    public void test_getAccounts() throws InterruptedException
+    {
         //testing functionality of getAccounts
         List<AccountEntity> outputEs = DOAAccount.getAccounts();
 
         assertThat(outputEs.size(), is(2));
 
+    }
+    @Test
+    public void test_getAccount() throws InterruptedException
+    {
         //testing spesific getAcount
-        AccountEntity outputE = DOAAccount.getAcount(ID,IDInstitution);
-        assertThat(outputE.id, equalTo(ID));
-        assertThat(outputE.institutionId, equalTo(IDInstitution));
-        assertThat(outputE.name, equalTo("main"));
+        AccountEntity outputE = DOAAccount.getAcount(this.inputE.id,this.inputE.institutionId);
+        assertThat(this.inputE, is(instanceOf(AccountEntity.class)));
+        assertThat(outputE.id, equalTo(this.inputE.id));
+        assertThat(outputE.institutionId, equalTo(this.inputE.institutionId));
+        assertThat(outputE.name, equalTo(this.inputE.name));
 
-
+    }
+    @Test
+    public void test_conflict_resolution() throws InterruptedException
+    {
         //testing conflict resolution
-        AccountEntity inputTestEALT = new AccountEntity(ID,IDInstitution,"mainALT");
+        AccountEntity inputTestEALT = new AccountEntity(this.inputE.id,this.inputE.institutionId,"mainALT");
         DOAAccount.insert(inputTestEALT);
-        AccountEntity outputEALT = DOAAccount.getAcount(ID,IDInstitution);
-        assertThat(outputEALT.id, equalTo(ID));
-        assertThat(outputEALT.institutionId, equalTo(IDInstitution));
+        AccountEntity outputEALT = DOAAccount.getAcount(this.inputE.id,this.inputE.institutionId);
+        assertThat(outputEALT.id, equalTo(this.inputE.id));
+        assertThat(outputEALT.institutionId, equalTo(this.inputE.institutionId));
         assertThat(outputEALT.name, equalTo("mainALT"));
+    }
 
+
+    @Test
+    public void test_delete() throws InterruptedException {
 
         //testing delete
-        DOAAccount.delete(inputTestEALT);
+        DOAAccount.delete(this.inputE);
         List<AccountEntity> outputEs2 = DOAAccount.getAccounts();
         assertThat(outputEs2.size(), is(1));
-
     }
 
     private AccountDao DOAAccount;
@@ -78,5 +76,15 @@ public class AcountTest extends DefaultDatabaseTest {
         super.createDb();
         DOAAccount = mDatabase.accountDao();
         DOAInstitution = mDatabase.institutionDao();
+        //populate nessarcy items in database
+        //declare dumby varibles
+        InstitutionEntity inputInstE = new InstitutionEntity(this.IDInstitution, "BofA");
+        InstitutionEntity inputInstE2 = new InstitutionEntity(this.ID2Institution, "Chase");
+        //prepopulate database
+        DOAInstitution.insert(inputInstE);
+        DOAInstitution.insert(inputInstE2);
+        ////////////////////////////////////////
+        DOAAccount.insert(this.inputE);
+        DOAAccount.insert(this.inputE2);
     }
 }

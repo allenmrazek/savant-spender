@@ -21,43 +21,37 @@ import static org.junit.Assert.assertThat;
 
 public class InstitutionTest extends DefaultDatabaseTest {
     private InstitutionDao DOAInstitution;
+    public InstitutionEntity inputE = new InstitutionEntity("123456", "BofA");
+    public InstitutionEntity inputE2 = new InstitutionEntity("234567", "Chase");
 
     @Before
     @Override
     public void createDb() {
         super.createDb();
         DOAInstitution = mDatabase.institutionDao();
+        //declare dumby varibles
+        //populate database
+        DOAInstitution.insert(this.inputE);
+        DOAInstitution.insert(this.inputE2);
     }
 
     @Test
-    public void test_insert_read_delete() throws InterruptedException {
-        //declare dumby varibles
-        String id = "123456";
-        String id2 = "234567";
-        InstitutionEntity inputE = new InstitutionEntity(id, "BofA");
-        InstitutionEntity expectedE = inputE;
-        InstitutionEntity inputE2 = new InstitutionEntity(id2, "Chase");
-        InstitutionEntity expectedE2 = inputE2;
-        //populate database
-        DOAInstitution.insert(inputE);
-        DOAInstitution.insert(inputE2);
-
+    public void getById() throws InterruptedException
+    {
         //testing the getbyid method of the doa
-        InstitutionEntity acutalE = LiveDataTestUtil.getValue(DOAInstitution.getById(id));
-        assertThat(expectedE, is(instanceOf(InstitutionEntity.class)));
-        assertThat(expectedE.id, is(acutalE.id));
-        assertThat(expectedE.name, is(acutalE.name));
+        InstitutionEntity outputE = LiveDataTestUtil.getValue(DOAInstitution.getById(this.inputE.id));
+        assertThat(outputE, is(instanceOf(InstitutionEntity.class)));
+        assertThat(outputE.id, is(equalTo(this.inputE.id)));
+        assertThat(outputE.name, is(equalTo(this.inputE.name)));
+    }
 
-        InstitutionEntity acutalE2 = LiveDataTestUtil.getValue(DOAInstitution.getById(id2));
-        assertThat(expectedE2.id, is(acutalE2.id));
-        assertThat(expectedE2.name, is(acutalE2.name));
+    @Test
+    public void test_delete() throws InterruptedException {
 
         //testing delete
-        DOAInstitution.delete(inputE);
-        InstitutionEntity nullE = LiveDataTestUtil.getValue(DOAInstitution.getById(id));
+        this.DOAInstitution.delete(this.inputE);
+        InstitutionEntity nullE = LiveDataTestUtil.getValue(this.DOAInstitution.getById(this.inputE.id));
         assertThat(nullE, not(instanceOf(InstitutionEntity.class))); //checks if it returned and empty value
-
-
 
     }
 
