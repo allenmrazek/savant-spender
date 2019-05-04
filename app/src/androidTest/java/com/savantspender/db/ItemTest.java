@@ -2,9 +2,8 @@ package com.savantspender.db;
 
 import android.database.sqlite.SQLiteConstraintException;
 
-import androidx.lifecycle.LiveData;
-
 import com.savantspender.LiveDataTestUtil;
+import com.savantspender.db.dao.InstitutionDao;
 import com.savantspender.db.dao.ItemDao;
 import com.savantspender.db.entity.InstitutionEntity;
 import com.savantspender.db.entity.ItemEntity;
@@ -16,11 +15,15 @@ import org.junit.rules.ExpectedException;
 
 import java.util.List;
 
+import retrofit2.http.HEAD;
+
 import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 
 public class ItemTest extends DefaultDatabaseTest {
+
     private static final String TestInstitutionId = "test_inst_id";
     private static final String TestItemId = "test_item_id";
     private static final String TestItemAccess = "access_token";
@@ -29,6 +32,13 @@ public class ItemTest extends DefaultDatabaseTest {
 
     @Rule
     public ExpectedException thrown = ExpectedException.none();
+
+    private ItemDao DOAItems;
+    private InstitutionDao DOAInstitution;
+    private String IDInstitution = "123456";
+    private String ID2Institution = "234567";
+    private ItemEntity inputE = new ItemEntity("654321", this.IDInstitution, "access_token");
+    private ItemEntity inputE2 = new ItemEntity("abcdefg", this.ID2Institution, "access_token2");
 
     @Before
     @Override
@@ -95,16 +105,32 @@ public class ItemTest extends DefaultDatabaseTest {
     }
 
     @Test
-    public void delete_existing() throws InterruptedException {
-        List<ItemEntity> items = LiveDataTestUtil.getValue(mItems.getItems());
+    public void read2() throws InterruptedException {
+        DOAItems = mDatabase.itemDao();
+        DOAInstitution = mDatabase.institutionDao();
+        //populate nessarcy items in database
+        //declare dumby varibles
+        InstitutionEntity inputInstE = new InstitutionEntity(this.IDInstitution, "BofA");
+        InstitutionEntity inputInstE2 = new InstitutionEntity(this.ID2Institution, "Chase");
+        //prepopulate database
+        DOAInstitution.insert(inputInstE);
+        DOAInstitution.insert(inputInstE2);
+        //////////////////////////////
+        DOAItems.insert(this.inputE);
+        DOAItems.insert(this.inputE2);
+    }
 
-        assertThat(items.size(), is(1));
 
-        mItems.delete(items.get(0));
+    @Test
+    public void test_getValue() throws InterruptedException
+    {
+        List<ItemEntity> outputEs = LiveDataTestUtil.getValue(DOAItems.getItems());
+        ItemEntity outputE = outputEs.get(0);
 
-        items = LiveDataTestUtil.getValue(mItems.getItems());
-
-        assertThat(items.size(), is(0));
+        assertThat(outputE,is(instanceOf(ItemEntity.class)));
+        assertThat(outputE.id, equalTo(this.inputE.id));
+        assertThat(outputE.institutionId, equalTo(this.inputE.institutionId));
+        assertThat(outputE.access_token, equalTo(this.inputE.access_token));
     }
 
     @Test
@@ -114,6 +140,22 @@ public class ItemTest extends DefaultDatabaseTest {
         mItems.delete(doesntExist);
     }
 
+    public void test_conflict_resolution() throws InterruptedException
+    {
+        //testing replacement functionality for collision
+        //generate matching enity with change
+        String acesstokenALT = "access_tokenALT";
+
+        ItemEntity inputEALT = new ItemEntity(this.inputE.id, this.inputE.institutionId, acesstokenALT);
+        DOAItems.insert(inputEALT);
+        List<ItemEntity> outputEs = LiveDataTestUtil.getValue(DOAItems.getItems());
+        ItemEntity outputE = outputEs.get(1); // because its now the second item
+        /////////////////////////////////
+        //checking it has been replaced
+        assertThat(outputE.id, equalTo(this.inputE.id));
+        assertThat(outputE.institutionId, equalTo(this.inputE.institutionId));
+        assertThat(outputE.access_token, equalTo(acesstokenALT));
+    }
 
     @Test
     public void test_insert_read_delete() throws InterruptedException {
@@ -122,27 +164,30 @@ public class ItemTest extends DefaultDatabaseTest {
         ItemEntity e = new ItemEntity("654321", "instid-123", "123456");
 
         mItems.insert(e);
+    }
 
-        //List<ItemEntity> entities = LiveDataTestUtil.getValue(mItems.getItems());
+    @Test
+    public void test_delete() throws InterruptedException {
+        DOAItems.delete(this.inputE);
+        List<ItemEntity> outputEs = LiveDataTestUtil.getValue(DOAItems.getItems());
+        assertThat(outputEs.size(),is(equalTo(1)));
+
+       // entities = LiveDataTestUtil.getValue(DOAItems.getItems());
 
        // assertThat(entities.size(), is(1));
 
-       // entities = LiveDataTestUtil.getValue(mItems.getItems());
+        //aserting items are identical
 
-       // assertThat(entities.size(), is(1));
-
-       // ItemEntity retrieved = entities.get(0);
-
-       // assertThat(retrieved, equalTo(e));
-
-       // entities = LiveDataTestUtil.getValue(mItems.getItems());
-
-       // assertThat(entities.size(), is(0));
-
-      //  mItems.delete(retrieved);
 
         //entities = LiveDataTestUtil.getValue(mItems.getItems());
 
-       // assertThat(entities.size(), is(0));
+        //assertThat(entities.size(), is(0));
+
+        //mItems.delete(retrieved);
+
+        //entities = LiveDataTestUtil.getValue(mItems.getItems());
+
+        //assertThat(entities.size(), is(0));
+
     }
 }
