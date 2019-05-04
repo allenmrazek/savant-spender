@@ -44,7 +44,7 @@ import java.util.concurrent.Executors;
         TagEntity.class,
         TransactionEntity.class,
         CataloggedEntity.class
-}, version = 1, exportSchema = false)
+}, version = 2, exportSchema = false)
 @TypeConverters(DateConverter.class)
 @SuppressWarnings("deprecation")
 public abstract class AppDatabase extends RoomDatabase {
@@ -76,6 +76,7 @@ public abstract class AppDatabase extends RoomDatabase {
                                              final AppExecutors executors) {
 
         return Room.databaseBuilder(appContext, AppDatabase.class, DATABASE_NAME)
+                .fallbackToDestructiveMigration()
                 .addCallback(new Callback() {
                     @Override
                     public void onCreate(@NonNull SupportSQLiteDatabase db) {

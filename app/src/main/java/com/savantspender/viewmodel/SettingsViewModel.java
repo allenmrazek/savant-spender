@@ -19,7 +19,7 @@ import java.util.concurrent.Executor;
 public class SettingsViewModel extends ViewModel {
     private AppDatabase mDatabase;
     private Executor mExecutor;
-    private MutableLiveData<Event<String>> mToastMessage;
+    private MutableLiveData<Event<String>> mToastMessage = new MutableLiveData<>();
 
     private SettingsViewModel(final AppDatabase mDatabase, final Executor executor) {
         this.mDatabase = mDatabase;
@@ -31,8 +31,9 @@ public class SettingsViewModel extends ViewModel {
     }
 
     public void onDeleteDatabaseClicked() {
-        Log.w("Spender", "Deleting database");
+
         mExecutor.execute(() -> {
+            Log.w("Spender", "Deleting database");
             mDatabase.clearAllTables();
             mToastMessage.postValue(new Event<>("Databased cleared!"));
         });
