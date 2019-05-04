@@ -12,6 +12,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import org.junit.rules.TestRule;
 
 import java.io.IOException;
@@ -22,6 +23,9 @@ public class DefaultDatabaseTest {
 
     @Rule
     public TestRule rule = new InstantTaskExecutorRule();
+
+    @Rule
+    public ExpectedException thrown = ExpectedException.none();
 
     @Before
     public void createDb() {

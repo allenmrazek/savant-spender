@@ -10,7 +10,7 @@ import java.util.Date;
 
 @Entity (
     primaryKeys = {
-        "accountId", "id"
+        "accountId", "id", "itemId"
     },
     tableName = "transactions",
         foreignKeys = {
@@ -30,6 +30,24 @@ public class TransactionEntity {
     public String name;
     public float amount;
     public boolean pending;
+
+    public TransactionEntity(
+            @NonNull String id,
+            @NonNull String accountId,
+            @NonNull String itemId,
+            @Nullable String name,
+            float amount,
+            boolean pending,
+            @NonNull Date postDate) {
+
+        this.accountId = accountId;
+        this.id = id;
+        this.name = name;
+        this.amount = amount;
+        this.pending = pending;
+        this.postDate = postDate;
+        this.itemId = itemId;
+    }
 
     @NonNull
     public Date postDate;

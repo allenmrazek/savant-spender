@@ -14,15 +14,15 @@ import androidx.room.Index;
                         childColumns = {"accountId", "itemId"},
                         entity = AccountEntity.class),
                 @ForeignKey(
-                        parentColumns = {"id", "accountId"},
-                        childColumns = {"transactionId", "accountId"},
+                        parentColumns = {"id", "accountId", "itemId"},
+                        childColumns = {"transactionId", "accountId", "itemId"},
                         entity = TransactionEntity.class),
                 @ForeignKey(
                         parentColumns = "id",
                         childColumns = "tagId",
                         entity = TagEntity.class)
         },
-        indices = { @Index({"transactionId", "accountId"}), @Index({"accountId", "itemId"}), @Index("tagId")},
+        indices = { @Index({"transactionId", "accountId", "itemId"}), @Index({"accountId", "itemId"}), @Index("tagId")},
         primaryKeys = {"accountId", "transactionId", "tagId", "itemId"}
 )
 public class CataloggedEntity {

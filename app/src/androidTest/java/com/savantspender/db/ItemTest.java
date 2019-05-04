@@ -30,9 +30,6 @@ public class ItemTest extends DefaultDatabaseTest {
 
     private ItemDao mItems;
 
-    @Rule
-    public ExpectedException thrown = ExpectedException.none();
-
 
     @Before
     @Override
