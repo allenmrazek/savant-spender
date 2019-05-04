@@ -23,6 +23,9 @@ import com.plaid.client.response.ItemPublicTokenExchangeResponse;
 import com.savantspender.Event;
 import com.savantspender.SavantSpender;
 import com.savantspender.db.AppDatabase;
+import com.savantspender.db.entity.AccountEntity;
+import com.savantspender.db.entity.InstitutionEntity;
+import com.savantspender.db.entity.ItemEntity;
 import com.savantspender.model.DataRepository;
 
 import java.lang.reflect.Type;
@@ -68,13 +71,13 @@ public class LinkViewModel extends ViewModel {
     private MutableLiveData<Event<Pair<Integer, Intent>>> mIntent = new MutableLiveData<>();
     private MutableLiveData<Event<Void>> mAuthorizationEvent = new MutableLiveData<>();
 
-    private final DataRepository mRepository;
+    private final AppDatabase mDatabase;
     private final Executor mNetworkIo;
     private final Executor mDiskIo;
 
 
-    public LinkViewModel(@NonNull DataRepository repository, @NonNull Executor networkIo, @NonNull Executor diskIo) {
-        mRepository = repository;
+    public LinkViewModel(@NonNull AppDatabase database, @NonNull Executor networkIo, @NonNull Executor diskIo) {
+        mDatabase = database;
         mNetworkIo = networkIo;
         mDiskIo = diskIo;
     }
@@ -123,7 +126,7 @@ public class LinkViewModel extends ViewModel {
             PlaidLink_ItemData pojo = convertJsonToPojo(linkData);
 
             // since instid is a FK of items and we already know it should exist
-            mRepository.ensureInstitutionExists(pojo.InstitutionId, pojo.InstitutionName);
+            mDatabase.institutionDao().insert(new InstitutionEntity(pojo.InstitutionId, pojo.InstitutionName));
 
             // kickoff token exchange
             mNetworkIo.execute(() -> exchangeToken(pojo));
@@ -150,7 +153,7 @@ public class LinkViewModel extends ViewModel {
                     @Override
                     public void onResponse(Call<ItemPublicTokenExchangeResponse> call, Response<ItemPublicTokenExchangeResponse> response) {
                         Log.d("Spender", "received token exchange response");
-                        mNetworkIo.execute(() -> onTokenExchangeResponse(response, data));
+                        mDiskIo.execute(() -> onTokenExchangeResponse(response, data));
                     }
 
                     @Override
@@ -171,7 +174,18 @@ public class LinkViewModel extends ViewModel {
         }
 
         try {
-            mRepository.insertNewItem(response.body().getItemId(), data.InstitutionId, response.body().getAccessToken());
+            ItemEntity ie = new ItemEntity(response.body().getItemId(), data.InstitutionId, response.body().getAccessToken());
+
+            Log.v("Spender", "inserting new item: " + ie.id + ", " + ie.institutionId);
+            mDatabase.itemDao().insert(ie);
+
+            for (PlaidLink_ItemData.PlaidLink_Account account : data.Accounts) {
+                AccountEntity e = new AccountEntity(account.getId(), response.body().getItemId(), account.getName());
+
+                Log.v("Spender", "inserting new account: " + e.name + " : " + e.id + ", for itemid " + e.itemId);
+                mDatabase.accountDao().insert(e);
+            }
+
         } catch (Exception e) { // TODO: better error handling
             setError(1002 /* todo: better ec */, e.getMessage());
             return;
@@ -183,6 +197,7 @@ public class LinkViewModel extends ViewModel {
         details.putExtra("access_token", response.body().getAccessToken());
         details.putExtra("institutionId", data.InstitutionId);
         details.putExtra("institutionName", data.InstitutionName);
+        details.putExtra("accountsLinked", data.Accounts.size());
 
         Log.i("Spender", "successfully exchanged token");
 
@@ -226,7 +241,7 @@ public class LinkViewModel extends ViewModel {
         @SuppressWarnings("unchecked")
         public <T extends ViewModel> T create(Class<T> modelClass) {
             //noinspection unchecked
-            return (T) new LinkViewModel(mApplication.getRepository(), mApplication.getExecutors().networkIO(), mApplication.getExecutors().diskIO());
+            return (T) new LinkViewModel(mApplication.getDatabase(), mApplication.getExecutors().networkIO(), mApplication.getExecutors().diskIO());
         }
     }
 }

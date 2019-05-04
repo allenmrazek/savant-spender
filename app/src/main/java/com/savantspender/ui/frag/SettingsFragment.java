@@ -122,7 +122,7 @@ public class SettingsFragment extends Fragment {
                     message = getResources().getString(R.string.toast_link_success_instname, institutionName);
                 }
             }
-            Toast.makeText(getActivity().getApplicationContext(), R.string.toast_link_success, Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity().getApplicationContext(), message, Toast.LENGTH_SHORT).show();
         }
 
     }
