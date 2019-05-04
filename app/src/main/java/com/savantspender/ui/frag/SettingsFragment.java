@@ -1,6 +1,7 @@
 package com.savantspender.ui.frag;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -69,9 +70,13 @@ public class SettingsFragment extends Fragment {
         mDeleteAccountButton = view.findViewById(R.id.btnDeleteAccount);
         mDeleteAccountButton.setOnClickListener(v -> mViewModel.onDeleteAccountClicked());
 
+        mViewModel.toastMessages().observe(getViewLifecycleOwner(), m -> {
+            if (m.isHandled()) return;
+            Toast.makeText(getContext(), m.getContentIfNotHandled(), Toast.LENGTH_SHORT);
+        });
+
         return view;
     }
-
 
 
     @Override

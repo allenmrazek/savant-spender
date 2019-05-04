@@ -2,11 +2,15 @@ package com.savantspender.viewmodel;
 
 import android.app.Application;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.savantspender.Event;
 import com.savantspender.SavantSpender;
 import com.savantspender.db.AppDatabase;
 
@@ -15,17 +19,22 @@ import java.util.concurrent.Executor;
 public class SettingsViewModel extends ViewModel {
     private AppDatabase mDatabase;
     private Executor mExecutor;
+    private MutableLiveData<Event<String>> mToastMessage;
 
     private SettingsViewModel(final AppDatabase mDatabase, final Executor executor) {
         this.mDatabase = mDatabase;
         this.mExecutor = executor;
     }
 
+    public LiveData<Event<String>> toastMessages() {
+        return mToastMessage;
+    }
+
     public void onDeleteDatabaseClicked() {
         Log.w("Spender", "Deleting database");
         mExecutor.execute(() -> {
             mDatabase.clearAllTables();
-            // todo: add toast message
+            mToastMessage.postValue(new Event<>("Databased cleared!"));
         });
     }
 
