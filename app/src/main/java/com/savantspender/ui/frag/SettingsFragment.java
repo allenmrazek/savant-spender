@@ -18,6 +18,7 @@ import androidx.lifecycle.ViewModelProviders;
 import com.savantspender.BuildConfig;
 import com.savantspender.R;
 import com.savantspender.ui.LinkActivity;
+import com.savantspender.ui.MainActivity;
 import com.savantspender.viewmodel.SettingsViewModel;
 
 import java.util.ArrayList;
@@ -68,7 +69,9 @@ public class SettingsFragment extends Fragment {
 
         // delete account button
         mDeleteAccountButton = view.findViewById(R.id.btnDeleteAccount);
-        mDeleteAccountButton.setOnClickListener(v -> mViewModel.onDeleteAccountClicked());
+        mDeleteAccountButton.setOnClickListener(v -> {
+            ((MainActivity)getActivity()).TransitionTo(new DeleteItemsFragment());
+        });
 
         mViewModel.toastMessages().observe(getViewLifecycleOwner(), m -> {
             if (m.isHandled()) return;
