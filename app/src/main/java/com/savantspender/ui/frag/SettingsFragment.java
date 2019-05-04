@@ -67,7 +67,7 @@ public class SettingsFragment extends Fragment {
             startActivityForResult(new Intent(this.getContext(), LinkActivity.class), LinkActivity.REQUEST_NEW_LINK);
         });
 
-        // delete account button
+        // delete account button -> launches a new fragment (hosted by MainActivity)
         mDeleteAccountButton = view.findViewById(R.id.btnDeleteAccount);
         mDeleteAccountButton.setOnClickListener(v -> {
             ((MainActivity)getActivity()).TransitionTo(new DeleteItemsFragment());

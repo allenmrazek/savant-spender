@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModel;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.savantspender.Event;
 
 import java.lang.reflect.Type;
 import java.util.Collection;
@@ -51,7 +52,7 @@ public class LinkViewModel extends ViewModel {
 
     //private MutableLiveData<PlaidLink_ItemData> mItemData = new MutableLiveData<>();
     private MutableLiveData<Pair<Integer, Intent>> mIntent = new MutableLiveData<>();
-
+    //private MutableLiveData<Event<Pair<String, String>>> mA
 
 //    public LiveData<PlaidLink_ItemData> getItemData() {
 //        return mItemData;
@@ -85,6 +86,13 @@ public class LinkViewModel extends ViewModel {
 
 
     public void extractLinkDetails(@NonNull HashMap<String, String> linkData) {
+        Log.e("Spender", "Extract details");
+
+        // response received from Plaid, which contains some preliminary details
+        // about the Item we're in the process of creating
+        // todo: handle case where user has selected the same account twice (invalidate access token and re-exchange?)
+
+        // retrieve accounts
         String json = linkData.get("accounts");
         Gson gson = new Gson();
 
@@ -93,6 +101,11 @@ public class LinkViewModel extends ViewModel {
 
         for (PlaidLink_ItemData.PlaidLink_Account acc : tokens)
             Log.e("Spender", "Found: " + acc.getName() + " , " + acc.getId());
+
+        // retrieve public token
+        String publicToken = linkData.get("public_token");
+
+        //
 
         //mItemData.postValue(new PlaidLink_ItemData(linkData.get("public_token"), linkData.get("institution_id"), tokens));
     }

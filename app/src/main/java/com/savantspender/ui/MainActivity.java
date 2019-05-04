@@ -3,6 +3,7 @@ package com.savantspender.ui;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
@@ -19,6 +20,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.savantspender.R;
+import com.savantspender.service.AuthService;
 import com.savantspender.ui.frag.CategoryFragment;
 import com.savantspender.ui.frag.OverviewFragment;
 import com.savantspender.ui.frag.SettingsFragment;
@@ -82,6 +84,12 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
         // notificationId is a unique int for each notification that you must define
 //        notificationManager.notify(1234, builder.build());
+
+        // bad plan: activities destroyed on screen change, starts service extra times
+        // but otherwise is correct way to start foreground service
+//        ComponentName service = startForegroundService(
+//                new Intent(getApplicationContext(), AuthService.class));
+
     }
 
 
@@ -102,6 +110,8 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
             // note: safe for this to be called multiple times; does nothing once the channel
             // has been created
+
+            Log.i("Spender", "Created notification channel");
         }
     }
 

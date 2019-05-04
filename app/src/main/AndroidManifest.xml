@@ -25,7 +25,9 @@
             android:label="Savant Spender Link">
         </activity>
 
+        <service android:name=".service.AuthService" android:exported="false" android:description="@string/authenticate_description"/>
     </application>
 
     <uses-permission android:name="android.permission.INTERNET"></uses-permission>
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"></uses-permission>
 </manifest>

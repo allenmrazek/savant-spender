@@ -31,6 +31,8 @@ public class LinkActivity extends AppCompatActivity /*implements Observer<LinkVi
             finish();
         });
 
+
+
         // launch link
         getSupportFragmentManager()
                 .beginTransaction()
@@ -39,8 +41,8 @@ public class LinkActivity extends AppCompatActivity /*implements Observer<LinkVi
     }
 
 
-//    // Successfully retrieved public token and item id(s), now they need to be exchanged
-//    // for access tokens. Launch auth fragment
+    // Successfully retrieved public token and item id(s), now they need to be exchanged
+    // for access tokens. Launch auth fragment
 //    @Override
 //    public void onChanged(LinkViewModel.PlaidLink_ItemData plaidLink_itemData) {
 //        getSupportFragmentManager()
