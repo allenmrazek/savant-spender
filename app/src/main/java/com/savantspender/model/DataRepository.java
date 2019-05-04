@@ -2,14 +2,23 @@ package com.savantspender.model;
 
 
 import android.database.sqlite.SQLiteConstraintException;
+import android.os.Build;
 
 import androidx.annotation.NonNull;
+import androidx.work.Constraints;
+import androidx.work.NetworkType;
+import androidx.work.PeriodicWorkRequest;
+import androidx.work.WorkManager;
 
+import com.savantspender.BuildConfig;
 import com.savantspender.db.AppDatabase;
 import com.savantspender.db.entity.InstitutionEntity;
 import com.savantspender.db.entity.ItemEntity;
+import com.savantspender.service.AuthService;
+import com.savantspender.worker.TestWorker;
 
 import java.util.concurrent.Executor;
+import java.util.concurrent.TimeUnit;
 
 public class DataRepository {
     private static DataRepository mRepository;
@@ -19,6 +28,7 @@ public class DataRepository {
     private DataRepository(final AppDatabase db) {
         mDatabase = db;
     }
+
 
     public static DataRepository getInstance(final AppDatabase db) {
         if (mRepository == null) {
@@ -30,16 +40,12 @@ public class DataRepository {
         return mRepository;
     }
 
-    public void ensureInstitutionExists(@NonNull String id, @NonNull String name) {
-        InstitutionEntity ie = new InstitutionEntity(id, name);
-
-        mDatabase.institutionDao().insert(ie);
-    }
-
-    public void insertNewItem(@NonNull String itemId, @NonNull String instId, @NonNull String accessToken) {
-        // todo: check if there is already an item for this institution, could make problems
-        mDatabase.itemDao().insert(new ItemEntity(itemId, instId, accessToken));
-    }
 
     // todo: data we need to expose goes here (stuff that views might be interested in observing)
+
+    // todo: accounts have changed
+    // todo: transactions have changed
+    // todo: tags have changed
+    // todo: catalogged entries have changed
+    // todo: goals have changed
 }

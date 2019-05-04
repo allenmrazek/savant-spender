@@ -47,6 +47,8 @@ public class LinkActivity extends AppCompatActivity {
 
             Pair<Integer, Intent> results = r.getContentIfNotHandled();
 
+            if (results == null) return;
+
             setResult(results.first, results.second);
             finish();
         });

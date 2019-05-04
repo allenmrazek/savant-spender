@@ -14,12 +14,17 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.work.Constraints;
+import androidx.work.OneTimeWorkRequest;
+import androidx.work.WorkManager;
+import androidx.work.WorkRequest;
 
 import com.savantspender.BuildConfig;
 import com.savantspender.R;
 import com.savantspender.ui.LinkActivity;
 import com.savantspender.ui.MainActivity;
 import com.savantspender.viewmodel.SettingsViewModel;
+import com.savantspender.worker.TestWorker;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -31,6 +36,7 @@ public class SettingsFragment extends Fragment {
     private View mDeleteAccountButton;
     private View mDeleteDbButton;
     private View mGenerateTransactionButton;
+    private View mUpdateNowButton;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -71,6 +77,18 @@ public class SettingsFragment extends Fragment {
         mDeleteAccountButton = view.findViewById(R.id.btnDeleteAccount);
         mDeleteAccountButton.setOnClickListener(v -> {
             ((MainActivity)getActivity()).TransitionTo(new DeleteItemsFragment());
+        });
+
+        // update button -> downloads all available transactions
+        mUpdateNowButton = view.findViewById(R.id.btnUpdateNow);
+        mUpdateNowButton.setOnClickListener(v -> {
+            WorkRequest downloadTransactions =
+                    new OneTimeWorkRequest.Builder(TestWorker.class)
+                            .setConstraints(new Constraints.Builder().build())
+                            .addTag(getResources().getString(R.string.work_dl_trans_s))
+                            .build();
+
+            WorkManager.getInstance().enqueue(downloadTransactions);
         });
 
         mViewModel.toastMessages().observe(getViewLifecycleOwner(), m -> {

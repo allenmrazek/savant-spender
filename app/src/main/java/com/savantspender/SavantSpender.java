@@ -3,10 +3,18 @@ package com.savantspender;
 import android.app.Application;
 import android.util.Log;
 
+import androidx.work.Constraints;
+import androidx.work.ExistingPeriodicWorkPolicy;
+import androidx.work.NetworkType;
+import androidx.work.PeriodicWorkRequest;
+import androidx.work.WorkManager;
+
 import com.savantspender.db.AppDatabase;
 import com.savantspender.model.DataRepository;
+import com.savantspender.worker.TestWorker;
 
 import java.util.concurrent.Executor;
+import java.util.concurrent.TimeUnit;
 
 public class SavantSpender extends Application {
     private AppExecutors mAppExecutors;
@@ -16,10 +24,7 @@ public class SavantSpender extends Application {
         super.onCreate();
 
         mAppExecutors = new AppExecutors();
-
-        if (BuildConfig.DEBUG) {
-            Log.w("Spender", "initializing SavantSpender");
-        }
+        initializePeriodicWorkRequests();
     }
 
     public AppDatabase getDatabase() {
@@ -32,5 +37,25 @@ public class SavantSpender extends Application {
 
     public AppExecutors getExecutors() {
         return mAppExecutors;
+    }
+
+    private void initializePeriodicWorkRequests() {
+        String periodicWorkTag = getResources().getString(R.string.work_dl_trans_p);
+
+        Constraints constraints = new Constraints.Builder()
+                .setRequiredNetworkType(NetworkType.CONNECTED)
+                .build();
+
+        // todo: check setting option, limit to wifi if required
+
+        PeriodicWorkRequest downloadTransactions =
+                new PeriodicWorkRequest.Builder(TestWorker.class, 20, TimeUnit.MINUTES)
+                        .setConstraints(constraints)
+                        .addTag(periodicWorkTag)
+                        .build();
+
+        // ensure download transaction task is scheduled; this will occur in background even if
+        // app not in foreground or active
+        WorkManager.getInstance().enqueueUniquePeriodicWork(periodicWorkTag, ExistingPeriodicWorkPolicy.KEEP, downloadTransactions);
     }
 }

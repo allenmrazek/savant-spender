@@ -1,6 +1,9 @@
 package com.savantspender.worker;
 
 import android.content.Context;
+import android.os.Build;
+import android.text.TextUtils;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.work.Worker;
@@ -13,7 +16,17 @@ public class TestWorker extends Worker {
 
     @NonNull
     @Override
-    public Result doWork() {
-        return null;
+    public Result doWork() { // is already on a background thread
+        String tags;
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            tags = String.join(",", getTags());
+        } else tags = TextUtils.join(",", getTags());
+
+        Log.e("Spender", "**************** finished work *********************: id = " + getId() + "; tag = " + tags);
+
+        Result r = Result.success();
+
+        return r;
     }
 }
