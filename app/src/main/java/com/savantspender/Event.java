@@ -14,7 +14,8 @@ public class Event<T> {
         if (mHandled)
             return null;
 
-        mHandled = true;
+        setHandled();
+
         return mParam;
     }
 
@@ -24,5 +25,8 @@ public class Event<T> {
 
     public boolean isHandled() {
         return mHandled;
+    }
+    public void setHandled() {
+        mHandled = true;
     }
 }

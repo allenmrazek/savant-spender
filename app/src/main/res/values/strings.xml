@@ -20,6 +20,7 @@
     // toast messages
     <string name="toast_error_auth">Failed to authorize!</string>
     <string name="toast_link_success">Successfully linked!</string>
+    <string name="toast_link_success_instname">Successfully linked to %1$s!</string>
 
 
     // Activities and Fragments

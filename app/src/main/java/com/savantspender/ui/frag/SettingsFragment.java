@@ -98,11 +98,30 @@ public class SettingsFragment extends Fragment {
     }
 
     protected void onFinishedLink(int resultCode, @Nullable Intent data) {
+        String message;
+
         if (resultCode != Activity.RESULT_OK) {
             // something went wrong!
             // todo: better error handling
+            message = getResources().getString(R.string.toast_error_auth);
+
+            if (data != null) {
+                data.getStringExtra("errorCode");
+                data.getStringExtra("errorMessage");
+            }
+
             Toast.makeText(getActivity().getApplicationContext(), R.string.toast_error_auth, Toast.LENGTH_SHORT).show();
+
         } else {
+            message = getResources().getString(R.string.toast_link_success);
+
+            if (data != null) {
+                String institutionName = data.getStringExtra("institutionName");
+
+                if (institutionName != null) {
+                    message = getResources().getString(R.string.toast_link_success_instname, institutionName);
+                }
+            }
             Toast.makeText(getActivity().getApplicationContext(), R.string.toast_link_success, Toast.LENGTH_SHORT).show();
         }
 

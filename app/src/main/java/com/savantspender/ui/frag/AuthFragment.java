@@ -35,7 +35,9 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class AuthFragment extends Fragment implements /*Observer<LinkViewModel.PlaidLink_ItemData>, */Callback<ItemPublicTokenExchangeResponse> {
+// Purpose is to exchange the public token received from Plaid Link for an access token
+// The public token is only good for 30 minutes, so this needs to happen immediately
+public class AuthFragment extends Fragment {
     private LinkViewModel mViewModel;
     private PlaidClient mClient;
     private String mAccountID; // todo: remove this
@@ -44,7 +46,7 @@ public class AuthFragment extends Fragment implements /*Observer<LinkViewModel.P
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mViewModel = ViewModelProviders.of(getActivity()).get(LinkViewModel.class);
+        mViewModel = ViewModelProviders.of(getActivity(), new LinkViewModel.Factory(getActivity().getApplication())).get(LinkViewModel.class);
         //mViewModel.getItemData().observe(this, this);
     }
 
@@ -70,7 +72,7 @@ public class AuthFragment extends Fragment implements /*Observer<LinkViewModel.P
 //                .enqueue(this);
 //    }
 
-    @Override
+    //@Override
     public void onResponse(Call<ItemPublicTokenExchangeResponse> call, Response<ItemPublicTokenExchangeResponse> response) {
         // handle error condition
         if (!response.isSuccessful()) {
@@ -182,7 +184,7 @@ public class AuthFragment extends Fragment implements /*Observer<LinkViewModel.P
         //mViewModel.exchangedToken(response.body().getItemId(), response.body().getAccessToken());
     }
 
-    @Override
+    //@Override
     public void onFailure(Call<ItemPublicTokenExchangeResponse> call, Throwable t) {
         Intent errorDetails = new Intent();
 

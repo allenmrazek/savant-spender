@@ -31,7 +31,7 @@ public class LinkFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mViewModel = ViewModelProviders.of(getActivity()).get(LinkViewModel.class);
+        mViewModel = ViewModelProviders.of(getActivity(), new LinkViewModel.Factory(getActivity().getApplication())).get(LinkViewModel.class);
     }
 
     @Override
@@ -99,6 +99,9 @@ public class LinkFragment extends Fragment {
         wv.loadUrl(linkInitializationUrl.toString());
     }
 
+    private void onSuccessfulConnection(HashMap<String, String> data) {
+        mViewModel.extractLinkDetails(data);
+    }
 
     private boolean handleUri(WebView view, Uri parsedUri) {
         if (parsedUri.getScheme().equals("plaidlink")) {
@@ -131,7 +134,8 @@ public class LinkFragment extends Fragment {
 04-26 00:48:02.988 20519-20519/com.savantspender W/Spender: account_id -> xPj3voMgKKHoMM9BlpM3CZGo3wKqGAfnGQRd5
                  */
 
-                mViewModel.extractLinkDetails(linkData);
+                onSuccessfulConnection(linkData);
+
             } else if (action.equals("exit")) {
                 mViewModel.setCancelled();
 
