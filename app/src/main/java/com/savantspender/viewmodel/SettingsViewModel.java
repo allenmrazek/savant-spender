@@ -47,13 +47,6 @@ public class SettingsViewModel extends ViewModel {
     }
 
 
-    public void onDeleteAccountClicked() {
-        Log.w("Spender", "delete an account here");
-
-        // todo: launch delete account activity
-    }
-
-
 
     public static class Factory extends ViewModelProvider.NewInstanceFactory {
         @NonNull
