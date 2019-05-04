@@ -48,4 +48,12 @@
     // Work types
     <string name="work_dl_trans_p">work_download_transactions_periodic</string>
     <string name="work_dl_trans_s">work_download_transactions_single</string>
+
+    // Database
+    <string name="db_manual_itemId">manual_item</string>
+    <string name="db_manual_instId">N/A</string>
+    <string name="db_manual_instName">Manual entry</string>
+    <string name="db_manual_accessToken">N/A</string>
+    <string name="db_manual_accountId">manual_account</string>
+    <string name="db_manual_accountName">Manual Entry</string>
 </resources>

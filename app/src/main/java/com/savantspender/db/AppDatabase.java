@@ -11,6 +11,7 @@ import androidx.room.TypeConverters;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import com.savantspender.AppExecutors;
+import com.savantspender.R;
 import com.savantspender.db.converter.DateConverter;
 import com.savantspender.db.dao.AccountDao;
 import com.savantspender.db.dao.EmployeeDao;
@@ -72,6 +73,10 @@ public abstract class AppDatabase extends RoomDatabase {
         return mAppDatabase;
     }
 
+    private interface IFunc {
+        String get(int id);
+    }
+
     private static AppDatabase buildDatabase(final Context appContext,
                                              final AppExecutors executors) {
 
@@ -82,7 +87,29 @@ public abstract class AppDatabase extends RoomDatabase {
                     public void onCreate(@NonNull SupportSQLiteDatabase db) {
                         super.onCreate(db);
                         executors.diskIO().execute(() -> {
-                            // populate data if needed
+                            IFunc res = id -> appContext.getApplicationContext().getResources().getString(id);
+
+                            // manual entries won't be associated with any item or account,
+                            // but the db requires that all transactions contain valid references
+                            // to them
+
+                            mAppDatabase.institutionDao().insert(
+                                    new InstitutionEntity(
+                                            res.get(R.string.db_manual_itemId),
+                                            res.get(R.string.db_manual_instName)));
+
+                            mAppDatabase.itemDao().insert(
+                                    new ItemEntity(
+                                            res.get(R.string.db_manual_itemId),
+                                            res.get(R.string.db_manual_instId),
+                                            res.get(R.string.db_manual_accessToken)));
+
+                            mAppDatabase.accountDao().insert(
+                                    new AccountEntity(
+                                            res.get(R.string.db_manual_accountId),
+                                            res.get(R.string.db_manual_itemId),
+                                            res.get(R.string.db_manual_accountName)
+                                    ));
                         });
                     }
                 })
