@@ -38,8 +38,12 @@ public class SettingsFragment extends Fragment {
     private View mLinkButton;
     private View mDeleteAccountButton;
     private View mDeleteDbButton;
+    private View mDeleteTransButton;
     private View mGenerateTransactionButton;
     private View mUpdateNowButton;
+    private View mDeleteGoalsButton;
+    private View mDeleteTagsButton;
+    private View mUncategorizeButton;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -51,7 +55,14 @@ public class SettingsFragment extends Fragment {
 
         // display these special developer-only buttons for debugging purposes
         if (BuildConfig.DEBUG) {
-            ArrayList<Integer> debugButtons = new ArrayList<Integer>(Arrays.asList(R.id.btnDeleteDatabase, R.id.btnUpdateNow, R.id.btnRandomTransaction));
+            ArrayList<Integer> debugButtons = new ArrayList<Integer>(Arrays.asList(
+                    R.id.btnDeleteDatabase,
+                    R.id.btnUpdateNow,
+                    R.id.btnRandomTransaction,
+                    R.id.btnDeleteCategorized,
+                    R.id.btnDeleteTags,
+                    R.id.btnDeleteGoals,
+                    R.id.btnDeleteTransactions));
 
             for (Integer id : debugButtons)
                 view.findViewById(id).setVisibility(View.VISIBLE);
@@ -62,6 +73,22 @@ public class SettingsFragment extends Fragment {
         mDeleteDbButton.setOnClickListener(v -> {
             mViewModel.onDeleteDatabaseClicked();
         });
+
+        // delete transactions button
+        mDeleteTransButton = view.findViewById(R.id.btnDeleteTransactions);
+        mDeleteTransButton.setOnClickListener(v -> mViewModel.onDeleteTransactionsClicked());
+
+        // delete goals button
+        mDeleteGoalsButton = view.findViewById(R.id.btnDeleteGoals);
+        mDeleteGoalsButton.setOnClickListener(v -> mViewModel.onDeleteGoalsClicked());
+
+        // delete tags button
+        mDeleteTagsButton = view.findViewById(R.id.btnDeleteTags);
+        mDeleteTagsButton.setOnClickListener(v -> mViewModel.onDeleteTagsClicked());
+
+        // uncategorize button
+        mUncategorizeButton = view.findViewById(R.id.btnDeleteCategorized);
+        mUncategorizeButton.setOnClickListener(v -> mViewModel.onResetCataloggedClick());
 
         // random transaction button
         mGenerateTransactionButton = view.findViewById(R.id.btnRandomTransaction);

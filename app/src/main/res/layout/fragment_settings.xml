@@ -32,66 +32,102 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnLinkNew" />
 
-    <LinearLayout
-        android:layout_width="332dp"
-        android:layout_height="344dp"
+    <ScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        android:orientation="vertical"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnDeleteAccount">
 
-        <Switch
-            android:id="@+id/switch2"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:backgroundTint="@color/colorPrimaryDark"
-            android:text="Allow Notifications"
-            android:textColor="@color/colorText"
-            android:textSize="24sp"
-            android:typeface="normal" />
+            android:orientation="vertical">
 
-        <Switch
-            android:id="@+id/switch3"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:backgroundTint="@color/colorPrimaryDark"
-            android:text="Download on WiFi only"
-            android:textColor="@color/colorText"
-            android:textSize="24sp"
-            android:typeface="normal" />
+            <Switch
+                android:id="@+id/switch4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/colorPrimaryDark"
+                android:text="Mute application"
+                android:textColor="@color/colorText"
+                android:textSize="24sp"
+                android:typeface="normal" />
 
-        <Switch
-            android:id="@+id/switch4"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:backgroundTint="@color/colorPrimaryDark"
-            android:text="Mute application"
-            android:textColor="@color/colorText"
-            android:textSize="24sp"
-            android:typeface="normal" />
+            <Switch
+                android:id="@+id/switch2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/colorPrimaryDark"
+                android:text="Allow Notifications"
+                android:textColor="@color/colorText"
+                android:textSize="24sp"
+                android:typeface="normal" />
 
-        <Button
-            android:id="@+id/btnDeleteDatabase"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Delete Database"
-            android:visibility="gone" />
+            <Switch
+                android:id="@+id/switch3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/colorPrimaryDark"
+                android:text="Download on WiFi only"
+                android:textColor="@color/colorText"
+                android:textSize="24sp"
+                android:typeface="normal" />
 
-        <Button
-            android:id="@+id/btnUpdateNow"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Download Transactions"
-            android:visibility="gone" />
+            <Button
+                android:id="@+id/btnDeleteGoals"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Delete Goals"
+                android:visibility="gone" />
 
-        <Button
-            android:id="@+id/btnRandomTransaction"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Generate Random Transaction"
-            android:visibility="gone" />
+            <Button
+                android:id="@+id/btnDeleteTransactions"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Delete Transactions"
+                android:visibility="gone" />
 
-    </LinearLayout>
+            <Button
+                android:id="@+id/btnDeleteTags"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Delete Tags"
+                android:visibility="gone" />
+
+            <Button
+                android:id="@+id/btnDeleteCategorized"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Uncategorize Transactions"
+                android:visibility="gone" />
+
+            <Button
+                android:id="@+id/btnUpdateNow"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Download Transactions"
+                android:visibility="gone" />
+
+            <Button
+                android:id="@+id/btnDeleteDatabase"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Delete Database"
+                android:visibility="gone" />
+
+            <Button
+                android:id="@+id/btnRandomTransaction"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Generate Random Transaction"
+                android:visibility="gone" />
+        </LinearLayout>
+    </ScrollView>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

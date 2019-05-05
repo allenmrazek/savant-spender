@@ -38,6 +38,9 @@ public abstract class TransactionDao {
     public abstract void insert(List<TransactionEntity> transactions);
 
 
+    @Query("DELETE FROM transactions")
+    public abstract void deleteAll();
+
 
     @Query("SELECT * FROM transactions WHERE id IN" +
             "(SELECT transactionid FROM catalogged WHERE tagId = :tagId)") //where cattalogger tagid == tagid and transid is in table

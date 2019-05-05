@@ -13,6 +13,7 @@ import androidx.lifecycle.ViewModelProvider;
 import com.savantspender.Event;
 import com.savantspender.SavantSpender;
 import com.savantspender.db.AppDatabase;
+import com.savantspender.db.entity.CataloggedEntity;
 
 import java.util.concurrent.Executor;
 
@@ -47,6 +48,41 @@ public class SettingsViewModel extends ViewModel {
     }
 
 
+    public void onDeleteTransactionsClicked() {
+        Log.w("Spender", "Deleting transactions");
+
+        mExecutor.execute(() -> {
+            mDatabase.beginTransaction();
+
+            try {
+                for (CataloggedEntity e : mDatabase.cataloggedDao().getAll()) {
+                    mDatabase.cataloggedDao().delete(e);
+                }
+
+                mDatabase.transactionDao().deleteAll();
+            } finally {
+                mDatabase.endTransaction();
+            }
+
+            mToastMessage.postValue(new Event<>("Transactions cleared!"));
+        });
+    }
+
+
+    public void onDeleteGoalsClicked() {
+        Log.w("Spender", "Deleting goals");
+        mToastMessage.postValue(new Event<>("not implemented"));
+    }
+
+    public void onDeleteTagsClicked() {
+        Log.w("Spender", "Deleting tags");
+        mToastMessage.postValue(new Event<>("not implemented"));
+    }
+
+    public void onResetCataloggedClick() {
+        Log.w("Spender", "Deleting catalogged");
+        mToastMessage.postValue(new Event<>("not implemented"));
+    }
 
     public static class Factory extends ViewModelProvider.NewInstanceFactory {
         @NonNull
