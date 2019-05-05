@@ -27,6 +27,7 @@ import com.savantspender.db.entity.AccountEntity;
 import com.savantspender.db.entity.InstitutionEntity;
 import com.savantspender.db.entity.ItemEntity;
 import com.savantspender.model.DataRepository;
+import com.savantspender.util.PlaidUtil;
 
 import java.lang.reflect.Type;
 import java.util.Collection;
@@ -140,11 +141,7 @@ public class LinkViewModel extends ViewModel {
     private void exchangeToken(PlaidLink_ItemData data) {
         Log.i("Spender", "Exchanging token " + data.PublicToken);
 
-        final PlaidClient client = PlaidClient.newBuilder()
-                .clientIdAndSecret("5c54506a47679a00117ebada", "7be0aefd21b235efcb5717101969ca")
-                .publicKey("efebb105ab905b6e6cbe0a12e4689b") // optional. only needed to call endpoints that require a public key
-                .sandboxBaseUrl() // or equivalent, depending on which environment you're calling into
-                .build();
+        final PlaidClient client = PlaidUtil.build();
 
         client
                 .service()

@@ -24,4 +24,9 @@ public interface ItemDao {
 
     @Delete
     void delete(ItemEntity entity);
+
+
+    @Query("SELECT access_token FROM items WHERE id == :itemId")
+    String getAccessTokenSync(@NonNull String itemId);
+
 }

@@ -27,8 +27,11 @@ import com.savantspender.worker.TestWorker;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.concurrent.TimeUnit;
 
 public class SettingsFragment extends Fragment {
+    private static final int TRANSACTION_DELAY_ON_LINK = 5; // in minutes
+
     private SettingsViewModel mViewModel;
 
     private View mLinkButton;
@@ -80,15 +83,7 @@ public class SettingsFragment extends Fragment {
 
         // update button -> downloads all available transactions
         mUpdateNowButton = view.findViewById(R.id.btnUpdateNow);
-        mUpdateNowButton.setOnClickListener(v -> {
-            WorkRequest downloadTransactions =
-                    new OneTimeWorkRequest.Builder(TestWorker.class)
-                            .setConstraints(new Constraints.Builder().build())
-                            .addTag(getResources().getString(R.string.work_dl_trans_s))
-                            .build();
-
-            WorkManager.getInstance().enqueue(downloadTransactions);
-        });
+        mUpdateNowButton.setOnClickListener(v -> scheduleTransactionUpdate(0));
 
         mViewModel.toastMessages().observe(getViewLifecycleOwner(), m -> {
             if (m.isHandled()) return;
@@ -140,7 +135,23 @@ public class SettingsFragment extends Fragment {
                 }
             }
             Toast.makeText(getActivity().getApplicationContext(), message, Toast.LENGTH_SHORT).show();
-        }
 
+            // schedule an update in a bit: the data takes time to be ready (and even this call
+            // has a high probability of failure)
+            scheduleTransactionUpdate(TRANSACTION_DELAY_ON_LINK);
+        }
     }
+
+
+    private void scheduleTransactionUpdate(int minutes) {
+        WorkRequest downloadTransactions =
+                new OneTimeWorkRequest.Builder(TestWorker.class)
+                        .setConstraints(new Constraints.Builder().build())
+                        .addTag(getResources().getString(R.string.work_dl_trans_s))
+                        .setInitialDelay(minutes, TimeUnit.MINUTES)
+                        .build();
+
+        WorkManager.getInstance().enqueue(downloadTransactions);
+    }
+
 }

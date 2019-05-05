@@ -95,18 +95,12 @@ public abstract class AppDatabase extends RoomDatabase {
         return mAppDatabase;
     }
 
-    private interface IFunc {
-        String get(int id);
-    }
-
     public void resetDatabase() {
         clearAllTables();
         insertManualTransactionDummyEntries();
     }
 
     private void insertManualTransactionDummyEntries() {
-        // used for manual transactions
-
         mAppDatabase.institutionDao().insert(
                 new InstitutionEntity("manual_inst_id", "Manual Entry"));
 

@@ -28,7 +28,7 @@ public class TransactionEntity {
 
     @Nullable
     public String name;
-    public float amount;
+    public double amount;
     public boolean pending;
 
     public TransactionEntity(
@@ -36,7 +36,7 @@ public class TransactionEntity {
             @NonNull String accountId,
             @NonNull String itemId,
             @Nullable String name,
-            float amount,
+            double amount,
             boolean pending,
             @NonNull Date postDate) {
 
