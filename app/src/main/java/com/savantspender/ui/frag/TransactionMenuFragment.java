@@ -17,7 +17,7 @@ import com.savantspender.R;
 import com.savantspender.ui.adapter.TransactionViewAdapter;
 import com.savantspender.viewmodel.TransactionViewModel;
 
-public class TransactionFragment extends Fragment {
+public class TransactionMenuFragment extends Fragment {
     private TransactionViewModel mViewModel;
     private RecyclerView mRecycler;
     private TransactionViewAdapter mAdapter;
@@ -25,7 +25,7 @@ public class TransactionFragment extends Fragment {
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_transactions, container, false);
+        View view = inflater.inflate(R.layout.fragment_menu_transactions, container, false);
 
         mRecycler = view.findViewById(R.id.transactions_view);
         mRecycler.setHasFixedSize(true);
@@ -48,6 +48,7 @@ public class TransactionFragment extends Fragment {
 
         mViewModel.uncataloggedTransactions().observe(getViewLifecycleOwner(), i -> {
             mAdapter.submitData(i);
+            mAdapter.notifyDataSetChanged();
         });
     }
 }

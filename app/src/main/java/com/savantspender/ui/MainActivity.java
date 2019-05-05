@@ -2,29 +2,22 @@ package com.savantspender.ui;
 
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
-import android.app.PendingIntent;
-import android.content.ComponentName;
-import android.content.Context;
-import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.savantspender.R;
-import com.savantspender.service.AuthService;
-import com.savantspender.ui.frag.CategoryFragment;
-import com.savantspender.ui.frag.OverviewFragment;
-import com.savantspender.ui.frag.SettingsFragment;
-import com.savantspender.ui.frag.TransactionFragment;
+import com.savantspender.ui.frag.CategoryMenuFragment;
+import com.savantspender.ui.frag.OverviewMenuFragment;
+import com.savantspender.ui.frag.SettingsMenuFragment;
+import com.savantspender.ui.frag.TransactionMenuFragment;
 
 
 public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
@@ -41,7 +34,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         navView.setOnNavigationItemSelectedListener(this);
 
         // launch the overview fragment immediately, else there won't be anything useful onscreen
-        getSupportFragmentManager().beginTransaction().add(R.id.action_fragment_container, new OverviewFragment()).commitNow();
+        getSupportFragmentManager().beginTransaction().add(R.id.action_fragment_container, new OverviewMenuFragment()).commitNow();
     }
 
 
@@ -74,19 +67,19 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
         switch (menuItem.getItemId()) {
             case R.id.navigation_overview:
-                TransitionTo(new OverviewFragment());
+                TransitionTo(new OverviewMenuFragment());
                 return true;
 
             case R.id.navigation_categories:
-                TransitionTo(new CategoryFragment());
+                TransitionTo(new CategoryMenuFragment());
                 return true;
 
             case R.id.navigation_settings:
-                TransitionTo(new SettingsFragment());
+                TransitionTo(new SettingsMenuFragment());
                 return true;
 
             case R.id.navigation_transactions:
-                TransitionTo(new TransactionFragment());
+                TransitionTo(new TransactionMenuFragment());
                 return true;
         }
 

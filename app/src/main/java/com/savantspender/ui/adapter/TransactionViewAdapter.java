@@ -4,6 +4,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -42,13 +43,14 @@ public class TransactionViewAdapter extends RecyclerView.Adapter<TransactionView
 
     public void submitData(@NonNull List<? extends Transaction> transactions) {
         mData = transactions;
-        notifyDataSetChanged();
+        Log.w("Spender","received data for " + transactions.size() + " transactions");
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
         private TextView txtTransactionName;
         private TextView txtTransactionPrice;
         private TextView txtTransactionDate;
+        private ImageView btnViewDetails;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -56,6 +58,8 @@ public class TransactionViewAdapter extends RecyclerView.Adapter<TransactionView
             txtTransactionName = itemView.findViewById(R.id.txtTransName);
             txtTransactionPrice = itemView.findViewById(R.id.txtTransPrice);
             txtTransactionDate = itemView.findViewById(R.id.txtTransDate);
+            btnViewDetails = itemView.findViewById(R.id.btnDetails);
+            btnViewDetails.setOnClickListener(i -> Log.w("Spender", "view details here")); // todo
         }
     }
 }

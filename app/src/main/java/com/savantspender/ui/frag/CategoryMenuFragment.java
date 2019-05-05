@@ -11,11 +11,10 @@ import androidx.fragment.app.Fragment;
 
 import com.savantspender.R;
 
-public class OverviewFragment extends Fragment {
-
+public class CategoryMenuFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_overview, container, false);
+        View view = inflater.inflate(R.layout.fragment_menu_categories, container, false);
         return view;
     }
 }

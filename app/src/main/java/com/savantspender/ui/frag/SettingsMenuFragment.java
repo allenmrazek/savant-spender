@@ -30,7 +30,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
 
-public class SettingsFragment extends Fragment {
+public class SettingsMenuFragment extends Fragment {
     private static final int TRANSACTION_DELAY_ON_LINK = 5; // in minutes
 
     private SettingsViewModel mViewModel;
@@ -51,7 +51,7 @@ public class SettingsFragment extends Fragment {
                 .of(this, new SettingsViewModel.Factory(getActivity().getApplication()))
                 .get(SettingsViewModel.class);
 
-        View view = inflater.inflate(R.layout.fragment_settings, container, false);
+        View view = inflater.inflate(R.layout.fragment_menu_settings, container, false);
 
         // display these special developer-only buttons for debugging purposes
         if (BuildConfig.DEBUG) {

@@ -6,37 +6,26 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <Switch
-        android:id="@+id/switch1"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="Temp: goal indicator here"
-        android:textSize="24sp"
-        app:layout_constraintBottom_toTopOf="@+id/txtTransactionsLabel"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <TextView
         android:id="@+id/txtTransactionsLabel"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="@string/transactions_name"
         android:textSize="30sp"
-        app:layout_constraintBottom_toTopOf="@+id/transactions_view"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/switch1" />
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/transactions_view"
+    <View
+        android:id="@+id/divider"
         android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_height="16dp"
+        android:layout_marginTop="20dp"
+        android:background="@color/colorAccent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtTransactionsLabel">
-
-    </androidx.recyclerview.widget.RecyclerView>
+        app:layout_constraintTop_toBottomOf="@+id/txtTransactionsLabel" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

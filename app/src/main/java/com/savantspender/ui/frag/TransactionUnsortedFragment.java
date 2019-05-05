@@ -11,10 +11,11 @@ import androidx.fragment.app.Fragment;
 
 import com.savantspender.R;
 
-public class CategoryFragment extends Fragment {
+public class TransactionUnsortedFragment extends Fragment {
+    @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_categories, container, false);
+        View view = inflater.inflate(R.layout.fragment_goal_progress, container, false);
         return view;
     }
 }
