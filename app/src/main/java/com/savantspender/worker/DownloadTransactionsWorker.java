@@ -62,7 +62,7 @@ public class DownloadTransactionsWorker extends Worker {
 
                 // todo: transactionIds might have changed, could cause errors
                 try {
-                    mDatabase.transactionDao().insert(downloaded);
+                    mDatabase.transactionDao().insertOrUpdate(downloaded);
                 } catch (SQLiteConstraintException sqe) {
                     Log.e("Spender", sqe.getMessage());
                 }
@@ -93,9 +93,6 @@ public class DownloadTransactionsWorker extends Worker {
                 new TransactionsGetRequest(accessToken, getStartDate(), getEndDate())
                     .withAccountIds(Arrays.asList(account.id))
                     .withCount(NUM_TRANSACTIONS_DOWNLOAD_PER_CALL);
-
-        Log.e("Spender", "StartDate: " + getStartDate().toString());
-        Log.e("Spender", "EndDate: " + getEndDate().toString());
 
         int offset = 0;
         int totalCount = 0;

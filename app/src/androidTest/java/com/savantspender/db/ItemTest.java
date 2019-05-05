@@ -73,14 +73,6 @@ public class ItemTest extends DefaultDatabaseTest {
         mItems.insert(e);
     }
 
-    @Test
-    public void insert_with_duplicate_id() {
-        ItemEntity e = new ItemEntity(TestItemId, TestInstitutionId, "access");
-
-        thrown.expect(SQLiteConstraintException.class);
-        thrown.expectMessage("UNIQUE constraint failed");
-        mItems.insert(e);
-    }
 
     @Test
     public void read() throws InterruptedException {

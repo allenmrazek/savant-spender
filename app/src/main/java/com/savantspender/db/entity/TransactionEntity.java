@@ -48,7 +48,6 @@ public class TransactionEntity {
         this.postDate = postDate;
         this.itemId = itemId;
     }
-
     @NonNull
     public Date postDate;
 
