@@ -34,7 +34,7 @@ public class SettingsViewModel extends ViewModel {
 
         mExecutor.execute(() -> {
             Log.w("Spender", "Deleting database");
-            mDatabase.clearAllTables();
+            mDatabase.resetDatabase();
             mToastMessage.postValue(new Event<>("Databased cleared!"));
         });
     }

@@ -1,6 +1,7 @@
 package com.savantspender;
 
 import android.app.Application;
+import android.content.Context;
 import android.util.Log;
 
 import androidx.work.Constraints;
@@ -39,6 +40,7 @@ public class SavantSpender extends Application {
         return mAppExecutors;
     }
 
+
     private void initializePeriodicWorkRequests() {
         String periodicWorkTag = getResources().getString(R.string.work_dl_trans_p);
 
@@ -49,7 +51,7 @@ public class SavantSpender extends Application {
         // todo: check setting option, limit to wifi if required
 
         PeriodicWorkRequest downloadTransactions =
-                new PeriodicWorkRequest.Builder(TestWorker.class, 20, TimeUnit.MINUTES)
+                new PeriodicWorkRequest.Builder(TestWorker.class, 15, TimeUnit.MINUTES)
                         .setConstraints(constraints)
                         .addTag(periodicWorkTag)
                         .build();

@@ -3,7 +3,14 @@ package com.savantspender.db;
 import android.content.Context;
 import android.util.Log;
 
+import androidx.annotation.MainThread;
 import androidx.annotation.NonNull;
+import androidx.lifecycle.Lifecycle;
+import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ProcessLifecycleOwner;
+import androidx.lifecycle.Transformations;
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
@@ -12,6 +19,7 @@ import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import com.savantspender.AppExecutors;
 import com.savantspender.R;
+import com.savantspender.SavantSpender;
 import com.savantspender.db.converter.DateConverter;
 import com.savantspender.db.dao.AccountDao;
 import com.savantspender.db.dao.EmployeeDao;
@@ -31,7 +39,17 @@ import com.savantspender.db.entity.TagEntity;
 import com.savantspender.db.entity.TransactionEntity;
 import com.savantspender.db.entity.WorksOnEntity;
 
+import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
+
+import io.reactivex.Completable;
+import io.reactivex.Flowable;
+import io.reactivex.Maybe;
+import io.reactivex.MaybeObserver;
+import io.reactivex.Observable;
+import io.reactivex.Scheduler;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 
 
 @Database(entities = {
@@ -67,6 +85,10 @@ public abstract class AppDatabase extends RoomDatabase {
         if (mAppDatabase == null) {
             synchronized (AppDatabase.class) {
                 mAppDatabase = buildDatabase(appContext.getApplicationContext(), executors);
+
+                executors.diskIO().execute(() -> {
+                    mAppDatabase.insertManualTransactionDummyEntries();
+                });
             }
         }
 
@@ -77,43 +99,32 @@ public abstract class AppDatabase extends RoomDatabase {
         String get(int id);
     }
 
-    private static AppDatabase buildDatabase(final Context appContext,
-                                             final AppExecutors executors) {
+    public void resetDatabase() {
+        clearAllTables();
+        insertManualTransactionDummyEntries();
+    }
+
+    private void insertManualTransactionDummyEntries() {
+        // used for manual transactions
+
+        mAppDatabase.institutionDao().insert(
+                new InstitutionEntity("manual_inst_id", "Manual Entry"));
+
+        mAppDatabase.itemDao().insert(
+                new ItemEntity("manual_item_id", "manual_inst_id", "na"));
+
+        mAppDatabase.accountDao().insert(
+                new AccountEntity(
+                        "manual_account", "manual_item_id", "Manual Entry"));
+    }
+
+
+    private static AppDatabase buildDatabase(final Context appContext, final AppExecutors executors) {
 
         return Room.databaseBuilder(appContext, AppDatabase.class, DATABASE_NAME)
                 .fallbackToDestructiveMigration()
                 .addCallback(new Callback() {
-                    @Override
-                    public void onCreate(@NonNull SupportSQLiteDatabase db) {
-                        super.onCreate(db);
-                        executors.diskIO().execute(() -> {
-                            IFunc res = id -> appContext.getApplicationContext().getResources().getString(id);
 
-                            // manual entries won't be associated with any item or account,
-                            // but the db requires that all transactions contain valid references
-                            // to them
-
-                            mAppDatabase.institutionDao().insert(
-                                    new InstitutionEntity(
-                                            res.get(R.string.db_manual_itemId),
-                                            res.get(R.string.db_manual_instName)));
-
-                            mAppDatabase.itemDao().insert(
-                                    new ItemEntity(
-                                            res.get(R.string.db_manual_itemId),
-                                            res.get(R.string.db_manual_instId),
-                                            res.get(R.string.db_manual_accessToken)));
-
-                            mAppDatabase.accountDao().insert(
-                                    new AccountEntity(
-                                            res.get(R.string.db_manual_accountId),
-                                            res.get(R.string.db_manual_itemId),
-                                            res.get(R.string.db_manual_accountName)
-                                    ));
-                        });
-                    }
-                })
-                .addCallback(new Callback() {
                     @Override
                     public void onCreate(@NonNull SupportSQLiteDatabase db) {
                         super.onCreate(db);

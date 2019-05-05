@@ -14,7 +14,7 @@ import java.util.List;
 
 @Dao
 public interface AccountDao {
-    @Insert(onConflict = OnConflictStrategy.ABORT)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insert(AccountEntity entity);
 
     @Delete
