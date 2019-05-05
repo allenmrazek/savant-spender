@@ -64,5 +64,5 @@ dependencies {
     implementation "androidx.work:work-rxjava2:$work_version"
     androidTestImplementation "androidx.work:work-testing:$work_version"
     implementation 'androidx.viewpager:viewpager:1.0.0'
-
+    implementation 'androidx.recyclerview:recyclerview-selection:1.0.0'
 }

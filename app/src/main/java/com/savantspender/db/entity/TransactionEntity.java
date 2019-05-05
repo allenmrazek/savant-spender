@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
+import androidx.room.Ignore;
 import androidx.room.Index;
 
 import java.util.Date;
@@ -70,5 +71,17 @@ public class TransactionEntity implements Transaction {
     @Override
     public double getAmount() {
         return amount;
+    }
+
+
+    @Ignore
+    public boolean selected = false;
+
+    public void setSelected(boolean tf) {
+        selected = tf;
+    }
+
+    public boolean isSelected() {
+        return selected;
     }
 }

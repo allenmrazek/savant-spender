@@ -8,4 +8,7 @@ public interface Transaction {
     @NonNull String getName();
     @NonNull Date getDate();
     @NonNull double getAmount();
+
+    void setSelected(boolean tf);
+    boolean isSelected();
 }
