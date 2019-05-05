@@ -1,7 +1,13 @@
 package com.savantspender.model;
 
 
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MediatorLiveData;
+
 import com.savantspender.db.AppDatabase;
+import com.savantspender.db.entity.TransactionEntity;
+
+import java.util.List;
 
 public class DataRepository {
     private static DataRepository mRepository;
@@ -23,6 +29,10 @@ public class DataRepository {
         return mRepository;
     }
 
+
+    public LiveData<List<TransactionEntity>> spendingTransactions() {
+        return mDatabase.transactionDao().getSpendingTransactions();
+    }
 
     // todo: data we need to expose goes here (stuff that views might be interested in observing)
 

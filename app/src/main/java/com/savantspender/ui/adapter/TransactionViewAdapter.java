@@ -10,13 +10,13 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.savantspender.R;
+import com.savantspender.db.entity.Transaction;
+
+import java.util.LinkedList;
+import java.util.List;
 
 public class TransactionViewAdapter extends RecyclerView.Adapter<TransactionViewAdapter.ViewHolder> {
-    private String[] mData;
-
-    public TransactionViewAdapter() {
-        mData = new String[] { "Hello", "World" };
-    }
+    private List<? extends Transaction> mData = new LinkedList<>();
 
     @NonNull
     @Override
@@ -29,13 +29,20 @@ public class TransactionViewAdapter extends RecyclerView.Adapter<TransactionView
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.txtTransactionName.setText(mData[position]);
-        Log.e("Spender", "Binding view on pos " + position);
+        Transaction trans = mData.get(position);
+
+        holder.txtTransactionName.setText(trans.getName());
+        holder.txtTransactionPrice.setText(Double.toString(trans.getAmount()));
     }
 
     @Override
     public int getItemCount() {
-        return mData.length;
+        return mData.size();
+    }
+
+    public void submitData(@NonNull List<? extends Transaction> transactions) {
+        mData = transactions;
+        notifyDataSetChanged();
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {

@@ -22,7 +22,7 @@ import java.util.Date;
     indices = {
         @Index({"accountId", "itemId"})
     })
-public class TransactionEntity {
+public class TransactionEntity implements Transaction {
     public @NonNull String accountId;
     public @NonNull String id;
 
@@ -53,4 +53,22 @@ public class TransactionEntity {
 
     @NonNull
     public String itemId;
+
+    @NonNull
+    @Override
+    public String getName() {
+        return name;
+    }
+
+    @NonNull
+    @Override
+    public Date getDate() {
+        return postDate;
+    }
+
+    @NonNull
+    @Override
+    public double getAmount() {
+        return amount;
+    }
 }

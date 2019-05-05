@@ -41,6 +41,9 @@ public abstract class TransactionDao {
     @Query("DELETE FROM transactions")
     public abstract void deleteAll();
 
+    @Query("SELECT * FROM transactions WHERE amount > 0")
+    public abstract LiveData<List<TransactionEntity>> getSpendingTransactions();
+
 
     @Query("SELECT * FROM transactions WHERE id IN" +
             "(SELECT transactionid FROM catalogged WHERE tagId = :tagId)") //where cattalogger tagid == tagid and transid is in table
