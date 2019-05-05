@@ -41,7 +41,6 @@ public class TransactionMenuFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        Log.e("Spender", "transaction fragment activity created");
         mViewModel = ViewModelProviders
                         .of(this, new TransactionViewModel.Factory(getActivity().getApplication()))
                         .get(TransactionViewModel.class);

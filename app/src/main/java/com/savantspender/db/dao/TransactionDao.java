@@ -41,7 +41,7 @@ public abstract class TransactionDao {
     @Query("DELETE FROM transactions")
     public abstract void deleteAll();
 
-    @Query("SELECT * FROM transactions WHERE amount > 0")
+    @Query("SELECT * FROM transactions WHERE amount > 0 ORDER BY postDate DESC")
     public abstract LiveData<List<TransactionEntity>> getSpendingTransactions();
 
 

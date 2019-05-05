@@ -43,7 +43,7 @@ public class TransactionViewAdapter extends RecyclerView.Adapter<TransactionView
 
     public void submitData(@NonNull List<? extends Transaction> transactions) {
         mData = transactions;
-        Log.w("Spender","received data for " + transactions.size() + " transactions");
+        notifyDataSetChanged();
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
