@@ -1,11 +1,14 @@
-package com.savantspender.ui.adapter;
+package com.savantspender.ui.frag.transactions.adapter;
+
+import android.util.Log;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
-import com.savantspender.ui.frag.transactions.TransactionUnsortedFragment;
+import com.savantspender.ui.frag.transactions.SortedTransactionsFragment;
+import com.savantspender.ui.frag.transactions.UnsortedTransactionsFragment;
 
 public class TransactionPagerAdapter extends FragmentPagerAdapter {
 
@@ -20,14 +23,16 @@ public class TransactionPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-        switch (position) {
-            case 0:
-                // todo
-            case 1:
-                // todo;
+        if (position < 0 || position > 1)
+            Log.e("Spender", "unrecognized transaction page: " + position);
 
+        switch (position) {
+            case 0: // unsorted
             default:
-                return new TransactionUnsortedFragment();
+                return new UnsortedTransactionsFragment();
+
+            case 1: // sorted
+                return new SortedTransactionsFragment();
         }
     }
 
@@ -36,9 +41,9 @@ public class TransactionPagerAdapter extends FragmentPagerAdapter {
     public CharSequence getPageTitle(int position) {
         switch (position) {
             case 0:
-                return "Page 0";
+                return "Unsorted";
             case 1:
-                return "Page 1";
+                return "Sorted";
 
             default:
                 return "Unknown";

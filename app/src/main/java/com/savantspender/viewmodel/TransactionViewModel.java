@@ -15,21 +15,26 @@ import com.savantspender.model.DataRepository;
 import java.util.List;
 
 public class TransactionViewModel extends ViewModel {
-    private final LiveData<List<? extends Transaction>> mUncataloggedTrans;
+    private final LiveData<List<? extends Transaction>> mUnsortedTrans;
+    private final LiveData<List<? extends Transaction>> mSortedTrans;
+
     private final DataRepository mRepository;
 
     public TransactionViewModel(@NonNull DataRepository repository) {
         mRepository = repository;
 
-        mUncataloggedTrans = Transformations.map(repository.spendingTransactions(), l -> {
-            return l;
-        });
+        // todo: actual filtering, simple passthrough for now
+        mSortedTrans = Transformations.map(repository.sortedTransactions(), l -> l);
+        mUnsortedTrans = Transformations.map(repository.unsortedTransactions(), l -> l);
     }
 
-    public LiveData<List<? extends Transaction>> uncataloggedTransactions() {
-        return mUncataloggedTrans;
+    public LiveData<List<? extends Transaction>> unsortedTransactions() {
+        return mUnsortedTrans;
     }
 
+    public LiveData<List<? extends Transaction>> sortedTransactions() {
+        return mSortedTrans;
+    }
 
     public static class Factory extends ViewModelProvider.NewInstanceFactory {
         @NonNull

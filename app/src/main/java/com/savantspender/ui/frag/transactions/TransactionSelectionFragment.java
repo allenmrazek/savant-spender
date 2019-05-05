@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.savantspender.R;
-import com.savantspender.ui.adapter.TransactionViewAdapter;
+import com.savantspender.ui.frag.transactions.adapter.TransactionViewAdapter;
 import com.savantspender.viewmodel.TransactionViewModel;
 
 public abstract class TransactionSelectionFragment extends Fragment {
@@ -46,8 +46,6 @@ public abstract class TransactionSelectionFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mViewModel = ViewModelProviders.of(getActivity(), new TransactionViewModel.Factory(getActivity().getApplication())).get(TransactionViewModel.class);
-
-        //mViewModel.uncataloggedTransactions().observe(getViewLifecycleOwner(), t -> mAdapter.submitData(t) );
 
         initObservers();
     }

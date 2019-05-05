@@ -21,6 +21,7 @@ import com.savantspender.db.entity.TransactionEntity;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.io.IOException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -164,4 +165,68 @@ public class TransactionTest extends DefaultDatabaseTest {
         assertThat(mTransactions.exists("id"), is(true));
     }
 
+    @Test
+    public void get_sorted_transactions_none() throws InterruptedException {
+        // shouldn't be any by default
+        List<TransactionEntity> transactions = LiveDataTestUtil.getValue(mTransactions.getSortedTransactions());
+
+        assertThat(transactions.size(), equalTo(0));
+    }
+
+    @Test
+    public void get_sorted_transactions_single_tag() throws InterruptedException {
+
+        // insert test tag
+        TagEntity tag = new TagEntity(0, "test tag");
+        mDatabase.tagDao().insert(tag);
+
+        // insert test transaction
+        TransactionEntity testTransaction = new TransactionEntity("testtransid", AccountId, ItemId, "some trans name", 100.0, false, CurrentDate);
+        mDatabase.transactionDao().insert(testTransaction);
+
+        // catalog that transaction
+        mDatabase.cataloggedDao().insert(new CataloggedEntity(AccountId, "testtransid", ItemId, tag.getId()));
+
+        // make sure we get it back
+        List<TransactionEntity> transactions = LiveDataTestUtil.getValue(mTransactions.getSortedTransactions());
+
+        assertThat(transactions.size(), equalTo(1));
+
+        TransactionEntity retTrans = transactions.get(0);
+
+        assertThat(retTrans.id, equalTo(testTransaction.id));
+        assertThat(retTrans.name, equalTo(testTransaction.name));
+        assertThat(retTrans.postDate, equalTo(testTransaction.postDate));
+    }
+
+
+    @Test
+    public void get_sorted_transactions_multiple_tag() throws InterruptedException {
+
+        // insert test tags
+        TagEntity tag = new TagEntity(0, "test tag");
+        TagEntity tag2 = new TagEntity(1, "test tag 2");
+
+        mDatabase.tagDao().insert(tag);
+        mDatabase.tagDao().insert(tag2);
+
+        // insert test transaction
+        TransactionEntity testTransaction = new TransactionEntity("testtransid", AccountId, ItemId, "some trans name", 100.0, false, CurrentDate);
+        mDatabase.transactionDao().insert(testTransaction);
+
+        // catalog that transaction twice, with different tags
+        mDatabase.cataloggedDao().insert(new CataloggedEntity(AccountId, "testtransid", ItemId, tag.getId()));
+        mDatabase.cataloggedDao().insert(new CataloggedEntity(AccountId, "testtransid", ItemId, tag2.getId()));
+
+        // make sure we get it back (a _single_ transaction)
+        List<TransactionEntity> transactions = LiveDataTestUtil.getValue(mTransactions.getSortedTransactions());
+
+        assertThat(transactions.size(), equalTo(1));
+
+        TransactionEntity retTrans = transactions.get(0);
+
+        assertThat(retTrans.id, equalTo(testTransaction.id));
+        assertThat(retTrans.name, equalTo(testTransaction.name));
+        assertThat(retTrans.postDate, equalTo(testTransaction.postDate));
+    }
 }

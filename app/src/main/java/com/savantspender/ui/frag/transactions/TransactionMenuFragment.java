@@ -1,7 +1,6 @@
 package com.savantspender.ui.frag.transactions;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,12 +9,11 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
-import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.tabs.TabLayout;
 import com.savantspender.R;
-import com.savantspender.ui.adapter.TransactionPagerAdapter;
+import com.savantspender.ui.frag.transactions.adapter.TransactionPagerAdapter;
 import com.savantspender.viewmodel.TransactionViewModel;
 
 public class TransactionMenuFragment extends Fragment {

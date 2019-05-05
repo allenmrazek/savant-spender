@@ -34,6 +34,15 @@ public class DataRepository {
         return mDatabase.transactionDao().getSpendingTransactions();
     }
 
+    public LiveData<List<TransactionEntity>> unsortedTransactions() {
+        return mDatabase.transactionDao().getUnsortedTransactions();
+    }
+
+    public LiveData<List<TransactionEntity>> sortedTransactions() {
+        return mDatabase.transactionDao().getSortedTransactions();
+    }
+
+
     // todo: data we need to expose goes here (stuff that views might be interested in observing)
 
     // todo: accounts have changed

@@ -1,4 +1,4 @@
-package com.savantspender.ui.adapter;
+package com.savantspender.ui.frag.transactions.adapter;
 
 import android.graphics.Color;
 import android.util.Log;
