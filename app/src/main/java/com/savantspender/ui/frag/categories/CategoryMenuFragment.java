@@ -1,4 +1,4 @@
-package com.savantspender.ui.frag;
+package com.savantspender.ui.frag.categories;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -11,10 +11,10 @@ import androidx.fragment.app.Fragment;
 
 import com.savantspender.R;
 
-public class DeleteItemsFragment extends Fragment {
+public class CategoryMenuFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_delete_items, container, false);
+        View view = inflater.inflate(R.layout.fragment_menu_categories, container, false);
         return view;
     }
 }

@@ -1,4 +1,4 @@
-package com.savantspender.ui.frag;
+package com.savantspender.ui.frag.link;
 
 import android.annotation.TargetApi;
 import android.content.Intent;

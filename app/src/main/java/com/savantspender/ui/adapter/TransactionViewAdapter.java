@@ -1,5 +1,6 @@
 package com.savantspender.ui.adapter;
 
+import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,6 +26,7 @@ public class TransactionViewAdapter extends RecyclerView.Adapter<TransactionView
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.listitem_transaction, parent, false);
         ViewHolder vh = new ViewHolder(view, this);
 
+        view.setOnClickListener(i -> onViewHolderClick(vh));
         return vh;
     }
 
@@ -34,8 +36,23 @@ public class TransactionViewAdapter extends RecyclerView.Adapter<TransactionView
 
         holder.txtTransactionName.setText(trans.getName());
         holder.txtTransactionPrice.setText(Double.toString(trans.getAmount()));
-
+        holder.bind(trans.isSelected());
     }
+
+    private void onViewHolderClick(ViewHolder whichVh) {
+        int pos = whichVh.getAdapterPosition();
+
+        Log.e("Spender", "viewholder " + pos + " clicked");
+
+        // toggle selection
+        boolean newState = !mData.get(pos).isSelected();
+
+        Log.e("Spender", "  is now " + newState);
+
+        mData.get(pos).setSelected(newState);
+        whichVh.bind(newState);
+    }
+
 
 
     @Override
@@ -69,6 +86,10 @@ public class TransactionViewAdapter extends RecyclerView.Adapter<TransactionView
 
         public void bind(boolean isSelected) {
             itemView.setActivated(isSelected);
+
+            if (isSelected)
+                itemView.setBackgroundColor(Color.RED);
+            else itemView.setBackgroundColor(Color.TRANSPARENT);
         }
     }
 }

@@ -5,11 +5,10 @@ import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.util.Pair;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
-import com.savantspender.ui.frag.AuthFragment;
-import com.savantspender.ui.frag.LinkFragment;
+import com.savantspender.ui.frag.link.AuthFragment;
+import com.savantspender.ui.frag.link.LinkFragment;
 import com.savantspender.viewmodel.LinkViewModel;
 
 public class LinkActivity extends AppCompatActivity {

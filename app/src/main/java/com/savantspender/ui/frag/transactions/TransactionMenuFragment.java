@@ -1,4 +1,4 @@
-package com.savantspender.ui.frag;
+package com.savantspender.ui.frag.transactions;
 
 import android.os.Bundle;
 import android.util.Log;

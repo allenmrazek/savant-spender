@@ -14,10 +14,10 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.savantspender.R;
-import com.savantspender.ui.frag.CategoryMenuFragment;
-import com.savantspender.ui.frag.OverviewMenuFragment;
-import com.savantspender.ui.frag.SettingsMenuFragment;
-import com.savantspender.ui.frag.TransactionMenuFragment;
+import com.savantspender.ui.frag.categories.CategoryMenuFragment;
+import com.savantspender.ui.frag.overview.OverviewMenuFragment;
+import com.savantspender.ui.frag.settings.SettingsMenuFragment;
+import com.savantspender.ui.frag.transactions.TransactionMenuFragment;
 
 
 public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {

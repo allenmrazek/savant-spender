@@ -5,7 +5,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
-import com.savantspender.ui.frag.TransactionUnsortedFragment;
+import com.savantspender.ui.frag.transactions.TransactionUnsortedFragment;
 
 public class TransactionPagerAdapter extends FragmentPagerAdapter {
 

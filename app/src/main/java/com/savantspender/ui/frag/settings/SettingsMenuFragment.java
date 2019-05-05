@@ -1,4 +1,4 @@
-package com.savantspender.ui.frag;
+package com.savantspender.ui.frag.settings;
 
 import android.app.Activity;
 import android.content.Intent;
