@@ -15,6 +15,8 @@ import com.savantspender.db.converter.DateConverter;
 import com.savantspender.db.dao.AccountDao;
 import com.savantspender.db.dao.CataloggedDao;
 import com.savantspender.db.dao.EmployeeDao;
+import com.savantspender.db.dao.GoalDoa;
+import com.savantspender.db.dao.GoalTagTrackerDoa;
 import com.savantspender.db.dao.InstitutionDao;
 import com.savantspender.db.dao.ItemDao;
 import com.savantspender.db.dao.ProjectDao;
@@ -24,6 +26,8 @@ import com.savantspender.db.dao.WorksOnDao;
 import com.savantspender.db.entity.AccountEntity;
 import com.savantspender.db.entity.CataloggedEntity;
 import com.savantspender.db.entity.EmployeeEntity;
+import com.savantspender.db.entity.GoalEntity;
+import com.savantspender.db.entity.GoalTagTrackerEntity;
 import com.savantspender.db.entity.InstitutionEntity;
 import com.savantspender.db.entity.ItemEntity;
 import com.savantspender.db.entity.ProjectEntity;
@@ -44,7 +48,9 @@ import java.util.concurrent.Executors;
         InstitutionEntity.class,
         TagEntity.class,
         TransactionEntity.class,
-        CataloggedEntity.class
+        CataloggedEntity.class,
+        GoalEntity.class,
+        GoalTagTrackerEntity.class
 }, version = 2, exportSchema = false)
 @TypeConverters(DateConverter.class)
 @SuppressWarnings("deprecation")
@@ -63,6 +69,8 @@ public abstract class AppDatabase extends RoomDatabase {
     public abstract TagDao tagDao();
     public abstract TransactionDao transactionDao();
     public abstract CataloggedDao cataloggedDao();
+    public abstract GoalDoa goalDoa();
+    public abstract GoalTagTrackerDoa goalTagTrackerDoa();
 
     public static AppDatabase getInstance(final Context appContext, final AppExecutors executors) {
         if (mAppDatabase == null) {
