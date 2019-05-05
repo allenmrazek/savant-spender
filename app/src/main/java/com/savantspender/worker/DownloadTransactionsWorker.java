@@ -97,8 +97,16 @@ public class DownloadTransactionsWorker extends Worker {
 
 
             if (!response.isSuccessful()) {
+                // there are valid reasons to fail
+                //      PRODUCT_NOT_READY
+                //      more
+                // todo: graceful handling of these errors. Bad ones (invalid credentials) to be
+                // reported to user
+
                 // todo: better error reporting
                 Log.e("Spender", "failed to update account " + account.name + ": " + response.code() + ": " + response.message());
+
+                Log.e("Spender", response.errorBody().string());
 
                 return new ArrayList<>(); // don't modify any transactions
             }

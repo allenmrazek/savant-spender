@@ -14,6 +14,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.work.Constraints;
+import androidx.work.NetworkType;
 import androidx.work.OneTimeWorkRequest;
 import androidx.work.WorkManager;
 import androidx.work.WorkRequest;
@@ -146,7 +147,9 @@ public class SettingsFragment extends Fragment {
     private void scheduleTransactionUpdate(int minutes) {
         WorkRequest downloadTransactions =
                 new OneTimeWorkRequest.Builder(DownloadTransactionsWorker.class)
-                        .setConstraints(new Constraints.Builder().build())
+                        .setConstraints(new Constraints.Builder()
+                                .setRequiredNetworkType(NetworkType.CONNECTED)
+                                .build())
                         .addTag(getResources().getString(R.string.work_dl_trans_s))
                         .setInitialDelay(minutes, TimeUnit.MINUTES)
                         .build();
