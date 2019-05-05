@@ -1,12 +1,9 @@
 package com.savantspender.ui.adapter;
 
-import android.view.View;
-
-import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
-import androidx.viewpager.widget.PagerAdapter;
 
 import com.savantspender.ui.frag.TransactionUnsortedFragment;
 
@@ -31,6 +28,20 @@ public class TransactionPagerAdapter extends FragmentPagerAdapter {
 
             default:
                 return new TransactionUnsortedFragment();
+        }
+    }
+
+    @Nullable
+    @Override
+    public CharSequence getPageTitle(int position) {
+        switch (position) {
+            case 0:
+                return "Page 0";
+            case 1:
+                return "Page 1";
+
+            default:
+                return "Unknown";
         }
     }
 }

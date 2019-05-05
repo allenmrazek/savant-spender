@@ -10,28 +10,28 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager.widget.PagerAdapter;
+import androidx.viewpager.widget.ViewPager;
 
+import com.google.android.material.tabs.TabLayout;
 import com.savantspender.R;
-import com.savantspender.ui.adapter.TransactionViewAdapter;
+import com.savantspender.ui.adapter.TransactionPagerAdapter;
 import com.savantspender.viewmodel.TransactionViewModel;
 
 public class TransactionMenuFragment extends Fragment {
     private TransactionViewModel mViewModel;
-    private RecyclerView mRecycler;
-    private TransactionViewAdapter mAdapter;
-
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_menu_transactions, container, false);
 
-        mRecycler = view.findViewById(R.id.transactions_view);
-        mRecycler.setHasFixedSize(true);
-        mRecycler.setLayoutManager(new LinearLayoutManager(view.getContext()));
-        mAdapter = new TransactionViewAdapter();
-        mRecycler.setAdapter(mAdapter);
+        ViewPager pager = view.findViewById(R.id.pager);
+
+        pager.setAdapter(new TransactionPagerAdapter(getChildFragmentManager()));
+
+        TabLayout tabs = view.findViewById(R.id.pagerTabs);
+
+        tabs.setupWithViewPager(pager);
 
         return view;
     }
@@ -46,9 +46,5 @@ public class TransactionMenuFragment extends Fragment {
                         .of(this, new TransactionViewModel.Factory(getActivity().getApplication()))
                         .get(TransactionViewModel.class);
 
-        mViewModel.uncataloggedTransactions().observe(getViewLifecycleOwner(), i -> {
-            mAdapter.submitData(i);
-            mAdapter.notifyDataSetChanged();
-        });
     }
 }
