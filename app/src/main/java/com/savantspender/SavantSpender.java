@@ -1,8 +1,6 @@
 package com.savantspender;
 
 import android.app.Application;
-import android.content.Context;
-import android.util.Log;
 
 import androidx.work.Constraints;
 import androidx.work.ExistingPeriodicWorkPolicy;
@@ -12,9 +10,8 @@ import androidx.work.WorkManager;
 
 import com.savantspender.db.AppDatabase;
 import com.savantspender.model.DataRepository;
-import com.savantspender.worker.TestWorker;
+import com.savantspender.worker.DownloadTransactionsWorker;
 
-import java.util.concurrent.Executor;
 import java.util.concurrent.TimeUnit;
 
 public class SavantSpender extends Application {
@@ -49,9 +46,11 @@ public class SavantSpender extends Application {
                 .build();
 
         // todo: check setting option, limit to wifi if required
+        WorkManager.getInstance().cancelAllWorkByTag(periodicWorkTag);
+
 
         PeriodicWorkRequest downloadTransactions =
-                new PeriodicWorkRequest.Builder(TestWorker.class, 15, TimeUnit.MINUTES)
+                new PeriodicWorkRequest.Builder(DownloadTransactionsWorker.class, 15, TimeUnit.MINUTES)
                         .setConstraints(constraints)
                         .addTag(periodicWorkTag)
                         .build();

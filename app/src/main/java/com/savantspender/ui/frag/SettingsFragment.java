@@ -23,7 +23,7 @@ import com.savantspender.R;
 import com.savantspender.ui.LinkActivity;
 import com.savantspender.ui.MainActivity;
 import com.savantspender.viewmodel.SettingsViewModel;
-import com.savantspender.worker.TestWorker;
+import com.savantspender.worker.DownloadTransactionsWorker;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -145,7 +145,7 @@ public class SettingsFragment extends Fragment {
 
     private void scheduleTransactionUpdate(int minutes) {
         WorkRequest downloadTransactions =
-                new OneTimeWorkRequest.Builder(TestWorker.class)
+                new OneTimeWorkRequest.Builder(DownloadTransactionsWorker.class)
                         .setConstraints(new Constraints.Builder().build())
                         .addTag(getResources().getString(R.string.work_dl_trans_s))
                         .setInitialDelay(minutes, TimeUnit.MINUTES)
