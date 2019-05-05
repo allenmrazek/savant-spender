@@ -13,6 +13,7 @@ import androidx.sqlite.db.SupportSQLiteDatabase;
 import com.savantspender.AppExecutors;
 import com.savantspender.db.converter.DateConverter;
 import com.savantspender.db.dao.AccountDao;
+import com.savantspender.db.dao.CataloggedDao;
 import com.savantspender.db.dao.EmployeeDao;
 import com.savantspender.db.dao.InstitutionDao;
 import com.savantspender.db.dao.ItemDao;
@@ -61,6 +62,7 @@ public abstract class AppDatabase extends RoomDatabase {
     public abstract InstitutionDao institutionDao();
     public abstract TagDao tagDao();
     public abstract TransactionDao transactionDao();
+    public abstract CataloggedDao cataloggedDao();
 
     public static AppDatabase getInstance(final Context appContext, final AppExecutors executors) {
         if (mAppDatabase == null) {
