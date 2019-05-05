@@ -30,4 +30,19 @@ public class CataloggedEntity {
     public @NonNull String transactionId;
     public @NonNull String itemId;
     public int tagId;
+
+
+    public CataloggedEntity
+            (@NonNull String accountId,
+             @NonNull String transactionId,
+             @NonNull String itemId,
+             int tagId)
+    {
+        this.accountId = accountId;
+        this.transactionId = transactionId;
+        this.itemId = itemId;
+        this.tagId = tagId;
+
+    }
+
 }
