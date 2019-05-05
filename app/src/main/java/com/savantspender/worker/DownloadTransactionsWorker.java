@@ -1,6 +1,7 @@
 package com.savantspender.worker;
 
 import android.content.Context;
+import android.database.sqlite.SQLiteConstraintException;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -18,6 +19,8 @@ import com.savantspender.db.entity.TransactionEntity;
 import com.savantspender.util.PlaidUtil;
 
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -51,16 +54,21 @@ public class DownloadTransactionsWorker extends Worker {
 
             mClient = PlaidUtil.build();
 
+
             for (AccountEntity account : accounts) {
                 Log.i("Spender", "Downloading transaction details for " + account.name);
 
-                downloadTransactions(account);
+                List<TransactionEntity> downloaded = downloadTransactions(account);
 
-                // todo: do something with the transactions
+                // todo: transactionIds might have changed, could cause errors
+                try {
+                    mDatabase.transactionDao().insert(downloaded);
+                } catch (SQLiteConstraintException sqe) {
+                    Log.e("Spender", sqe.getMessage());
+                }
 
                 Log.i("Spender", "Finished download transaction details for " + account.name);
             }
-            // todo: determine success
 
             Log.i("Spender", "finished downloading transaction data for " + accounts.size() + " accounts");
 
@@ -76,9 +84,10 @@ public class DownloadTransactionsWorker extends Worker {
 
 
 
-    private List<TransactionEntity> downloadTransactions(AccountEntity account) throws IOException { // todo: better exception handling
+    private List<TransactionEntity> downloadTransactions(AccountEntity account) throws Exception, IOException { // todo: better exception handling
         String accessToken = mDatabase.itemDao().getAccessTokenSync(account.itemId);
         List<TransactionEntity> transactions = new ArrayList<>(NUM_TRANSACTIONS_DOWNLOAD_PER_CALL);
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 
         TransactionsGetRequest request =
                 new TransactionsGetRequest(accessToken, getStartDate(), getEndDate())
@@ -102,6 +111,8 @@ public class DownloadTransactionsWorker extends Worker {
                 //      more
                 // todo: graceful handling of these errors. Bad ones (invalid credentials) to be
                 // reported to user
+                if (response.code() > 400)
+                    throw new Exception("error " + response.code() + ": " + response.message() + ", " + response.errorBody().string());
 
                 // todo: better error reporting
                 Log.e("Spender", "failed to update account " + account.name + ": " + response.code() + ": " + response.message());
@@ -123,21 +134,26 @@ public class DownloadTransactionsWorker extends Worker {
             // convert into TransactionEntities
             for (TransactionsGetResponse.Transaction t : downloadedTransactions) {
                 // if (t.amount is negative ignore ?)
-//                transactions.add(
-//                        new TransactionEntity(
-//                                t.getTransactionId(),
-//                                t.getAccountId(),
-//                                account.itemId,
-//                                t.getName(),
-//                                t.getAmount(),
-//                                t.getPending(),
-//                                t.getDate()));
-                    Log.w("Spender", "Transaction: " + t.getAccountId() + " : " + t.getName() + ", " + t.getTransactionId());
 
+                try {
+                    transactions.add(
+                            new TransactionEntity(
+                                    t.getTransactionId(),
+                                    t.getAccountId(),
+                                    account.itemId,
+                                    t.getName(),
+                                    t.getAmount(),
+                                    t.getPending(),
+                                    formatter.parse(t.getDate())));
+                } catch (ParseException pe) {
+                    Log.e("Spender", "error parsing '" + t.getDate() + "'");
+                }
             }
+
+            Log.i("Spender", "downloaded " + offset + " of " + totalCount + " transactions for account " + account.name);
         } while (offset < totalCount);
 
-        return null; // todo
+        return transactions;
     }
 
 
@@ -153,12 +169,5 @@ public class DownloadTransactionsWorker extends Worker {
     private Date getEndDate() {
         Calendar calendar = Calendar.getInstance();
         return calendar.getTime();
-    }
-
-
-    private Date getDateFromString(@NonNull String date) {
-        //DateTimeFormatter formatter = new DateTimeFormatter();
-
-        return null;
     }
 }

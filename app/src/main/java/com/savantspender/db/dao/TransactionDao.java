@@ -7,6 +7,8 @@ import androidx.room.OnConflictStrategy;
 
 import com.savantspender.db.entity.TransactionEntity;
 
+import java.util.List;
+
 @Dao
 public interface TransactionDao {
     @Insert(onConflict = OnConflictStrategy.ABORT)
@@ -14,4 +16,8 @@ public interface TransactionDao {
 
     @Delete
     void delete(TransactionEntity transaction);
+
+    @Insert
+    void insert(List<TransactionEntity> transactions);
 }
+

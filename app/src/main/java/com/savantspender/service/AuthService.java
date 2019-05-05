@@ -45,6 +45,7 @@ public class AuthService extends Service {
         return null; // do not permit binding to outside services
     }
 
+    // foreground services require notifications
     protected Notification createNotification() {
         final String contentTitle = "Authenticating login details...";
 
