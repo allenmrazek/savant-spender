@@ -6,17 +6,13 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule;
 import androidx.room.Room;
 import androidx.test.core.app.ApplicationProvider;
 
-import com.savantspender.db.dao.EmployeeDao;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
-import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.junit.rules.TestRule;
 
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 
 public class DefaultDatabaseTest {
     protected AppDatabase mDatabase;

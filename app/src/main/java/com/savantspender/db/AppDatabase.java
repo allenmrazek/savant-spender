@@ -3,14 +3,7 @@ package com.savantspender.db;
 import android.content.Context;
 import android.util.Log;
 
-import androidx.annotation.MainThread;
 import androidx.annotation.NonNull;
-import androidx.lifecycle.Lifecycle;
-import androidx.lifecycle.LifecycleOwner;
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ProcessLifecycleOwner;
-import androidx.lifecycle.Transformations;
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
@@ -18,45 +11,21 @@ import androidx.room.TypeConverters;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import com.savantspender.AppExecutors;
-import com.savantspender.R;
-import com.savantspender.SavantSpender;
 import com.savantspender.db.converter.DateConverter;
 import com.savantspender.db.dao.AccountDao;
-import com.savantspender.db.dao.EmployeeDao;
 import com.savantspender.db.dao.InstitutionDao;
 import com.savantspender.db.dao.ItemDao;
-import com.savantspender.db.dao.ProjectDao;
 import com.savantspender.db.dao.TagDao;
 import com.savantspender.db.dao.TransactionDao;
-import com.savantspender.db.dao.WorksOnDao;
 import com.savantspender.db.entity.AccountEntity;
 import com.savantspender.db.entity.CataloggedEntity;
-import com.savantspender.db.entity.EmployeeEntity;
 import com.savantspender.db.entity.InstitutionEntity;
 import com.savantspender.db.entity.ItemEntity;
-import com.savantspender.db.entity.ProjectEntity;
 import com.savantspender.db.entity.TagEntity;
 import com.savantspender.db.entity.TransactionEntity;
-import com.savantspender.db.entity.WorksOnEntity;
-
-import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
-
-import io.reactivex.Completable;
-import io.reactivex.Flowable;
-import io.reactivex.Maybe;
-import io.reactivex.MaybeObserver;
-import io.reactivex.Observable;
-import io.reactivex.Scheduler;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.schedulers.Schedulers;
 
 
 @Database(entities = {
-        EmployeeEntity.class,
-        WorksOnEntity.class,
-        ProjectEntity.class,
-
         ItemEntity.class,
         AccountEntity.class,
         InstitutionEntity.class,
@@ -70,10 +39,6 @@ public abstract class AppDatabase extends RoomDatabase {
     private static AppDatabase mAppDatabase;
     private static final String DATABASE_NAME = "SavantSpenderDB";
 
-
-    public abstract EmployeeDao employeeDao();
-    public abstract WorksOnDao worksOnDao();
-    public abstract ProjectDao projectDao();
 
     public abstract ItemDao itemDao();
     public abstract AccountDao accountDao();
