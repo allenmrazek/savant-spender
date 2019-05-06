@@ -9,8 +9,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.savantspender.Event;
 import com.savantspender.R;
 import com.savantspender.db.entity.Transaction;
 
@@ -19,6 +22,8 @@ import java.util.List;
 
 public class TransactionViewAdapter extends RecyclerView.Adapter<TransactionViewAdapter.ViewHolder> {
     private List<? extends Transaction> mData = new LinkedList<>();
+    private final MutableLiveData<Event<Integer>> mSelectionsChanged = new MutableLiveData<>();
+    private int mSelections = 0;
 
     @NonNull
     @Override
@@ -42,15 +47,14 @@ public class TransactionViewAdapter extends RecyclerView.Adapter<TransactionView
     private void onViewHolderClick(ViewHolder whichVh) {
         int pos = whichVh.getAdapterPosition();
 
-        Log.e("Spender", "viewholder " + pos + " clicked");
-
         // toggle selection
         boolean newState = !mData.get(pos).isSelected();
 
-        Log.e("Spender", "  is now " + newState);
-
         mData.get(pos).setSelected(newState);
         whichVh.bind(newState);
+
+        mSelections += newState ? 1 : -1;
+        mSelectionsChanged.postValue(new Event<Integer>(new Integer(mSelections)));
     }
 
 
@@ -63,8 +67,16 @@ public class TransactionViewAdapter extends RecyclerView.Adapter<TransactionView
 
     public void submitData(@NonNull List<? extends Transaction> transactions) {
         mData = transactions;
+        mSelections = 0;
 
         notifyDataSetChanged();
+
+        mSelectionsChanged.postValue(new Event<Integer>(new Integer(0)));
+    }
+
+
+    public LiveData<Event<Integer>> selectionChanged() {
+        return mSelectionsChanged;
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {

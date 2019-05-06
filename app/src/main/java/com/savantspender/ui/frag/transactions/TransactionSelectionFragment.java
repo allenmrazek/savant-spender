@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.savantspender.R;
 import com.savantspender.ui.frag.transactions.adapter.TransactionViewAdapter;
 import com.savantspender.viewmodel.TransactionViewModel;
@@ -20,6 +21,7 @@ public abstract class TransactionSelectionFragment extends Fragment {
     protected TransactionViewModel mViewModel;
     protected RecyclerView mRecyclerView;
     protected TransactionViewAdapter mAdapter;
+    private FloatingActionButton mFloatingButton;
 
     @Nullable
     @Override
@@ -31,13 +33,16 @@ public abstract class TransactionSelectionFragment extends Fragment {
 
 
         mAdapter = new TransactionViewAdapter();
-        mAdapter.setHasStableIds(true);
 
         mRecyclerView = view.findViewById(R.id.transactionList);
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.setHasFixedSize(true);
 
+
+        mFloatingButton = view.findViewById(R.id.btnFloating);
+
+        toggleFloatingButton(false);
 
         return view;
     }
@@ -47,8 +52,17 @@ public abstract class TransactionSelectionFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         mViewModel = ViewModelProviders.of(getActivity(), new TransactionViewModel.Factory(getActivity().getApplication())).get(TransactionViewModel.class);
 
+        mFloatingButton.setOnClickListener(v -> onFloatingButtonClicked());
+
         initObservers();
     }
 
+    protected void toggleFloatingButton(boolean visible) {
+        if (visible)
+            mFloatingButton.show();
+        else mFloatingButton.hide();
+    }
+
     protected abstract void initObservers();
+    protected abstract void onFloatingButtonClicked();
 }
