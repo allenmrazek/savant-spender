@@ -3,19 +3,24 @@ package com.savantspender.db.entity;
 
 import androidx.annotation.NonNull;
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.Index;
+import androidx.room.Insert;
 import androidx.room.PrimaryKey;
 
 import java.util.TreeMap;
 
 @Entity(tableName = "tags",
     indices = { @Index("id"), @Index(value = "name", unique = true) })
-public class TagEntity {
+public class TagEntity implements Tag {
     @PrimaryKey
     int id;
 
     @NonNull
     protected String name;
+
+    @Ignore
+    public boolean selected = false;
 
     public TagEntity(int id, @NonNull String name) {
         this.id = id;
@@ -29,6 +34,16 @@ public class TagEntity {
     @NonNull
     public String getName() {
         return name;
+    }
+
+    @Override
+    public void setSelected(boolean tf) {
+        selected = tf;
+    }
+
+    @Override
+    public boolean isSelected() {
+        return selected;
     }
 }
 
