@@ -14,7 +14,7 @@ import java.util.List;
 
 @Dao
 public interface AccountDao {
-    @Insert(onConflict = OnConflictStrategy.ABORT)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insert(AccountEntity entity);
 
     @Delete
@@ -25,6 +25,9 @@ public interface AccountDao {
 
     @Query("SELECT * FROM accounts")
     LiveData<List<AccountEntity>> getAllAccounts();
+
+    @Query("SELECT * FROM accounts WHERE id != \"manual_account\"")
+    List<AccountEntity> getAccountsSync();
 
     @Query("SELECT * FROM accounts WHERE itemId = :itemId")
     LiveData<List<AccountEntity>> getAccounts(@NonNull String itemId);

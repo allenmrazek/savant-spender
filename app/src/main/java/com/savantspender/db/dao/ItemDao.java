@@ -15,7 +15,7 @@ import java.util.List;
 @Dao
 public interface ItemDao {
 
-    @Insert(onConflict = OnConflictStrategy.ABORT)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insert(ItemEntity entity);
 
     @Query("SELECT * FROM items")
@@ -24,4 +24,9 @@ public interface ItemDao {
 
     @Delete
     void delete(ItemEntity entity);
+
+
+    @Query("SELECT access_token FROM items WHERE id == :itemId")
+    String getAccessTokenSync(@NonNull String itemId);
+
 }
