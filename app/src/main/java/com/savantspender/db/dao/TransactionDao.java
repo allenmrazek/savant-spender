@@ -49,14 +49,13 @@ public abstract class TransactionDao {
     @Query("SELECT CASE WHEN EXISTS (SELECT * FROM transactions WHERE id = :transId) THEN 1 ELSE 0 END")
     public abstract boolean exists(@NonNull String transId);
 
+    @Query("SELECT * FROM transactions WHERE id NOT IN " +
+            "(SELECT transactionId FROM catalogged)")
+    public abstract LiveData<List<TransactionEntity>> getTransactionsWOTags();
     //@Query("")
     //List<TransactionEntity> get_this_month(Date date); ///I dont know how to do type converters but this wil likely be usefull
 
-    //find by date
 
-    //find by goal
-
-    //find by no tags
 
 
 
