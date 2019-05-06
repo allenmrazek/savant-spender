@@ -2,8 +2,6 @@ package com.savantspender.db;
 
 import android.database.sqlite.SQLiteConstraintException;
 
-import androidx.lifecycle.LiveData;
-
 import com.savantspender.LiveDataTestUtil;
 import com.savantspender.db.dao.AccountDao;
 import com.savantspender.db.dao.CataloggedDao;
@@ -21,7 +19,6 @@ import com.savantspender.db.entity.TransactionEntity;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.io.IOException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -168,7 +165,7 @@ public class TransactionTest extends DefaultDatabaseTest {
     @Test
     public void get_sorted_transactions_none() throws InterruptedException {
         // shouldn't be any by default
-        List<TransactionEntity> transactions = LiveDataTestUtil.getValue(mTransactions.getSortedTransactions());
+        List<TransactionEntity> transactions = LiveDataTestUtil.getValue(mTransactions.getTaggedTransactions());
 
         assertThat(transactions.size(), equalTo(0));
     }
@@ -188,7 +185,7 @@ public class TransactionTest extends DefaultDatabaseTest {
         mDatabase.cataloggedDao().insert(new CataloggedEntity(AccountId, "testtransid", ItemId, tag.getId()));
 
         // make sure we get it back
-        List<TransactionEntity> transactions = LiveDataTestUtil.getValue(mTransactions.getSortedTransactions());
+        List<TransactionEntity> transactions = LiveDataTestUtil.getValue(mTransactions.getTaggedTransactions());
 
         assertThat(transactions.size(), equalTo(1));
 
@@ -219,7 +216,7 @@ public class TransactionTest extends DefaultDatabaseTest {
         mDatabase.cataloggedDao().insert(new CataloggedEntity(AccountId, "testtransid", ItemId, tag2.getId()));
 
         // make sure we get it back (a _single_ transaction)
-        List<TransactionEntity> transactions = LiveDataTestUtil.getValue(mTransactions.getSortedTransactions());
+        List<TransactionEntity> transactions = LiveDataTestUtil.getValue(mTransactions.getTaggedTransactions());
 
         assertThat(transactions.size(), equalTo(1));
 

@@ -1,15 +1,11 @@
 package com.savantspender.model;
 
 
-import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MediatorLiveData;
 
 import com.savantspender.db.AppDatabase;
-import com.savantspender.db.entity.CataloggedEntity;
 import com.savantspender.db.entity.TransactionEntity;
 
-import java.util.Arrays;
 import java.util.List;
 
 public class DataRepository {
@@ -40,11 +36,11 @@ public class DataRepository {
     }
 
     public LiveData<List<TransactionEntity>> unsortedTransactions() {
-        return mDatabase.transactionDao().getUnsortedTransactions();
+        return mDatabase.transactionDao().getUntaggedTransactions();
     }
 
     public LiveData<List<TransactionEntity>> sortedTransactions() {
-        return mDatabase.transactionDao().getSortedTransactions();
+        return mDatabase.transactionDao().getTaggedTransactions();
     }
 
 

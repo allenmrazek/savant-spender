@@ -66,6 +66,7 @@ public abstract class AppDatabase extends RoomDatabase {
 
                 executors.diskIO().execute(() -> {
                     mAppDatabase.insertManualTransactionDummyEntries();
+                    mAppDatabase.insertDefaultTags();
                 });
             }
         }
@@ -76,6 +77,7 @@ public abstract class AppDatabase extends RoomDatabase {
     public void resetDatabase() {
         clearAllTables();
         insertManualTransactionDummyEntries();
+        insertDefaultTags();
     }
 
     private void insertManualTransactionDummyEntries() {
@@ -88,6 +90,20 @@ public abstract class AppDatabase extends RoomDatabase {
         mAppDatabase.accountDao().insert(
                 new AccountEntity(
                         "manual_account", "manual_item_id", "Manual Entry"));
+    }
+
+    private void insertDefaultTags() {
+        TagDao tagDao = mAppDatabase.tagDao();
+
+        String[] defaultTags = new String[] {
+                "Food", "Fuel", "Fun", "Fast Food"
+        };
+
+        int counter = 0;
+
+        for (String tag : defaultTags) {
+            tagDao.insert(new TagEntity(counter++, tag));
+        }
     }
 
 
