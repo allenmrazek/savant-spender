@@ -1,18 +1,33 @@
 package com.savantspender.viewmodel;
 
+import android.app.Application;
 import android.util.Log;
 
+import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
+import androidx.lifecycle.ViewModelProvider;
 
+import com.savantspender.SavantSpender;
+import com.savantspender.db.AppDatabase;
+import com.savantspender.db.entity.CataloggedEntity;
 import com.savantspender.db.entity.Tag;
 import com.savantspender.db.entity.Transaction;
+import com.savantspender.db.entity.TransactionEntity;
 
 import java.util.List;
+import java.util.concurrent.Executor;
 
 public class CategorizerViewModel extends ViewModel {
     private final MutableLiveData<List<? extends Transaction>> mToCategorize = new MutableLiveData<>();
+    private final AppDatabase mDatabase;
+    private final Executor mDiskIO;
+
+    public CategorizerViewModel(@NonNull AppDatabase database, @NonNull Executor diskIO) {
+        mDatabase = database;
+        mDiskIO = diskIO;
+    }
 
     public void setTransactions(List<? extends Transaction> transactions) {
         mToCategorize.postValue(transactions);
@@ -22,7 +37,49 @@ public class CategorizerViewModel extends ViewModel {
         return mToCategorize;
     }
 
-    public void categorize(List<? extends Tag> usingTags) {
-        Log.e("Spender", "would categorize using " + usingTags.size() + " tags");
+    public void categorize(List<? extends Tag> usingTags, List<? extends Transaction> transactions) {
+        mDiskIO.execute(() -> {
+
+            try {
+                mDatabase.beginTransaction();
+
+                for (Transaction transaction : transactions) {
+                    TransactionEntity te = (TransactionEntity) transaction;
+
+                    for (Tag tag : usingTags) {
+                        mDatabase.cataloggedDao().insert(
+                                new CataloggedEntity(
+                                        te.accountId,
+                                        te.id,
+                                        te.itemId,
+                                        tag.getId()
+                                ));
+                        Log.i("Spender", "Categorized " + transaction.getName() + " as " + tag.getName());
+                    }
+                }
+                mDatabase.setTransactionSuccessful();
+
+            } finally {
+                mDatabase.endTransaction();
+            }
+
+        });
+    }
+
+
+    public static class Factory extends ViewModelProvider.NewInstanceFactory {
+        @NonNull
+        private final SavantSpender mApplication;
+
+        public Factory(@NonNull Application application) {
+            mApplication = (SavantSpender)application;
+        }
+
+        @Override
+        @SuppressWarnings("unchecked")
+        public <T extends ViewModel> T create(Class<T> modelClass) {
+            //noinspection unchecked
+            return (T) new CategorizerViewModel(mApplication.getDatabase(), mApplication.getExecutors().diskIO());
+        }
     }
 }

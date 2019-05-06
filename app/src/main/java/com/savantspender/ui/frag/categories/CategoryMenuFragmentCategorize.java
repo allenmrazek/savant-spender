@@ -15,6 +15,7 @@ import com.savantspender.R;
 import com.savantspender.db.entity.Tag;
 import com.savantspender.db.entity.Transaction;
 import com.savantspender.viewmodel.CategorizerViewModel;
+import com.savantspender.viewmodel.CategoryViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,7 +33,7 @@ public class CategoryMenuFragmentCategorize extends CategoryMenuFragmentBase {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View result = super.onCreateView(inflater, container, savedInstanceState);
 
-        mCategorizerViewModel = ViewModelProviders.of(this).get(CategorizerViewModel.class);
+        mCategorizerViewModel = ViewModelProviders.of(this, new CategorizerViewModel.Factory(getActivity().getApplication())).get(CategorizerViewModel.class);
 
         if (mContainer != null)
             mCategorizerViewModel.setTransactions(mContainer);
@@ -54,7 +55,7 @@ public class CategoryMenuFragmentCategorize extends CategoryMenuFragmentBase {
             if (tag.isSelected())
                 tags.add(tag);
 
-        mCategorizerViewModel.categorize(tags);
+        mCategorizerViewModel.categorize(tags, mContainer);
         getActivity().getSupportFragmentManager().popBackStack();
     }
 
