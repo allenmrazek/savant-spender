@@ -48,6 +48,7 @@ public class CategoryMenuFragment extends Fragment {
             for (long c = 0; c < numCols; ++c) {
                 View item = inflater.inflate(R.layout.listitem_category, tr, false);
 
+                item.setActivated(r % 6 == 0);
                 tr.addView(item);
             }
 
