@@ -55,14 +55,19 @@ public class CategoryMenuFragment extends Fragment {
 
             for (int c = 0; c < 4; ++c) {
                 /* Create a new row to be added. */
+                View item = inflater.inflate(R.layout.listitem_category, tr, false);
+
+                tr.addView(item);
 
 
-                /* Create a Button to be the row-content. */
-                Button b = new Button(getContext());
-                b.setText("Dynamic Button");
-                b.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT));
+//                /* Create a Button to be the row-content. */
+//                Button b = new Button(getContext());
+                //b.setText("Dynamic Button");
+                //b.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT));
+
+
                 /* Add Button to row. */
-                tr.addView(b);
+                //tr.addView(b);
             }
             /* Add row to TableLayout. */
 //tr.setBackgroundResource(R.drawable.sf_gradient_03);
