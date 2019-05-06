@@ -1,10 +1,8 @@
 package com.savantspender.db;
 
-import androidx.lifecycle.LiveData;
-
 import com.savantspender.LiveDataTestUtil;
-import com.savantspender.db.dao.GoalDoa;
-import com.savantspender.db.dao.GoalTagTrackerDoa;
+import com.savantspender.db.dao.GoalDao;
+import com.savantspender.db.dao.GoalTagTrackerDao;
 import com.savantspender.db.dao.TagDao;
 import com.savantspender.db.entity.GoalEntity;
 import com.savantspender.db.entity.GoalTagTrackerEntity;
@@ -21,7 +19,7 @@ import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 
 public class GoalTest extends DefaultDatabaseTest {
-    public GoalDoa goalDoa;
+    public GoalDao goalDao;
     public GoalEntity inputE0 = new GoalEntity("goa0",1.00);
     public GoalEntity inputE1 = new GoalEntity("goa1",2.00);
     public int tagId0 = 0;
@@ -32,9 +30,9 @@ public class GoalTest extends DefaultDatabaseTest {
     public void createDb() {
         super.createDb();
         //inicalizing DOAs
-        GoalTagTrackerDoa goalTagTrackerDoa = mDatabase.goalTagTrackerDoa();
+        GoalTagTrackerDao goalTagTrackerDao = mDatabase.goalTagTrackerDoa();
         TagDao tagDao = mDatabase.tagDao();
-        this.goalDoa = mDatabase.goalDoa();
+        this.goalDao = mDatabase.goalDoa();
 
         //inicalizing entities
         GoalTagTrackerEntity goalTagTrackerE0 = new GoalTagTrackerEntity(this.inputE0.name,this.tagId0);
@@ -45,10 +43,10 @@ public class GoalTest extends DefaultDatabaseTest {
         //insertions
         tagDao.insert(tagE0);
         tagDao.insert(tagE1);
-        this.goalDoa.insert(this.inputE0);
-        this.goalDoa.insert(this.inputE1);
-        goalTagTrackerDoa.insert(goalTagTrackerE0);
-        goalTagTrackerDoa.insert(goalTagTrackerE1);
+        this.goalDao.insert(this.inputE0);
+        this.goalDao.insert(this.inputE1);
+        goalTagTrackerDao.insert(goalTagTrackerE0);
+        goalTagTrackerDao.insert(goalTagTrackerE1);
 
     }
 
@@ -58,17 +56,17 @@ public class GoalTest extends DefaultDatabaseTest {
     @Test
     public void delete() throws InterruptedException
     {
-        this.goalDoa.delete(this.inputE1);
-        List<GoalEntity> outputEs = LiveDataTestUtil.getValue(this.goalDoa.getAll());
+        this.goalDao.delete(this.inputE1);
+        List<GoalEntity> outputEs = LiveDataTestUtil.getValue(this.goalDao.getAll());
         GoalEntity outputE = outputEs.get(0);
         assertThat(outputEs.size(),is(equalTo(1)));
-        assertThat(outputE,is(instanceOf(GoalTagTrackerEntity.class)));
+        assertThat(outputE,is(instanceOf(GoalEntity.class)));
     }
 
     @Test
     public void getTags4Goal() throws InterruptedException
     {
-        List<TagEntity> outputEs = LiveDataTestUtil.getValue(this.goalDoa.getTags4Goal(this.inputE0.name));
+        List<TagEntity> outputEs = LiveDataTestUtil.getValue(this.goalDao.getTags4Goal(this.inputE0.name));
         TagEntity outputE = outputEs.get(0);
         assertThat(outputE,is(instanceOf(TagEntity.class)));
         assertThat(outputE.getId(),is(equalTo(this.tagId0)));

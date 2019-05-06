@@ -13,6 +13,7 @@ import com.savantspender.db.dao.TagDao;
 import com.savantspender.db.dao.TransactionDao;
 import com.savantspender.db.entity.AccountEntity;
 import com.savantspender.db.entity.CataloggedEntity;
+import com.savantspender.db.entity.GoalEntity;
 import com.savantspender.db.entity.InstitutionEntity;
 import com.savantspender.db.entity.ItemEntity;
 import com.savantspender.db.entity.TagEntity;
@@ -57,6 +58,27 @@ public class TransactionTest extends DefaultDatabaseTest {
         mDatabase.accountDao().insert(new AccountEntity(AccountId, ItemId, "account_name_here"));
 
         mTransactions = mDatabase.transactionDao();
+    }
+    @Test
+    public void getTransactionsByGoal() throws InterruptedException
+    {
+        //prepopulate database
+        super.fullpopulate(5);
+        GoalEntity inputE = super.goalGenorator(0);
+        List<TransactionEntity> outputEs = LiveDataTestUtil.getValue(mTransactions.getTransactionsByGoal(inputE.name));
+        TransactionEntity outputE = outputEs.get(0);
+        TransactionEntity expectedE = super.transactionGenorator(0);
+        this.fullTransactionVerifier(outputE,expectedE);
+    }
+    public void fullTransactionVerifier(TransactionEntity outputE, TransactionEntity expectedE)
+    {
+        assertThat(outputE,is(instanceOf(TransactionEntity.class)));
+        assertThat(outputE.id,is(equalTo(expectedE.id)));
+        assertThat(outputE.pending,is(equalTo(expectedE.pending)));
+        assertThat(outputE.name,is(equalTo(expectedE.name)));
+        assertThat(outputE.amount,is(equalTo(expectedE.amount)));
+        assertThat(outputE.accountId,is(equalTo(expectedE.accountId)));
+        assertThat(outputE.itemId,is(equalTo(expectedE.itemId)));
     }
 
     @Test
@@ -155,6 +177,13 @@ public class TransactionTest extends DefaultDatabaseTest {
 
         mTransactions.insert(new TransactionEntity(TransId, AccountId, ItemId, "some transaction", 456f, false, CurrentDate));
         mTransactions.insert(new TransactionEntity(TransId, AccountId, ItemId, "different trans name", 456f, false, CurrentDate));
+    }
+
+    @Test
+    public void check_exists() {
+        mTransactions.insert(new TransactionEntity("id", AccountId, ItemId, "name", 0f, false, CurrentDate));
+
+        assertThat(mTransactions.exists("id"), is(true));
     }
 
 }

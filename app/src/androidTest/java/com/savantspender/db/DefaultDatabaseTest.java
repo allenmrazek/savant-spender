@@ -6,6 +6,7 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule;
 import androidx.room.Room;
 import androidx.test.core.app.ApplicationProvider;
 
+import com.savantspender.db.dao.InstitutionDao;
 import com.savantspender.db.entity.AccountEntity;
 import com.savantspender.db.entity.CataloggedEntity;
 import com.savantspender.db.entity.GoalEntity;
@@ -28,6 +29,20 @@ import java.util.Date;
 
 public class DefaultDatabaseTest {
     protected AppDatabase mDatabase;
+    //valid naming numonics just update here to change unless otherwise noted
+    protected String tagName = "tagName";
+    protected String institutionId = "institution";
+    protected String institutionName = "bank";
+    String itemId = "item";
+    String token = "token";
+    String accountId = "account";
+    String accountName = "accountName";
+    String goalId = "goal";
+    double dollarValue = 1.00; //updating here will error
+    String transactionId = "transaction";
+    String transactionName = "transactionName";
+    boolean pending; //updating here will error
+    //Tagid not included as it is just the input value
 
     @Rule
     public TestRule rule = new InstantTaskExecutorRule();
@@ -48,79 +63,113 @@ public class DefaultDatabaseTest {
         mDatabase.close();
     }
 
-    @Test
-    public void tester()throws InterruptedException
+
+    public void fullpopulate(int amount) throws InterruptedException
     {
-     prepopulateDB("Tag",1);
+        prepopulateDB("Tag",amount);
+        prepopulateDB("Institution",amount);
+        prepopulateDB("Item",amount);
+        prepopulateDB("Account",amount);
+        prepopulateDB("Transaction",amount);
+        prepopulateDB("Goal",amount);
+        prepopulateDB("Catalogged",amount);
+        prepopulateDB("GoalTagTracker",amount);
+
+    }
+    public TagEntity tagGenorator(int i)
+    {
+        int tagId = i;
+        tagName = this.tagName + Integer.toString(i);
+        return new TagEntity(tagId,tagName);
+    }
+
+    public InstitutionEntity institutionGenorator(int i)
+    {
+        String institutionId = this.institutionId + Integer.toString(i);
+        String bankName = this.institutionName + Integer.toString(i);
+        return new InstitutionEntity(institutionId,bankName);
+    }
+
+    public ItemEntity itemGenorator(int i)
+    {
+        String itemId = this.itemId + Integer.toString(i);
+        String institutionId = this.institutionId + Integer.toString(i);
+        String token = this.token + Integer.toString(i);
+        return new ItemEntity(itemId,institutionId,token);
+    }
+
+    public AccountEntity accountGenorator(int i)
+    {
+        String accountId =  this.accountId + Integer.toString(i);
+        String itemId = this.itemId + Integer.toString(i);
+        String accountName = this.accountName + Integer.toString(i);
+        return new AccountEntity(accountId,itemId,accountName);
+    }
+
+    public GoalEntity goalGenorator(int i)
+    {
+        String goalId = this.goalId + Integer.toString(i);
+        double dollar_amount = this.dollarValue + (double)i;
+        return new GoalEntity(goalId,dollar_amount);
+    }
+
+    public CataloggedEntity cataloggedGenorator(int i)
+    {
+        String accountId =  this.accountId + Integer.toString(i);
+        String itemId = this.itemId + Integer.toString(i);
+        String transactionId = this.transactionId + Integer.toString(i);
+        int tagId = i;
+        return new CataloggedEntity(accountId,transactionId,itemId,tagId);
+    }
+
+    public GoalTagTrackerEntity goalTagTrackerGenorator(int i)
+    {
+        String goalId = this.goalId + Integer.toString(i);
+        int tagId = i;
+        return new GoalTagTrackerEntity(goalId,tagId);
+    }
+
+    public TransactionEntity transactionGenorator(int i)
+    {
+        String transactionId = this.transactionId + Integer.toString(i);
+        String accountId = this.accountId + Integer.toString(i);
+        String itemId = this.itemId + Integer.toString(i);
+        String transactionName = this.transactionName + Integer.toString(i);
+        double dollarValue = this.dollarValue + (double)i;
+        Date date = Calendar.getInstance().getTime();
+        if (i % 2 == 0)  {this.pending = true;}
+        else {this.pending = false;}
+        return new TransactionEntity(transactionId,accountId,itemId,transactionName,dollarValue,this.pending,date);
     }
 
     public void prepopulateDB(String Entity, int amount) throws InterruptedException
     {
-        int tagId;
-        String tagName;
-        String institutionId;
-        String bankName;
-        String itemId;
-        String token;
-        String accountId;
-        String accountName;
-        String goalId;
-        double dollar_amount;
-        String transactionId;
-        boolean pending;
-        Date date;
-        String transactionName;
         for (int i = 0; i <= amount; i++) {
             switch (Entity) {
                  case "Tag":
-                     tagId = amount;
-                     tagName = "tag" + Integer.toString(amount);
-                     mDatabase.tagDao().insert(new TagEntity(tagId,tagName));
+                     mDatabase.tagDao().insert(this.tagGenorator(i));
                      break;
                  case "Institution":
-                     institutionId = "institution" + Integer.toString(amount);
-                     bankName = "bank" + Integer.toString(amount);
-                     mDatabase.institutionDao().insert(new InstitutionEntity(institutionId,bankName));
+                     mDatabase.institutionDao().insert(this.institutionGenorator(i));
                      break;
                 case "Item":
-                    itemId = "item" + Integer.toString(amount);
-                    institutionId = "institution" + Integer.toString(amount);
-                    token = "token" + Integer.toString(amount);
-                     mDatabase.itemDao().insert(new ItemEntity(itemId,institutionId,token));
+                     mDatabase.itemDao().insert(this.itemGenorator(i));
                        break;
                  case "Account":
-                     accountId =  "account" + Integer.toString(amount);
-                     itemId = "item" + Integer.toString(amount);
-                     accountName = "accountName" + Integer.toString(amount);
-                     mDatabase.accountDao().insert(new AccountEntity(accountId,itemId,accountName));
+                     mDatabase.accountDao().insert(this.accountGenorator(i));
                       break;
                   case "Goal":
-                      goalId = "goal" + Integer.toString(amount);
-                      dollar_amount = (double)amount + 1.00;
-                      mDatabase.goalDoa().insert(new GoalEntity(goalId,dollar_amount));
+                      mDatabase.goalDoa().insert(this.goalGenorator(i));
                        break;
                  case "Transaction":
-                     transactionName = "transactionName" + Integer.toString(amount);
-                     accountId =  "account" + Integer.toString(amount);
-                     itemId = "item" + Integer.toString(amount);
-                     dollar_amount = (double)amount + 1.00;
-                     transactionId = "transaction" + Integer.toString(amount);
-                     date = Calendar.getInstance().getTime();
-                     if (amount % 2 == 0)  {pending = true;}
-                     else {pending = false;}
-                     mDatabase.transactionDao().insert(new TransactionEntity(transactionId,accountId,itemId,transactionName,dollar_amount,pending,date));
+
+                     mDatabase.transactionDao().insert(this.transactionGenorator(i));
                         break;
                   case "Catalogged":
-                      accountId =  "account" + Integer.toString(amount);
-                      itemId = "item" + Integer.toString(amount);
-                      transactionId = "transaction" + Integer.toString(amount);
-                      tagId = amount;
-                      mDatabase.cataloggedDao().insert(new CataloggedEntity(accountId,transactionId,itemId,tagId));
+                      mDatabase.cataloggedDao().insert(this.cataloggedGenorator(i));
                      break;
                  case "GoalTagTracker":
-                     goalId = "goal" + Integer.toString(amount);
-                     tagId = amount;
-                     mDatabase.goalTagTrackerDoa().insert(new GoalTagTrackerEntity(goalId,tagId));
+                     mDatabase.goalTagTrackerDoa().insert(this.goalTagTrackerGenorator(i));
                       break;
             }
         }

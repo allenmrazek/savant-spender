@@ -1,7 +1,7 @@
 package com.savantspender.db;
 
-import com.savantspender.db.dao.GoalDoa;
-import com.savantspender.db.dao.GoalTagTrackerDoa;
+import com.savantspender.db.dao.GoalDao;
+import com.savantspender.db.dao.GoalTagTrackerDao;
 import com.savantspender.db.dao.TagDao;
 import com.savantspender.db.entity.GoalEntity;
 import com.savantspender.db.entity.GoalTagTrackerEntity;
@@ -18,7 +18,7 @@ import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 
 public class GoalTagTrackerTest extends DefaultDatabaseTest {
-    public GoalTagTrackerDoa goalTagTrackerDoa;
+    public GoalTagTrackerDao goalTagTrackerDao;
     public GoalTagTrackerEntity inputE0 = new GoalTagTrackerEntity("goal",0);
     public GoalTagTrackerEntity inputE1 = new GoalTagTrackerEntity("goal1",1);
 
@@ -32,9 +32,9 @@ public class GoalTagTrackerTest extends DefaultDatabaseTest {
         int tagId1 = 1;
 
         //inicalizing DOAs
-        this.goalTagTrackerDoa = mDatabase.goalTagTrackerDoa();
+        this.goalTagTrackerDao = mDatabase.goalTagTrackerDoa();
         TagDao tagDao = mDatabase.tagDao();
-        GoalDoa goalDoa = mDatabase.goalDoa();
+        GoalDao goalDao = mDatabase.goalDoa();
 
         //inicalizing entities
         GoalEntity goalE0 = new GoalEntity(this.inputE0.goalId,1.00);
@@ -45,10 +45,10 @@ public class GoalTagTrackerTest extends DefaultDatabaseTest {
         //insertions
         tagDao.insert(tagE0);
         tagDao.insert(tagE1);
-        goalDoa.insert(goalE0);
-        goalDoa.insert(goalE1);
-        this.goalTagTrackerDoa.insert(this.inputE0);
-        this.goalTagTrackerDoa.insert(this.inputE1);
+        goalDao.insert(goalE0);
+        goalDao.insert(goalE1);
+        this.goalTagTrackerDao.insert(this.inputE0);
+        this.goalTagTrackerDao.insert(this.inputE1);
 
     }
 
@@ -58,8 +58,8 @@ public class GoalTagTrackerTest extends DefaultDatabaseTest {
     @Test
     public void delete()
     {
-        this.goalTagTrackerDoa.delete(this.inputE1);
-        List<GoalTagTrackerEntity> outputEs = this.goalTagTrackerDoa.getAll();
+        this.goalTagTrackerDao.delete(this.inputE1);
+        List<GoalTagTrackerEntity> outputEs = this.goalTagTrackerDao.getAll();
         GoalTagTrackerEntity outputE = outputEs.get(0);
         assertThat(outputEs.size(),is(equalTo(1)));
         assertThat(outputE,is(instanceOf(GoalTagTrackerEntity.class)));
