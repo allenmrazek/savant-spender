@@ -5,13 +5,16 @@ import androidx.room.Entity;
 import androidx.room.ForeignKey;
 import androidx.room.Index;
 
+import static androidx.room.ForeignKey.CASCADE;
+
 @Entity(
  tableName = "goaltagtacker",
          foreignKeys = {
 @ForeignKey(
         parentColumns = "name",
         childColumns = "goalId",
-        entity = GoalEntity.class),
+        entity = GoalEntity.class,
+        onDelete = CASCADE),
 @ForeignKey(
         parentColumns = "id",
         childColumns = "tagId",
