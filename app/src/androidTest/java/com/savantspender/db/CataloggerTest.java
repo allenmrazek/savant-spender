@@ -36,7 +36,7 @@ public class CataloggerTest extends DefaultDatabaseTest {
 
     @Before
     @Override
-    public void createDb() {
+    public void createDb() throws InterruptedException{
         super.createDb();
         //prepopulate database
         //generating DOA links

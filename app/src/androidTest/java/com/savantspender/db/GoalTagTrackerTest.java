@@ -25,7 +25,7 @@ public class GoalTagTrackerTest extends DefaultDatabaseTest {
 
     @Before
     @Override
-    public void createDb() {
+    public void createDb() throws InterruptedException{
         super.createDb();
         //inicalizing varibles
         int tagId0 = 0;

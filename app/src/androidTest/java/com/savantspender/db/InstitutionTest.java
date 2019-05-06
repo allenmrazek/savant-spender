@@ -26,7 +26,7 @@ public class InstitutionTest extends DefaultDatabaseTest {
 
     @Before
     @Override
-    public void createDb() {
+    public void createDb() throws InterruptedException{
         super.createDb();
         DOAInstitution = mDatabase.institutionDao();
         //declare dumby varibles

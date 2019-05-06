@@ -42,7 +42,7 @@ public class TransactionTest extends DefaultDatabaseTest {
 
     @Before
     @Override
-    public void createDb() {
+    public void createDb() throws InterruptedException{
         super.createDb();
 
         final String instid = "inst_1";

@@ -33,7 +33,7 @@ public class ItemTest extends DefaultDatabaseTest {
 
     @Before
     @Override
-    public void createDb() {
+    public void createDb() throws InterruptedException{
         super.createDb();
         mItems = mDatabase.itemDao();
 

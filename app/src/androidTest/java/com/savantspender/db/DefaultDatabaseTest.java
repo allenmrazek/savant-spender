@@ -56,7 +56,8 @@ public class DefaultDatabaseTest {
     public ExpectedException thrown = ExpectedException.none();
 
     @Before
-    public void createDb() {
+    public void createDb() throws InterruptedException
+    {
         Context context = ApplicationProvider.getApplicationContext();
 
         mDatabase = Room.inMemoryDatabaseBuilder(context, AppDatabase.class).build();
