@@ -15,7 +15,7 @@ public class SortedTransactionsFragment extends TransactionSelectionFragment {
 
     @Override
     protected void onFloatingButtonClicked() {
-
+        mViewModel.doUnsortTransactions(mAdapter.getSelected());
     }
 
 

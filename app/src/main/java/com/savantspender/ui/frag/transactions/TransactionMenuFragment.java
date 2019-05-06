@@ -16,6 +16,8 @@ import com.savantspender.R;
 import com.savantspender.ui.frag.transactions.adapter.TransactionPagerAdapter;
 import com.savantspender.viewmodel.TransactionViewModel;
 
+// todo: save state so page doesn't change when fragment no longer visible
+
 public class TransactionMenuFragment extends Fragment {
     private TransactionViewModel mViewModel;
 

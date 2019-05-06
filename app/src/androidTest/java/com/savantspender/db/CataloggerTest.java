@@ -93,13 +93,4 @@ public class CataloggerTest extends DefaultDatabaseTest {
     }
 
 
-//    @Test
-//    public void isAlreadyCatalogged()
-//    {
-//        Flowable<Boolean> outputR = this.cataloggedDao.isAlreadyCatalogged(this.inputE0.itemId,this.inputE0.accountId);
-//        assertThat(outputR,equalTo(false));
-//    }
-
-
-
 }

@@ -17,6 +17,7 @@ import com.savantspender.Event;
 import com.savantspender.R;
 import com.savantspender.db.entity.Transaction;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -64,6 +65,14 @@ public class TransactionViewAdapter extends RecyclerView.Adapter<TransactionView
         return mData.size();
     }
 
+    public List<Transaction> getSelected() {
+        List<Transaction> selected = new ArrayList<>();
+
+        for (Transaction t : mData)
+            if (t.isSelected()) selected.add(t);
+
+        return selected;
+    }
 
     public void submitData(@NonNull List<? extends Transaction> transactions) {
         mData = transactions;

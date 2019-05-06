@@ -6,21 +6,28 @@ import androidx.room.Entity;
 import androidx.room.ForeignKey;
 import androidx.room.Index;
 
+import static androidx.room.ForeignKey.CASCADE;
+
 @Entity(
         tableName = "catalogged",
         foreignKeys = {
                 @ForeignKey(
                         parentColumns = {"id", "itemId"},
                         childColumns = {"accountId", "itemId"},
-                        entity = AccountEntity.class),
+                        entity = AccountEntity.class,
+                        onDelete = CASCADE),
+
                 @ForeignKey(
                         parentColumns = {"id", "accountId", "itemId"},
                         childColumns = {"transactionId", "accountId", "itemId"},
-                        entity = TransactionEntity.class),
+                        entity = TransactionEntity.class,
+                        onDelete = CASCADE),
+
                 @ForeignKey(
                         parentColumns = "id",
                         childColumns = "tagId",
-                        entity = TagEntity.class)
+                        entity = TagEntity.class,
+                        onDelete = CASCADE)
         },
         indices = { @Index({"transactionId", "accountId", "itemId"}), @Index({"accountId", "itemId"}), @Index("tagId")},
         primaryKeys = {"accountId", "transactionId", "tagId", "itemId"}

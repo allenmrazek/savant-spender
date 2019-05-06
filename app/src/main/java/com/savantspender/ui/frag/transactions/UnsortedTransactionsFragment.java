@@ -13,6 +13,6 @@ public class UnsortedTransactionsFragment extends TransactionSelectionFragment {
 
     @Override
     protected void onFloatingButtonClicked() {
-
+        mViewModel.doSortTransactions(mAdapter.getSelected());
     }
 }
