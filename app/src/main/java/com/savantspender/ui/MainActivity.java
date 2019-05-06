@@ -11,20 +11,35 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.ViewModelProviders;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.savantspender.R;
+import com.savantspender.db.entity.Transaction;
+import com.savantspender.db.entity.TransactionEntity;
 import com.savantspender.ui.frag.categories.CategoryMenuFragment;
 import com.savantspender.ui.frag.overview.OverviewMenuFragment;
 import com.savantspender.ui.frag.settings.SettingsMenuFragment;
 import com.savantspender.ui.frag.transactions.TransactionMenuFragment;
+import com.savantspender.viewmodel.MainViewModel;
+
+import java.util.List;
 
 
 public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
+    private MainViewModel mViewModel;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        mViewModel = ViewModelProviders.of(this).get(MainViewModel.class);
+
+        mViewModel.beginCategorize().observe(this, l -> {
+            if (l.isHandled()) return;
+
+            launchCategorizeFragment(l.getContentIfNotHandled());
+        });
 
         createNotificationChannel();
 
@@ -35,6 +50,8 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
         // launch the overview fragment immediately, else there won't be anything useful onscreen
         getSupportFragmentManager().beginTransaction().add(R.id.action_fragment_container, new OverviewMenuFragment()).commitNow();
+
+
     }
 
 
@@ -59,6 +76,19 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
             Log.i("Spender", "Created notification channel");
         }
     }
+
+
+    private void launchCategorizeFragment(List<Transaction> transactions) {
+        if (transactions.size() == 0) {
+            Log.e("Spender", "failed to launch categorize fragment: no transactions");
+            return;
+        }
+
+        // todo
+        Log.e("Spender", "launch categorize fragment now");
+        TransitionTo(new CategoryMenuFragment(transactions));
+    }
+
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {

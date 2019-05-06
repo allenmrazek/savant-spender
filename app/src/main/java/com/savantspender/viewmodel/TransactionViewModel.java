@@ -60,16 +60,17 @@ public class TransactionViewModel extends ViewModel {
         return selected;
     }
 
-    // todo: launch categorize activity instead
-    public void doSortTransactions(List<Transaction> transactions) {
-        // todo: launch process of adding actual tags instead
-        mDiskIO.execute(() -> {
-            if (!mDatabase.tagDao().exists(0))
-                mDatabase.tagDao().insert(new TagEntity(0, "defaultTag"));
-
-            mDatabase.cataloggedDao().insert(getSelected(transactions), 0);
-        });
-    }
+//    // swap to categorize screen
+//    public void doSortTransactions(List<Transaction> transactions) {
+//        // todo: launch process of adding actual tags instead
+////        mDiskIO.execute(() -> {
+////            if (!mDatabase.tagDao().exists(0))
+////                mDatabase.tagDao().insert(new TagEntity(0, "defaultTag"));
+////
+////            mDatabase.cataloggedDao().insert(getSelected(transactions), 0);
+////        });
+//
+//    }
 
 
     public void doUnsortTransactions(List<Transaction> transactions) {

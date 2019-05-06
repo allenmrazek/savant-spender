@@ -13,13 +13,33 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.room.OnConflictStrategy;
 
 import com.savantspender.R;
+import com.savantspender.db.entity.Transaction;
 import com.savantspender.viewmodel.CategoryViewModel;
+
+import java.util.List;
 
 public class CategoryMenuFragment extends Fragment {
     private CategoryViewModel mViewModel;
     private TableLayout mTable;
+    private List<Transaction> mTransactions;
+
+    public CategoryMenuFragment() {}
+
+    public CategoryMenuFragment(List<Transaction> transactions) {
+        mTransactions = transactions;
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+
+        Log.w("Spender", "Category menu fragment detaching");
+        mTransactions.clear();
+    }
+
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -34,12 +54,8 @@ public class CategoryMenuFragment extends Fragment {
         getActivity().getWindow().getWindowManager().getDefaultDisplay().getSize(size);
 
         float catWidth = getResources().getDimension(R.dimen.listitem_category_width);
-        float catHeight = getResources().getDimension(R.dimen.listitem_category_height);
-
 
         long numCols = Math.round(Math.floor(size.x / catWidth));
-
-        Log.e("Spender", "catWidth: " + catWidth + "," + catHeight + "; screen " + size.x + "," + size.y + "; calculated " + numCols);
 
         for (int r = 0; r < 30; ++r) {
             TableRow tr = new TableRow(getContext());

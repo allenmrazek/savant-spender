@@ -74,9 +74,17 @@ public class TransactionViewAdapter extends RecyclerView.Adapter<TransactionView
         return selected;
     }
 
+    private void updateSelectionCounter() {
+        mSelections = 0;
+
+        for (Transaction t : mData)
+            if (t.isSelected()) ++mSelections;
+    }
+
+
     public void submitData(@NonNull List<? extends Transaction> transactions) {
         mData = transactions;
-        mSelections = 0;
+        updateSelectionCounter();
 
         notifyDataSetChanged();
 
