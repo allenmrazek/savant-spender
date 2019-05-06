@@ -27,21 +27,26 @@ import java.io.IOException;
 import java.util.Calendar;
 import java.util.Date;
 
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.instanceOf;
+import static org.hamcrest.Matchers.is;
+import static org.junit.Assert.assertThat;
+
 public class DefaultDatabaseTest {
     protected AppDatabase mDatabase;
     //valid naming numonics just update here to change unless otherwise noted
-    protected String tagName = "tagName";
-    protected String institutionId = "institution";
-    protected String institutionName = "bank";
-    String itemId = "item";
-    String token = "token";
-    String accountId = "account";
-    String accountName = "accountName";
-    String goalId = "goal";
-    double dollarValue = 1.00; //updating here will error
-    String transactionId = "transaction";
-    String transactionName = "transactionName";
-    boolean pending; //updating here will error
+    protected static final String tagName = "tagName";
+    protected static final String institutionId = "institution";
+    protected static final String institutionName = "bank";
+    protected static final String itemId = "item";
+    protected static final String token = "token";
+    protected static final String accountId = "account";
+    protected static final String accountName = "accountName";
+    protected static final String goalId = "goal";
+    protected static final double dollarValue = 1.00; //updating here will error
+    protected static final String transactionId = "transaction";
+    protected static final String transactionName = "transactionName";
+    protected static boolean pending; //updating here will error
     //Tagid not included as it is just the input value
 
     @Rule
@@ -63,6 +68,70 @@ public class DefaultDatabaseTest {
         mDatabase.close();
     }
 
+    public void fullTransactionVerifier(TransactionEntity outputE, TransactionEntity expectedE)
+    {
+        assertThat(outputE,is(instanceOf(TransactionEntity.class)));
+        assertThat(outputE.id,is(equalTo(expectedE.id)));
+        assertThat(outputE.pending,is(equalTo(expectedE.pending)));
+        assertThat(outputE.name,is(equalTo(expectedE.name)));
+        assertThat(outputE.amount,is(equalTo(expectedE.amount)));
+        assertThat(outputE.accountId,is(equalTo(expectedE.accountId)));
+        assertThat(outputE.itemId,is(equalTo(expectedE.itemId)));
+    }
+    public void fullTagVerifier(TagEntity outputE, TagEntity expectedE)
+    {
+        assertThat(outputE,is(instanceOf(TagEntity.class)));
+        assertThat(outputE.getId(),is(equalTo(expectedE.getId())));
+        assertThat(outputE.getName(),is(equalTo(expectedE.getName())));
+    }
+
+    public void fullInstitutionVerifier(InstitutionEntity outputE, InstitutionEntity expectedE)
+    {
+        assertThat(outputE,is(instanceOf(InstitutionEntity.class)));
+        assertThat(outputE.id,is(equalTo(expectedE.id)));
+        assertThat(outputE.name,is(equalTo(expectedE.name)));
+    }
+
+    public void fullItemVerifier(ItemEntity outputE, ItemEntity expectedE)
+    {
+        assertThat(outputE,is(instanceOf(ItemEntity.class)));
+        assertThat(outputE.id,is(equalTo(expectedE.id)));
+        assertThat(outputE.institutionId,is(equalTo(expectedE.institutionId)));
+        assertThat(outputE.access_token,is(equalTo(expectedE.access_token)));
+
+    }
+    public void fullAccountVerifier(AccountEntity outputE, AccountEntity expectedE)
+    {
+        assertThat(outputE,is(instanceOf(AccountEntity.class)));
+        assertThat(outputE.id,is(equalTo(expectedE.id)));
+        assertThat(outputE.name,is(equalTo(expectedE.name)));
+        assertThat(outputE.itemId,is(equalTo(expectedE.itemId)));
+
+    }
+    public void fullGoalVerifier(GoalEntity outputE, GoalEntity expectedE)
+    {
+        assertThat(outputE,is(instanceOf(GoalEntity.class)));
+        assertThat(outputE.name,is(equalTo(expectedE.name)));
+        assertThat(outputE.amount,is(equalTo(expectedE.amount)));
+
+    }
+    public void fullGoalTagTrackerVerifier(GoalTagTrackerEntity outputE, GoalTagTrackerEntity expectedE)
+    {
+        assertThat(outputE,is(instanceOf(GoalTagTrackerEntity.class)));
+        assertThat(outputE.goalId,is(equalTo(expectedE.goalId)));
+        assertThat(outputE.tagId,is(equalTo(expectedE.tagId)));
+
+    }
+    public void fullCataloggedVerifier(CataloggedEntity outputE, CataloggedEntity expectedE)
+    {
+        assertThat(outputE,is(instanceOf(CataloggedEntity.class)));
+        assertThat(outputE.accountId,is(equalTo(expectedE.accountId)));
+        assertThat(outputE.itemId,is(equalTo(expectedE.itemId)));
+        assertThat(outputE.transactionId,is(equalTo(expectedE.transactionId)));
+        assertThat(outputE.tagId,is(equalTo(expectedE.tagId)));
+
+    }
+
 
     public void fullpopulate(int amount) throws InterruptedException
     {
@@ -79,7 +148,7 @@ public class DefaultDatabaseTest {
     public TagEntity tagGenorator(int i)
     {
         int tagId = i;
-        tagName = this.tagName + Integer.toString(i);
+        String tagName = this.tagName + Integer.toString(i);
         return new TagEntity(tagId,tagName);
     }
 
