@@ -14,6 +14,7 @@ import com.savantspender.Event;
 import com.savantspender.SavantSpender;
 import com.savantspender.db.AppDatabase;
 import com.savantspender.db.entity.CataloggedEntity;
+import com.savantspender.db.entity.TagEntity;
 
 import java.util.concurrent.Executor;
 
@@ -75,13 +76,36 @@ public class SettingsViewModel extends ViewModel {
     }
 
     public void onDeleteTagsClicked() {
-        Log.w("Spender", "Deleting tags");
-        mToastMessage.postValue(new Event<>("not implemented"));
+        mExecutor.execute(() -> {
+            Log.i("Spender", "Deleting tags");
+
+            mDatabase.beginTransaction();
+            for (TagEntity te : mDatabase.tagDao().getTagsSync())
+                mDatabase.tagDao().delete(te);
+
+            mDatabase.insertDefaultTags();
+            mDatabase.setTransactionSuccessful();
+            mDatabase.endTransaction();
+
+            mToastMessage.postValue(new Event<>("Tags deleted!"));
+            Log.i("Spender", "Tags were deleted");
+        });
     }
 
     public void onResetCataloggedClick() {
-        Log.w("Spender", "Deleting catalogged");
-        mToastMessage.postValue(new Event<>("not implemented"));
+        mExecutor.execute(() -> {
+            Log.i("Spender", "Resetting transaction tags");
+
+            mDatabase.beginTransaction();
+            for (CataloggedEntity ce : mDatabase.cataloggedDao().getAll()) {
+                mDatabase.cataloggedDao().delete(ce);
+            }
+            mDatabase.setTransactionSuccessful();
+            mDatabase.endTransaction();
+
+            mToastMessage.postValue(new Event<>("Transaction tags reset!"));
+            Log.i("Spender", "Transaction tags were reset");
+        });
     }
 
     public static class Factory extends ViewModelProvider.NewInstanceFactory {

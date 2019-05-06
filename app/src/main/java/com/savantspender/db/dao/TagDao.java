@@ -24,4 +24,7 @@ public interface TagDao {
 
     @Query("SELECT * FROM tags")
     LiveData<List<TagEntity>> getTags();
+
+    @Query("SELECT * FROM tags")
+    List<TagEntity> getTagsSync();
 }

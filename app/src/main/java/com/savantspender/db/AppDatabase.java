@@ -92,7 +92,7 @@ public abstract class AppDatabase extends RoomDatabase {
                         "manual_account", "manual_item_id", "Manual Entry"));
     }
 
-    private void insertDefaultTags() {
+    public void insertDefaultTags() {
         TagDao tagDao = mAppDatabase.tagDao();
 
         String[] defaultTags = new String[] {

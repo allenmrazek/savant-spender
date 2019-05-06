@@ -114,8 +114,13 @@ public class SettingsMenuFragment extends Fragment {
         mUpdateNowButton.setOnClickListener(v -> scheduleTransactionUpdate(0));
 
         mViewModel.toastMessages().observe(getViewLifecycleOwner(), m -> {
-            if (m.isHandled()) return;
-            Toast.makeText(getContext(), m.getContentIfNotHandled(), Toast.LENGTH_SHORT);
+            if (m.isHandled()) {
+                Log.i("Spender", "toast message already handled");
+                return;
+            }
+            Log.i("Spender", "creating toast message");
+
+            Toast.makeText(getContext(), m.getContentIfNotHandled(), Toast.LENGTH_SHORT).show();
         });
 
         return view;
