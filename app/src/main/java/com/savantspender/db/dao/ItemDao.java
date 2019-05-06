@@ -29,4 +29,6 @@ public interface ItemDao {
     @Query("SELECT access_token FROM items WHERE id == :itemId")
     String getAccessTokenSync(@NonNull String itemId);
 
+    @Query("SELECT CASE WHEN EXISTS (SELECT 1 FROM items WHERE id == :itemId LIMIT 1) THEN 1 ELSE 0 END")
+    boolean exists(@NonNull String itemId);
 }

@@ -20,11 +20,14 @@ public interface InstitutionDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insert(InstitutionEntity institution);
 
-    @Query("SELECT * FROM institutions WHERE id = :instid")
+    @Query("SELECT * FROM institutions WHERE id == :instid")
     LiveData<InstitutionEntity> getById(@NonNull String instid);
 
-    @Query("SELECT * FROM institutions WHERE id = :instid")
+    @Query("SELECT * FROM institutions WHERE id == :instid")
     LiveData<InstitutionEntity> exists(@NonNull String instid);
+
+    @Query("SELECT 1 FROM institutions WHERE id == :instid")
+    boolean existsSync(@NonNull String instid);
 
     @Delete
     void delete(InstitutionEntity institution);

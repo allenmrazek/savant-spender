@@ -46,10 +46,7 @@ public abstract class CategoryMenuFragmentBase extends Fragment {
 
     protected void buildTable(List<? extends Tag> tags) {
         mTable.removeAllViews();
-
         mTags = tags;
-
-        Log.w("Spender", "rebuilding cat table");
 
         Point size = new Point();
 

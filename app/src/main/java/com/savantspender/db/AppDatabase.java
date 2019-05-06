@@ -81,15 +81,19 @@ public abstract class AppDatabase extends RoomDatabase {
     }
 
     private void insertManualTransactionDummyEntries() {
-        mAppDatabase.institutionDao().insert(
-                new InstitutionEntity("manual_inst_id", "Manual Entry"));
 
-        mAppDatabase.itemDao().insert(
-                new ItemEntity("manual_item_id", "manual_inst_id", "na"));
+        if (!mAppDatabase.institutionDao().existsSync("manual_inst_id"))
+            mAppDatabase.institutionDao().insert(
+                    new InstitutionEntity("manual_inst_id", "Manual Entry"));
 
-        mAppDatabase.accountDao().insert(
-                new AccountEntity(
-                        "manual_account", "manual_item_id", "Manual Entry"));
+        if (!mAppDatabase.itemDao().exists("manual_item_id"))
+            mAppDatabase.itemDao().insert(
+                    new ItemEntity("manual_item_id", "manual_inst_id", "na"));
+
+        if (!mAppDatabase.accountDao().existsSync("manual_account", "manual_item_id"))
+            mAppDatabase.accountDao().insert(
+                    new AccountEntity(
+                            "manual_account", "manual_item_id", "Manual Entry"));
     }
 
     public void insertDefaultTags() {
@@ -102,7 +106,7 @@ public abstract class AppDatabase extends RoomDatabase {
         int counter = 0;
 
         for (String tag : defaultTags) {
-            tagDao.insert(new TagEntity(counter++, tag));
+            tagDao.upsert(new TagEntity(counter++, tag));
         }
     }
 

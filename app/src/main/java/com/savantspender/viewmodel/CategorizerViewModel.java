@@ -9,6 +9,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.savantspender.Event;
 import com.savantspender.SavantSpender;
 import com.savantspender.db.AppDatabase;
 import com.savantspender.db.entity.CataloggedEntity;
@@ -24,6 +25,7 @@ public class CategorizerViewModel extends ViewModel {
     private final AppDatabase mDatabase;
     private final Executor mDiskIO;
 
+
     public CategorizerViewModel(@NonNull AppDatabase database, @NonNull Executor diskIO) {
         mDatabase = database;
         mDiskIO = diskIO;
@@ -36,6 +38,7 @@ public class CategorizerViewModel extends ViewModel {
     public LiveData<List<? extends Transaction>> needTags() {
         return mToCategorize;
     }
+
 
     public void categorize(List<? extends Tag> usingTags, List<? extends Transaction> transactions) {
         mDiskIO.execute(() -> {
@@ -55,6 +58,8 @@ public class CategorizerViewModel extends ViewModel {
                                         tag.getId()
                                 ));
                         Log.i("Spender", "Categorized " + transaction.getName() + " as " + tag.getName());
+
+                        tag.setSelected(false);
                     }
                 }
                 mDatabase.setTransactionSuccessful();
@@ -62,7 +67,6 @@ public class CategorizerViewModel extends ViewModel {
             } finally {
                 mDatabase.endTransaction();
             }
-
         });
     }
 

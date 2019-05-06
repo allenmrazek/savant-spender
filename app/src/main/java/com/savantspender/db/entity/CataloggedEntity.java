@@ -15,19 +15,22 @@ import static androidx.room.ForeignKey.CASCADE;
                         parentColumns = {"id", "itemId"},
                         childColumns = {"accountId", "itemId"},
                         entity = AccountEntity.class,
-                        onDelete = CASCADE),
+                        onDelete = CASCADE,
+                        onUpdate = CASCADE),
 
                 @ForeignKey(
                         parentColumns = {"id", "accountId", "itemId"},
                         childColumns = {"transactionId", "accountId", "itemId"},
                         entity = TransactionEntity.class,
-                        onDelete = CASCADE),
+                        onDelete = CASCADE,
+                        onUpdate = CASCADE),
 
                 @ForeignKey(
                         parentColumns = "id",
                         childColumns = "tagId",
                         entity = TagEntity.class,
-                        onDelete = CASCADE)
+                        onDelete = CASCADE,
+                        onUpdate = CASCADE)
         },
         indices = { @Index({"transactionId", "accountId", "itemId"}), @Index({"accountId", "itemId"}), @Index("tagId")},
         primaryKeys = {"accountId", "transactionId", "tagId", "itemId"}
