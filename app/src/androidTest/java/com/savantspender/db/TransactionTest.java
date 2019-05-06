@@ -11,6 +11,7 @@ import com.savantspender.db.dao.TagDao;
 import com.savantspender.db.dao.TransactionDao;
 import com.savantspender.db.entity.AccountEntity;
 import com.savantspender.db.entity.CataloggedEntity;
+import com.savantspender.db.entity.GoalEntity;
 import com.savantspender.db.entity.InstitutionEntity;
 import com.savantspender.db.entity.ItemEntity;
 import com.savantspender.db.entity.TagEntity;
@@ -55,66 +56,66 @@ public class TransactionTest extends DefaultDatabaseTest {
         mDatabase.accountDao().insert(new AccountEntity(AccountId, ItemId, "account_name_here"));
 
         mTransactions = mDatabase.transactionDao();
+
+
+    }
+
+    @Test
+    public void getTransactionsByGoal() throws InterruptedException
+    {
+        //prepopulate database
+        super.fullpopulate(5);
+        GoalEntity inputE = super.goalGenorator(0);
+        List<TransactionEntity> outputEs = LiveDataTestUtil.getValue(mTransactions.getTransactionsByGoal(inputE.name));
+        TransactionEntity outputE = outputEs.get(0);
+        TransactionEntity expectedE = super.transactionGenorator(0);
+        super.fullTransactionVerifier(outputE,expectedE);
+    }
+
+    @Test
+    public void getTransactionsWOTags() throws InterruptedException
+    {
+        //prepopulate database
+        //prepopulate database
+        super.prepopulateDB("Tag",1);
+        super.prepopulateDB("Institution",1);
+        super.prepopulateDB("Item",1);
+        super.prepopulateDB("Account",1);
+        super.prepopulateDB("Transaction",1);
+        super.prepopulateDB("Catalogged",1);
+
+        //deleting a catalogger so there is a return value
+        super.mDatabase.cataloggedDao().delete(super.cataloggedGenorator(1));
+        super.mDatabase.tagDao().delete(super.tagGenorator(1));
+
+
+        TransactionEntity expectedE0 = super.transactionGenorator(1);
+
+        List<TransactionEntity> outputEs = LiveDataTestUtil.getValue(mTransactions.getTransactionsWOTags());
+        TransactionEntity outputE = outputEs.get(0);
+        assertThat(outputEs.size(),equalTo(1));
+        super.fullTransactionVerifier(outputE,expectedE0);
+
     }
 
     @Test
     public void getTransactionsByTagId() throws InterruptedException
     {
-        //populate database to test...
         //prepopulate database
-        //generating DOA links
-        TagDao tagDao = mDatabase.tagDao();
-        InstitutionDao institutionDao = mDatabase.institutionDao();
-        ItemDao itemDao = mDatabase.itemDao();
-        AccountDao accountDoa = mDatabase.accountDao();;
-        CataloggedDao cataloggedDao = mDatabase.cataloggedDao();
+        super.prepopulateDB("Tag",1);
+        super.prepopulateDB("Institution",1);
+        super.prepopulateDB("Item",1);
+        super.prepopulateDB("Account",1);
+        super.prepopulateDB("Transaction",1);
+        super.prepopulateDB("Catalogged",1);
 
-        //generating group 1 entities
-        CataloggedEntity cataloggedE0 = new CataloggedEntity("account","transaction","item",0);
-        CataloggedEntity cataloggedE1 = new CataloggedEntity("account1", "transaction1","item1",1);
-
-        TagEntity tagE0 = new TagEntity(cataloggedE0.tagId,"tag");
-        InstitutionEntity institutionE0 = new InstitutionEntity("insitution","Bank");
-        ItemEntity itemE0 = new ItemEntity(cataloggedE0.itemId,"insitution","access_token");
-        AccountEntity accountE0 = new AccountEntity(cataloggedE0.accountId,cataloggedE0.itemId,"acount_name");
-        Date date0 = new Date();
-        TransactionEntity transactionE0 = new TransactionEntity(cataloggedE0.transactionId,cataloggedE0.accountId,cataloggedE0.itemId,"transaction",1.00,false,date0);
-
-        //generating group 2 entities
-        TagEntity tagE1 = new TagEntity(cataloggedE1.tagId,"tag1");
-        InstitutionEntity institutionE1 = new InstitutionEntity("insitution1","Bank1");
-        ItemEntity itemE1 = new ItemEntity(cataloggedE1.itemId,"insitution1","access_token1");
-        AccountEntity accountE1 = new AccountEntity(cataloggedE1.accountId,cataloggedE1.itemId,"acount_name1");
-        Date date1 = new Date();
-        TransactionEntity transactionE1 = new TransactionEntity(cataloggedE1.transactionId,cataloggedE1.accountId,cataloggedE1.itemId,"transaction1",2.00,false,date0);
-
-        //inserting items in database
-        tagDao.insert(tagE0);
-        tagDao.insert(tagE1);
-        institutionDao.insert(institutionE0);
-        institutionDao.insert(institutionE1);
-        itemDao.insert(itemE0);
-        itemDao.insert(itemE1);
-        accountDoa.insert(accountE0);
-        accountDoa.insert(accountE1);
-        mTransactions.insert(transactionE0);
-        mTransactions.insert(transactionE1);
-        cataloggedDao.insert(cataloggedE0);
-        cataloggedDao.insert(cataloggedE1);
-        /////////////////////////////done populating
+        TransactionEntity transactionE0 = super.transactionGenorator(0);
         
         
         List<TransactionEntity> outputEs = LiveDataTestUtil.getValue(mTransactions.getTransactionsByTagId(0));
         TransactionEntity outputE = outputEs.get(0);
-        assertThat(outputE,is(instanceOf(TransactionEntity.class)));
         assertThat(outputEs.size(),equalTo(1));
-        assertThat(outputE.id,equalTo(transactionE0.id));
-        assertThat(outputE.accountId,equalTo(transactionE0.accountId));
-        assertThat(outputE.itemId,equalTo(transactionE0.itemId));
-        assertThat(outputE.amount,equalTo(transactionE0.amount));
-        assertThat(outputE.name,equalTo(transactionE0.name));
-        assertThat(outputE.pending,equalTo(transactionE0.pending));
-        assertThat(outputE.postDate,equalTo(transactionE0.postDate));
+        super.fullTransactionVerifier(outputE,transactionE0);
     }
 
     @Test
@@ -161,6 +162,7 @@ public class TransactionTest extends DefaultDatabaseTest {
 
         assertThat(mTransactions.exists("id"), is(true));
     }
+
 
     @Test
     public void get_sorted_transactions_none() throws InterruptedException {

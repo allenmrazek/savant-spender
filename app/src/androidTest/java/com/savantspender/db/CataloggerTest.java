@@ -91,6 +91,4 @@ public class CataloggerTest extends DefaultDatabaseTest {
         List<CataloggedEntity> outputEs = this.cataloggedDao.getAll();
         assertThat(outputEs.size(),equalTo(1));
     }
-
-
 }

@@ -26,7 +26,7 @@ public class AccountTest extends DefaultDatabaseTest {
 
     @Before
     @Override
-    public void createDb() {
+    public void createDb(){
         super.createDb();
 
         mDatabase.institutionDao().insert(new InstitutionEntity(InstitutionId, "test institution"));

@@ -27,7 +27,7 @@ public class GoalTest extends DefaultDatabaseTest {
 
     @Before
     @Override
-    public void createDb() {
+    public void createDb(){
         super.createDb();
         //inicalizing DOAs
         GoalTagTrackerDao goalTagTrackerDao = mDatabase.goalTagTrackerDoa();

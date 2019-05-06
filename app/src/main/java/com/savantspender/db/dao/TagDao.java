@@ -19,6 +19,7 @@ public interface TagDao {
     @Delete
     void delete(TagEntity tag);
 
+
     @Query("SELECT 1 FROM tags WHERE id = :tagId")
     boolean exists(int tagId);
 
@@ -27,4 +28,17 @@ public interface TagDao {
 
     @Query("SELECT * FROM tags")
     List<TagEntity> getTagsSync();
+
+    @Query("SELECT * FROM tags")
+    List<TagEntity> getAll();
+
+    //returns tags which arent used in any goal
+    @Query("SELECT * FROM tags WHERE id NOT IN " +
+            "(SELECT tagId FROM goaltagtacker)")
+    LiveData<List<TagEntity>> getTagsNotInGoals();
+
+    //retunrs tags not used by any transaction
+    @Query("SELECT * FROM tags WHERE id NOT IN " +
+            "(SELECT tagId FROM catalogged)")
+    LiveData<List<TagEntity>> getTagNotInTransactions();
 }
