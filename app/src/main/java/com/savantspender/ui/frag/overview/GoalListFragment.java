@@ -1,4 +1,4 @@
-package com.savantspender.ui.frag;
+package com.savantspender.ui.frag.overview;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -11,10 +11,10 @@ import androidx.fragment.app.Fragment;
 
 import com.savantspender.R;
 
-public class GoalProgressFragment extends Fragment {
+public class GoalListFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_goal_progress, container, false);
+        View view = inflater.inflate(R.layout.fragment_delete_items, container, false);
         return view;
     }
 }
