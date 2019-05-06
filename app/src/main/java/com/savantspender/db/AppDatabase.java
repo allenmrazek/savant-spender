@@ -15,7 +15,7 @@ import com.savantspender.db.converter.DateConverter;
 import com.savantspender.db.dao.AccountDao;
 import com.savantspender.db.dao.CataloggedDao;
 import com.savantspender.db.dao.GoalDao;
-import com.savantspender.db.dao.GoalTagTrackerDao;
+import com.savantspender.db.dao.GoalTagDao;
 import com.savantspender.db.dao.InstitutionDao;
 import com.savantspender.db.dao.ItemDao;
 import com.savantspender.db.dao.TagDao;
@@ -25,7 +25,7 @@ import com.savantspender.db.entity.CataloggedEntity;
 
 
 import com.savantspender.db.entity.GoalEntity;
-import com.savantspender.db.entity.GoalTagTrackerEntity;
+import com.savantspender.db.entity.GoalTagsEntity;
 
 import com.savantspender.db.entity.InstitutionEntity;
 import com.savantspender.db.entity.ItemEntity;
@@ -41,7 +41,7 @@ import com.savantspender.db.entity.TransactionEntity;
         TransactionEntity.class,
         CataloggedEntity.class,
         GoalEntity.class,
-        GoalTagTrackerEntity.class
+        GoalTagsEntity.class
 }, version = 1, exportSchema = false)
 @TypeConverters(DateConverter.class)
 @SuppressWarnings("deprecation")
@@ -57,7 +57,7 @@ public abstract class AppDatabase extends RoomDatabase {
     public abstract TransactionDao transactionDao();
     public abstract CataloggedDao cataloggedDao();
     public abstract GoalDao goalDoa();
-    public abstract GoalTagTrackerDao goalTagTrackerDoa();
+    public abstract GoalTagDao goalTagTrackerDoa();
 
     public static AppDatabase getInstance(final Context appContext, final AppExecutors executors) {
         if (mAppDatabase == null) {

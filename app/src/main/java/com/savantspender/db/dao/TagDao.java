@@ -49,13 +49,13 @@ public abstract class TagDao {
     @Query("SELECT * FROM tags")
     public abstract List<TagEntity> getAll();
 
-    //returns tags which arent used in any goal
-    @Query("SELECT * FROM tags WHERE id NOT IN " +
-            "(SELECT tagId FROM goaltagtacker)")
-    public abstract LiveData<List<TagEntity>> getTagsNotInGoals();
+//    //returns tags which arent used in any goal
+//    @Query("SELECT * FROM tags WHERE id NOT IN " +
+//            "(SELECT tagId FROM GoalTagsEntity)")
+//    public abstract LiveData<List<TagEntity>> getTagsNotInGoals();
 
-    //retunrs tags not used by any transaction
-    @Query("SELECT * FROM tags WHERE id NOT IN " +
-            "(SELECT tagId FROM catalogged)")
-    public abstract LiveData<List<TagEntity>> getTagNotInTransactions();
+//    //retunrs tags not used by any transaction
+//    @Query("SELECT * FROM tags WHERE id NOT IN " +
+//            "(SELECT tagId FROM catalogged)")
+//    public abstract LiveData<List<TagEntity>> getTagNotInTransactions();
 }

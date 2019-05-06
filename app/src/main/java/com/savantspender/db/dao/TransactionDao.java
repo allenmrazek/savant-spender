@@ -59,10 +59,10 @@ public abstract class TransactionDao {
     @Query("SELECT CASE WHEN EXISTS (SELECT * FROM transactions WHERE id = :transId LIMIT 1) THEN 1 ELSE 0 END")
     public abstract boolean exists(@NonNull String transId);
 
-    @Query("SELECT DISTINCT * FROM transactions WHERE id IN " +
-            "(SELECT transactionId FROM catalogged WHERE tagId IN " +
-            "(SELECT tagId FROM goaltagtacker WHERE goalId = :goalId))") //tagId /// also you need to eleminate douplicates in the second step
-    public abstract LiveData<List<TransactionEntity>> getTransactionsByGoal(String goalId);
+//    @Query("SELECT DISTINCT * FROM transactions WHERE id IN " +
+//            "(SELECT transactionId FROM catalogged WHERE tagId IN " +
+//            "(SELECT tagId FROM GoalTagsEntity WHERE goalId = :goalId))") //tagId /// also you need to eleminate douplicates in the second step
+//    public abstract LiveData<List<TransactionEntity>> getTransactionsByGoal(String goalId);
 
     @Query("SELECT * FROM transactions WHERE id NOT IN " +
             "(SELECT transactionId FROM catalogged)")

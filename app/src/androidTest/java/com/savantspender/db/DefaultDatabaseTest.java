@@ -7,11 +7,10 @@ import androidx.room.Room;
 import androidx.test.core.app.ApplicationProvider;
 
 
-import com.savantspender.db.dao.InstitutionDao;
 import com.savantspender.db.entity.AccountEntity;
 import com.savantspender.db.entity.CataloggedEntity;
 import com.savantspender.db.entity.GoalEntity;
-import com.savantspender.db.entity.GoalTagTrackerEntity;
+import com.savantspender.db.entity.GoalTagsEntity;
 import com.savantspender.db.entity.InstitutionEntity;
 import com.savantspender.db.entity.ItemEntity;
 import com.savantspender.db.entity.TagEntity;
@@ -119,9 +118,9 @@ public class DefaultDatabaseTest {
         assertThat(outputE.amount,is(equalTo(expectedE.amount)));
 
     }
-    public void fullGoalTagTrackerVerifier(GoalTagTrackerEntity outputE, GoalTagTrackerEntity expectedE)
+    public void fullGoalTagTrackerVerifier(GoalTagsEntity outputE, GoalTagsEntity expectedE)
     {
-        assertThat(outputE,is(instanceOf(GoalTagTrackerEntity.class)));
+        assertThat(outputE,is(instanceOf(GoalTagsEntity.class)));
         assertThat(outputE.goalId,is(equalTo(expectedE.goalId)));
         assertThat(outputE.tagId,is(equalTo(expectedE.tagId)));
 
@@ -179,12 +178,12 @@ public class DefaultDatabaseTest {
         return new AccountEntity(accountId,itemId,accountName);
     }
 
-    public GoalEntity goalGenorator(int i)
-    {
-        String goalId = this.goalId + Integer.toString(i);
-        double dollar_amount = this.dollarValue + (double)i;
-        return new GoalEntity(goalId,dollar_amount);
-    }
+//    public GoalEntity goalGenorator(int i)
+//    {
+//        String goalId = this.goalId + Integer.toString(i);
+//        double dollar_amount = this.dollarValue + (double)i;
+//        return new GoalEntity(goalId,dollar_amount);
+//    }
 
     public CataloggedEntity cataloggedGenorator(int i)
     {
@@ -195,12 +194,12 @@ public class DefaultDatabaseTest {
         return new CataloggedEntity(accountId,transactionId,itemId,tagId);
     }
 
-    public GoalTagTrackerEntity goalTagTrackerGenorator(int i)
-    {
-        String goalId = this.goalId + Integer.toString(i);
-        int tagId = i;
-        return new GoalTagTrackerEntity(goalId,tagId);
-    }
+//    public GoalTagsEntity goalTagTrackerGenorator(int i)
+//    {
+//        String goalId = this.goalId + Integer.toString(i);
+//        int tagId = i;
+//        return new GoalTagsEntity(goalId,tagId);
+//    }
 
     public TransactionEntity transactionGenorator(int i)
     {
@@ -231,9 +230,9 @@ public class DefaultDatabaseTest {
                  case "Account":
                      mDatabase.accountDao().insert(this.accountGenorator(i));
                       break;
-                  case "Goal":
-                      mDatabase.goalDoa().insert(this.goalGenorator(i));
-                       break;
+//                  case "Goal":
+//                      mDatabase.goalDoa().insert(this.goalGenorator(i));
+//                       break;
                  case "Transaction":
 
                      mDatabase.transactionDao().insert(this.transactionGenorator(i));
@@ -241,9 +240,9 @@ public class DefaultDatabaseTest {
                   case "Catalogged":
                       mDatabase.cataloggedDao().insert(this.cataloggedGenorator(i));
                      break;
-                 case "GoalTagTracker":
-                     mDatabase.goalTagTrackerDoa().insert(this.goalTagTrackerGenorator(i));
-                      break;
+//                 case "GoalTagTracker":
+//                     mDatabase.goalTagTrackerDoa().insert(this.goalTagTrackerGenorator(i));
+//                      break;
             }
         }
     }

@@ -25,8 +25,8 @@ public interface GoalDao {
     @Query("SELECT * FROM goals")
     LiveData<List<GoalEntity>> getAll();
 
-    @Query("SELECT * FROM tags WHERE id IN (SELECT tagId FROM goaltagtacker WHERE goalId = :goal_name)")
-    LiveData<List<TagEntity>> getTags4Goal(String goal_name);
+//    @Query("SELECT * FROM tags WHERE id IN (SELECT tagId FROM go WHERE goalId = :goal_name)")
+//    LiveData<List<TagEntity>> getTags4Goal(String goal_name);
 
 
 

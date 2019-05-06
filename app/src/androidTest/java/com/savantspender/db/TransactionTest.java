@@ -60,17 +60,17 @@ public class TransactionTest extends DefaultDatabaseTest {
 
     }
 
-    @Test
-    public void getTransactionsByGoal() throws InterruptedException
-    {
-        //prepopulate database
-        super.fullpopulate(5);
-        GoalEntity inputE = super.goalGenorator(0);
-        List<TransactionEntity> outputEs = LiveDataTestUtil.getValue(mTransactions.getTransactionsByGoal(inputE.name));
-        TransactionEntity outputE = outputEs.get(0);
-        TransactionEntity expectedE = super.transactionGenorator(0);
-        super.fullTransactionVerifier(outputE,expectedE);
-    }
+//    @Test
+//    public void getTransactionsByGoal() throws InterruptedException
+//    {
+//        //prepopulate database
+//        super.fullpopulate(5);
+//        GoalEntity inputE = super.goalGenorator(0);
+//        List<TransactionEntity> outputEs = LiveDataTestUtil.getValue(mTransactions.getTransactionsByGoal(inputE.name));
+//        TransactionEntity outputE = outputEs.get(0);
+//        TransactionEntity expectedE = super.transactionGenorator(0);
+//        super.fullTransactionVerifier(outputE,expectedE);
+//    }
 
     @Test
     public void getTransactionsWOTags() throws InterruptedException
