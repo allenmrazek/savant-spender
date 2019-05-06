@@ -1,5 +1,7 @@
 package com.savantspender.ui.frag.transactions;
 
+import android.util.Log;
+
 public class SortedTransactionsFragment extends TransactionSelectionFragment {
 
     @Override
@@ -18,5 +20,9 @@ public class SortedTransactionsFragment extends TransactionSelectionFragment {
         mViewModel.doUnsortTransactions(mAdapter.getSelected());
     }
 
+    public void transactionsWereSorted() {
+        // todo: remove this
+        Log.e("Spender", "transactions were sorted");
+    }
 
 }

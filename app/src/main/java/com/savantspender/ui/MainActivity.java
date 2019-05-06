@@ -16,8 +16,8 @@ import androidx.lifecycle.ViewModelProviders;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.savantspender.R;
 import com.savantspender.db.entity.Transaction;
-import com.savantspender.db.entity.TransactionEntity;
-import com.savantspender.ui.frag.categories.CategoryMenuFragment;
+import com.savantspender.ui.frag.categories.CategoryMenuFragmentCategorize;
+import com.savantspender.ui.frag.categories.CategoryMenuFragmentList;
 import com.savantspender.ui.frag.overview.OverviewMenuFragment;
 import com.savantspender.ui.frag.settings.SettingsMenuFragment;
 import com.savantspender.ui.frag.transactions.TransactionMenuFragment;
@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         // launch the overview fragment immediately, else there won't be anything useful onscreen
         getSupportFragmentManager().beginTransaction().add(R.id.action_fragment_container, new OverviewMenuFragment()).commitNow();
 
-
+        getSupportFragmentManager().addOnBackStackChangedListener(() -> onBackstackChanged());
     }
 
 
@@ -78,15 +78,18 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     }
 
 
+    private void onBackstackChanged() {
+        // todo
+    }
+
+
     private void launchCategorizeFragment(List<Transaction> transactions) {
         if (transactions.size() == 0) {
             Log.e("Spender", "failed to launch categorize fragment: no transactions");
             return;
         }
 
-        // todo
-        Log.e("Spender", "launch categorize fragment now");
-        TransitionTo(new CategoryMenuFragment(transactions));
+        TransitionTo(new CategoryMenuFragmentCategorize(transactions), true);
     }
 
 
@@ -95,33 +98,37 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         // todo: don't transition if already in correct state
         // todo: appropriate animation directions
 
+        //FragmentManager.BackStackEntry previous = getSupportFragmentManager().getBackStackEntryAt(0);
+
         switch (menuItem.getItemId()) {
             case R.id.navigation_overview:
-                TransitionTo(new OverviewMenuFragment());
+                TransitionTo(new OverviewMenuFragment(), true);
                 return true;
 
             case R.id.navigation_categories:
-                TransitionTo(new CategoryMenuFragment());
+                TransitionTo(new CategoryMenuFragmentList(), true);
                 return true;
 
             case R.id.navigation_settings:
-                TransitionTo(new SettingsMenuFragment());
+                TransitionTo(new SettingsMenuFragment(), true);
                 return true;
 
             case R.id.navigation_transactions:
-                TransitionTo(new TransactionMenuFragment());
+                TransitionTo(new TransactionMenuFragment(), true);
                 return true;
         }
 
         return false;
     }
 
-    public void TransitionTo(Fragment fragment) {
+    public void TransitionTo(Fragment fragment, boolean addBackstack) {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
 
         transaction.setCustomAnimations(R.anim.enter, R.anim.exit, R.anim.pop_enter, R.anim.pop_exit);
         transaction.replace(R.id.action_fragment_container, fragment);
-        transaction.addToBackStack(null);
+
+        if (addBackstack)
+            transaction.addToBackStack(null);
 
         transaction.commit();
     }

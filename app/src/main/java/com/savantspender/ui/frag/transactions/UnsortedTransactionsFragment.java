@@ -1,12 +1,17 @@
 package com.savantspender.ui.frag.transactions;
 
 import android.content.Context;
+import android.content.Intent;
+import android.util.Log;
 
 import androidx.lifecycle.ViewModelProviders;
+
 
 import com.savantspender.viewmodel.MainViewModel;
 
 public class UnsortedTransactionsFragment extends TransactionSelectionFragment {
+    private static final int REQUEST_SORTING = 100;
+
     @Override
     protected void initObservers() {
         mViewModel.unsortedTransactions().observe(getViewLifecycleOwner(), t -> mAdapter.submitData(t) );
@@ -31,5 +36,18 @@ public class UnsortedTransactionsFragment extends TransactionSelectionFragment {
     @Override
     protected void onFloatingButtonClicked() {
         ViewModelProviders.of(getActivity()).get(MainViewModel.class).enterCategorizeMode(mAdapter.getSelected());
+//        setTargetFragment(this, REQUEST_SORTING);
+//        ((MainActivity)getActivity()).TransitionTo(new CategoryMenuFragment(mAdapter.getSelected()), false);
+    }
+
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode != REQUEST_SORTING)
+            return;
+
+        Log.e("Spender", "got result!");
     }
 }
