@@ -7,8 +7,11 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.savantspender.Event;
 import com.savantspender.R;
 
 public class GoalListAdapter extends RecyclerView.Adapter<GoalListAdapter.ViewHolder> {
@@ -31,6 +34,7 @@ public class GoalListAdapter extends RecyclerView.Adapter<GoalListAdapter.ViewHo
         return 100;
     }
     // todo
+
 
 
     static class ViewHolder extends RecyclerView.ViewHolder {
