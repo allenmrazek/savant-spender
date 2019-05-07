@@ -8,20 +8,16 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.savantspender.R;
-import com.savantspender.ui.MainActivity;
 
 public class GoalListFragment extends Fragment {
     private RecyclerView mRecycler;
     private GoalListAdapter mAdapter;
     private FloatingActionButton mAddGoalButton;
-
-    private View mAddPane;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -34,19 +30,9 @@ public class GoalListFragment extends Fragment {
         mRecycler.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false));
         mRecycler.setAdapter(mAdapter);
 
-        mAddPane = view.findViewById(R.id.addGoalPane);
-        mAddPane.setVisibility(View.GONE);
-
-        mAddGoalButton = view.findViewById(R.id.btnAddGoal);
+        mAddGoalButton = view.findViewById(R.id.btnAcceptAddGoal);
         mAddGoalButton.setOnClickListener(l -> {
             mAddGoalButton.hide();
-//            mAddPane.setVisibility(View.VISIBLE);
-//            //((MainActivity)getActivity()).TransitionTo();
-//            CreateGoalFragment cg = new CreateGoalFragment();
-//
-////            FragmentTransaction ft = getFragmentManager().beginTransaction();
-//            cg.show(getFragmentManager(), cg.getTag());
-
             CreateGoalFragment cg = new CreateGoalFragment();
 
             cg.show(getChildFragmentManager(), "dialog");

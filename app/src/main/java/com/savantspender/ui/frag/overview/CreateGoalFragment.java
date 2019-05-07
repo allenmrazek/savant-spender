@@ -1,10 +1,6 @@
 package com.savantspender.ui.frag.overview;
 
-import android.annotation.SuppressLint;
-import android.app.Dialog;
-import android.graphics.Point;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,7 +17,7 @@ public class CreateGoalFragment extends DialogFragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = LayoutInflater.from(getContext()).inflate(R.layout.dialog, container, true);
+        View view = LayoutInflater.from(getContext()).inflate(R.layout.dialog_creategoal, container, true);
         getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
 
         return view;

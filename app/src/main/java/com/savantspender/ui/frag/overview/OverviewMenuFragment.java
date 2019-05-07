@@ -25,7 +25,7 @@ public class OverviewMenuFragment extends Fragment {
         view.findViewById(R.id.btnSummary).setOnClickListener(l -> {
             CreateGoalFragment cg = new CreateGoalFragment();
 
-            cg.show(getFragmentManager(), "dialog");
+            cg.show(getFragmentManager(), "dialog_creategoal");
         });
 
         return view;
