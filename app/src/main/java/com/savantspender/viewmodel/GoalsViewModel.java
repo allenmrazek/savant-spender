@@ -1,6 +1,7 @@
 package com.savantspender.viewmodel;
 
 import android.app.Application;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
@@ -13,6 +14,7 @@ import com.savantspender.Event;
 import com.savantspender.SavantSpender;
 import com.savantspender.db.AppDatabase;
 import com.savantspender.db.entity.GoalEntity;
+import com.savantspender.db.entity.GoalTagsEntity;
 import com.savantspender.db.entity.Tag;
 import com.savantspender.model.DataRepository;
 
@@ -63,7 +65,7 @@ public class GoalsViewModel extends ViewModel {
         mToast.postValue(new Event<>(text));
     }
 
-    public void createGoal(@NonNull String name, @NonNull String amount) {
+    public void createGoal(@NonNull String name, @NonNull String amount, List<? extends Tag> selectedTags) {
 
         // validate parameters
         if (name == null || name.length() == 0)
@@ -91,6 +93,12 @@ public class GoalsViewModel extends ViewModel {
             return;
         }
 
+        if (selectedTags.size() == 0)
+        {
+            makeToast("select at least one tag");
+            return;
+        }
+
         final double amt = numericAmount;
 
         mDiskIO.execute(() -> {
@@ -99,9 +107,23 @@ public class GoalsViewModel extends ViewModel {
                 return;
             }
 
-            mDatabase.goalDao().insert(new GoalEntity(name, amt));
-            makeToast("\"" + name + "\" created!");
-            mGoalCreated.postValue(new Event<>(null));
+            try {
+                mDatabase.beginTransaction();
+
+                mDatabase.goalDao().insert(new GoalEntity(name, amt));
+
+                int id = mDatabase.goalDao().getByName(name);
+                for (Tag t : selectedTags)
+                    mDatabase.goalTagDao().insert(new GoalTagsEntity(id, t.getId()));
+
+                mDatabase.setTransactionSuccessful();
+                makeToast("\"" + name + "\" created!");
+                mGoalCreated.postValue(new Event<>(null));
+            } catch (Exception e) {
+                Log.e("Spender", "failed to create goal: " + e.getMessage());
+            }
+
+            mDatabase.endTransaction();
         });
     }
 

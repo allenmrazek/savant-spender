@@ -26,6 +26,9 @@ public interface GoalDao {
     @Query("SELECT * FROM goals")
     LiveData<List<GoalEntity>> getAll();
 
+    @Query("SELECT id FROM goals WHERE name = :name LIMIT 1")
+    int getByName(@NonNull String name);
+
     @Query("SELECT 1 FROM goals WHERE name == :name LIMIT 1")
     boolean exists(@NonNull String name);
 

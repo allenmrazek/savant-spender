@@ -35,8 +35,10 @@ public class GoalListFragment extends Fragment {
         mRecycler.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false));
         mRecycler.setAdapter(mAdapter);
 
-        mAddGoalButton = view.findViewById(R.id.btnAcceptAddGoal);
+        mAddGoalButton = view.findViewById(R.id.btnOpenNewGoalDialog);
         mAddGoalButton.setOnClickListener(l -> {
+            Log.w("Spender", "launching create goal fragment");
+
             mAddGoalButton.hide();
             CreateGoalFragment cg = new CreateGoalFragment();
 

@@ -1,25 +1,26 @@
 package com.savantspender.db.dao;
 
+import androidx.annotation.NonNull;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
 
 import com.savantspender.db.entity.GoalTagsEntity;
+import com.savantspender.db.entity.Tag;
 
 import java.util.List;
 
 
 @Dao
-public interface GoalTagDao {
+public abstract class GoalTagDao {
 
     @Insert
-    void insert(GoalTagsEntity entity);
+    public abstract void insert(GoalTagsEntity entity);
 
     @Delete
-    void delete(GoalTagsEntity entity);
+    public abstract void delete(GoalTagsEntity entity);
 
     @Query("SELECT * FROM goaltags")
-    List<GoalTagsEntity> getAll();
-
+    public abstract List<GoalTagsEntity> getAll();
 }

@@ -2,7 +2,6 @@ package com.savantspender.ui.frag.overview;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +15,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
-import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.savantspender.R;
@@ -56,30 +54,27 @@ public class CreateGoalFragment extends DialogFragment {
 
         ArrayList<TableRow> rows = new ArrayList<>();
 
-        for (int i = 0; i < 20; ++i) { // temp to test layout
+        for (Tag tag : mTags) {
+            if (curItem % mNumCols == 0) {
+                tr = new TableRow(getContext());
+                tr.setLayoutParams(params);
 
-
-            for (Tag tag : mTags) {
-                if (curItem % mNumCols == 0) {
-                    tr = new TableRow(getContext());
-                    tr.setLayoutParams(params);
-
-                    rows.add(tr);
-                }
-
-                View item = getLayoutInflater().inflate(R.layout.listitem_category, tr, false);
-
-                TextView tv = item.findViewById(R.id.txtCatName);
-                tv.setText(tag.getName());
-
-                onItemCreated(item, tag);
-
-                tr.addView(item);
-                ++curItem;
-
+                rows.add(tr);
             }
 
+            View item = getLayoutInflater().inflate(R.layout.listitem_category, tr, false);
+
+            TextView tv = item.findViewById(R.id.txtCatName);
+            tv.setText(tag.getName());
+
+            onItemCreated(item, tag);
+
+            tr.addView(item);
+            ++curItem;
+
         }
+
+
         for (TableRow row : rows)
             mTable.addView(row);
     }
@@ -100,10 +95,14 @@ public class CreateGoalFragment extends DialogFragment {
 
 
     private void onAccept() {
-        Log.e("Spender", "onAccept");
+        ArrayList<Tag> selectedTags = new ArrayList<>(mTags.size());
+
+        for (Tag t : mTags)
+            if (t.isSelected())
+                selectedTags.add(t);
 
         // verify parameters
-        mViewModel.createGoal(mGoalName.getText().toString(), mAmount.getText().toString());
+        mViewModel.createGoal(mGoalName.getText().toString(), mAmount.getText().toString(), selectedTags);
 
     }
 
@@ -125,7 +124,7 @@ public class CreateGoalFragment extends DialogFragment {
         mGoalName = view.findViewById(R.id.txtNewGoalName);
         mAmount = view.findViewById(R.id.txtNewGoalAmount);
 
-        view.findViewById(R.id.btnAcceptAddGoal).setOnClickListener(l -> onAccept());
+        view.findViewById(R.id.btnCreateNewGoal).setOnClickListener(l -> onAccept());
 
         mViewModel = ViewModelProviders.of(getActivity(), new GoalsViewModel.Factory(getActivity().getApplication())).get(GoalsViewModel.class);
         mViewModel.availableTags().observe(getViewLifecycleOwner(), t -> availableTagsChanged(t));
