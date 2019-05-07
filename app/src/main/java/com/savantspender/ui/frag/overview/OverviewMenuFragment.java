@@ -22,6 +22,12 @@ public class OverviewMenuFragment extends Fragment {
             ((MainActivity)getActivity()).TransitionTo(new GoalListFragment(), true);
         });
 
+        view.findViewById(R.id.btnSummary).setOnClickListener(l -> {
+            CreateGoalFragment cg = new CreateGoalFragment();
+
+            cg.show(getFragmentManager(), "dialog");
+        });
+
         return view;
     }
 }

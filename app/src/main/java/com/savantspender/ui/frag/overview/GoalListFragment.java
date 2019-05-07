@@ -8,11 +8,13 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.savantspender.R;
+import com.savantspender.ui.MainActivity;
 
 public class GoalListFragment extends Fragment {
     private RecyclerView mRecycler;
@@ -38,7 +40,16 @@ public class GoalListFragment extends Fragment {
         mAddGoalButton = view.findViewById(R.id.btnAddGoal);
         mAddGoalButton.setOnClickListener(l -> {
             mAddGoalButton.hide();
-            mAddPane.setVisibility(View.VISIBLE);
+//            mAddPane.setVisibility(View.VISIBLE);
+//            //((MainActivity)getActivity()).TransitionTo();
+//            CreateGoalFragment cg = new CreateGoalFragment();
+//
+////            FragmentTransaction ft = getFragmentManager().beginTransaction();
+//            cg.show(getFragmentManager(), cg.getTag());
+
+            CreateGoalFragment cg = new CreateGoalFragment();
+
+            cg.show(getChildFragmentManager(), "dialog");
         });
 
         return view;
