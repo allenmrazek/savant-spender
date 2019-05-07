@@ -4,10 +4,12 @@ import android.app.Application;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Transformations;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.savantspender.Event;
 import com.savantspender.SavantSpender;
 import com.savantspender.db.AppDatabase;
 import com.savantspender.db.entity.Tag;
@@ -18,6 +20,7 @@ import java.util.concurrent.Executor;
 
 public class GoalsViewModel extends ViewModel {
     private final LiveData<List<? extends Tag>> mTags;
+    private final MutableLiveData<Event<Void>> mDialogClosed = new MutableLiveData<>();
 
     private final DataRepository mRepository;
     private final AppDatabase mDatabase;
@@ -34,6 +37,14 @@ public class GoalsViewModel extends ViewModel {
 
     public LiveData<List<? extends Tag>> availableTags() {
         return mTags;
+    }
+
+    public LiveData<Event<Void>> dialogClosed() {
+        return mDialogClosed;
+    }
+
+    public void closingDialog() {
+        mDialogClosed.postValue(new Event<>(null));
     }
 
     public static class Factory extends ViewModelProvider.NewInstanceFactory {

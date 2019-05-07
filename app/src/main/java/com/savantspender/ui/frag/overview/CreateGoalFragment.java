@@ -1,12 +1,13 @@
 package com.savantspender.ui.frag.overview;
 
-import android.graphics.Point;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.EditText;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -26,8 +27,11 @@ import java.util.List;
 public class CreateGoalFragment extends DialogFragment {
     private GoalsViewModel mViewModel;
     private TableLayout mTable;
-    private List<? extends Tag> mTags;
+    private EditText mGoalName;
+    private EditText mAmount;
 
+    private List<? extends Tag> mTags;
+    private int mNumCols = 0;
 
     private void availableTagsChanged(List<? extends Tag> tags) {
         mTags = tags == null ? new ArrayList<>() : tags;
@@ -38,20 +42,15 @@ public class CreateGoalFragment extends DialogFragment {
     private void buildTagTable() {
         mTable.removeAllViews();
 
+        if (mTags == null || mTags.size() == 0 || mNumCols == 0)
+            return;
 
-        Point size = new Point();
 
-        getActivity().getWindow().getWindowManager().getDefaultDisplay().getSize(size);
-
-        float catWidth = getResources().getDimension(R.dimen.listitem_category_width);
-
-        long numCols = Math.round(Math.floor(size.x / catWidth));
         long curItem = 0;
         TableRow tr = new TableRow(getContext());
         TableRow.LayoutParams params = new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT);
 
         tr.setLayoutParams(params);
-
 
         ArrayList<TableRow> rows = new ArrayList<>();
 
@@ -59,7 +58,7 @@ public class CreateGoalFragment extends DialogFragment {
 
 
             for (Tag tag : mTags) {
-                if (curItem % numCols == 0) {
+                if (curItem % mNumCols == 0) {
                     tr = new TableRow(getContext());
                     tr.setLayoutParams(params);
 
@@ -83,6 +82,12 @@ public class CreateGoalFragment extends DialogFragment {
             mTable.addView(row);
     }
 
+    @Override
+    public void onDismiss(DialogInterface dialog) {
+        super.onDismiss(dialog);
+        mViewModel.closingDialog();
+    }
+
 
     private void onItemCreated(View view, Tag tag) {
         view.setOnClickListener(l -> {
@@ -99,9 +104,24 @@ public class CreateGoalFragment extends DialogFragment {
         getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
 
         mTable = view.findViewById(R.id.NewGoalTagLayout);
+        mGoalName = view.findViewById(R.id.txtNewGoalName);
+        mAmount = view.findViewById(R.id.txtNewGoalAmount);
 
-        mViewModel = ViewModelProviders.of(this, new GoalsViewModel.Factory(getActivity().getApplication())).get(GoalsViewModel.class);
+        view.findViewById(R.id.btnAcceptAddGoal).setOnClickListener(l -> {
+            mViewModel.closingDialog();
+            dismissAllowingStateLoss();
+        });
+
+        mViewModel = ViewModelProviders.of(getActivity(), new GoalsViewModel.Factory(getActivity().getApplication())).get(GoalsViewModel.class);
         mViewModel.availableTags().observe(getViewLifecycleOwner(), t -> availableTagsChanged(t));
+
+        view.post(() -> {
+            int width  = view.getMeasuredWidth();
+            float catWidth = getResources().getDimension(R.dimen.listitem_category_width);
+
+            mNumCols = Math.round((float)Math.floor(width / catWidth));
+            buildTagTable();
+        });
 
         return view;
     }

@@ -47,7 +47,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <EditText
-            android:id="@+id/mEditGoalName"
+            android:id="@+id/txtNewGoalName"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
@@ -71,10 +71,10 @@
             android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/mEditGoalName" />
+            app:layout_constraintTop_toBottomOf="@+id/txtNewGoalName" />
 
         <EditText
-            android:id="@+id/mNewGoalAmount"
+            android:id="@+id/txtNewGoalAmount"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
@@ -95,7 +95,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/mNewGoalAmount" />
+            app:layout_constraintTop_toBottomOf="@+id/txtNewGoalAmount" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
