@@ -18,7 +18,7 @@
 //import static org.junit.Assert.assertThat;
 //
 //public class GoalTagTrackerTest extends DefaultDatabaseTest {
-//    public GoalTagDao goalTagTrackerDao;
+//    public GoalTagDao goalTagDao;
 //    public GoalTagsEntity inputE0 = new GoalTagsEntity("goal",0);
 //    public GoalTagsEntity inputE1 = new GoalTagsEntity("goal1",1);
 //
@@ -32,9 +32,9 @@
 //        int tagId1 = 1;
 //
 //        //inicalizing DOAs
-//        this.goalTagTrackerDao = mDatabase.goalTagTrackerDoa();
+//        this.goalTagDao = mDatabase.goalTagDao();
 //        TagDao tagDao = mDatabase.tagDao();
-//        GoalDao goalDao = mDatabase.goalDoa();
+//        GoalDao goalDao = mDatabase.goalDao();
 //
 //        //inicalizing entities
 //        GoalEntity goalE0 = new GoalEntity(this.inputE0.goalId,1.00);
@@ -47,8 +47,8 @@
 //        tagDao.insert(tagE1);
 //        goalDao.insert(goalE0);
 //        goalDao.insert(goalE1);
-//        this.goalTagTrackerDao.insert(this.inputE0);
-//        this.goalTagTrackerDao.insert(this.inputE1);
+//        this.goalTagDao.insert(this.inputE0);
+//        this.goalTagDao.insert(this.inputE1);
 //
 //    }
 //
@@ -58,8 +58,8 @@
 //    @Test
 //    public void delete()
 //    {
-//        this.goalTagTrackerDao.delete(this.inputE1);
-//        List<GoalTagsEntity> outputEs = this.goalTagTrackerDao.getAll();
+//        this.goalTagDao.delete(this.inputE1);
+//        List<GoalTagsEntity> outputEs = this.goalTagDao.getAll();
 //        GoalTagsEntity outputE = outputEs.get(0);
 //        assertThat(outputEs.size(),is(equalTo(1)));
 //        assertThat(outputE,is(instanceOf(GoalTagsEntity.class)));

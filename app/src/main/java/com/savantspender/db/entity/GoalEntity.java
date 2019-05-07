@@ -22,6 +22,14 @@ public class GoalEntity {
     public double amount;
     public double predicted;
 
+    @Ignore
+    public GoalEntity(@NonNull String name, double amount) {
+        this.name = name;
+        this.amount = amount;
+        this.id = 0;
+        predicted = 0.0;
+    }
+
     public GoalEntity(int id, @NonNull String name, double amount, double predicted) {
         this.id = id;
         this.name = name;

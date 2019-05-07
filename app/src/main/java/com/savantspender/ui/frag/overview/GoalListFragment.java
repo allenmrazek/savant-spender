@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -46,6 +47,12 @@ public class GoalListFragment extends Fragment {
         mViewModel.dialogClosed().observe(getViewLifecycleOwner(), l -> {
             mAddGoalButton.show();
             l.setHandled();
+        });
+
+        mViewModel.toastMessage().observe(getViewLifecycleOwner(), l -> {
+            if (l.isHandled()) return;
+
+            Toast.makeText(getContext(), l.getContentIfNotHandled(), Toast.LENGTH_SHORT).show();
         });
 
         return view;

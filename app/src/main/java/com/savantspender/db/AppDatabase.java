@@ -56,8 +56,8 @@ public abstract class AppDatabase extends RoomDatabase {
     public abstract TagDao tagDao();
     public abstract TransactionDao transactionDao();
     public abstract CataloggedDao cataloggedDao();
-    public abstract GoalDao goalDoa();
-    public abstract GoalTagDao goalTagTrackerDoa();
+    public abstract GoalDao goalDao();
+    public abstract GoalTagDao goalTagDao();
 
     public static AppDatabase getInstance(final Context appContext, final AppExecutors executors) {
         if (mAppDatabase == null) {

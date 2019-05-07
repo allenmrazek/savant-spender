@@ -2,6 +2,7 @@ package com.savantspender.ui.frag.overview;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.savantspender.R;
@@ -96,6 +98,22 @@ public class CreateGoalFragment extends DialogFragment {
         });
     }
 
+
+    private void onAccept() {
+        Log.e("Spender", "onAccept");
+
+        // verify parameters
+        mViewModel.createGoal(mGoalName.getText().toString(), mAmount.getText().toString());
+
+    }
+
+
+    private void finish() {
+        mViewModel.closingDialog();
+        dismissAllowingStateLoss();
+    }
+
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -107,13 +125,11 @@ public class CreateGoalFragment extends DialogFragment {
         mGoalName = view.findViewById(R.id.txtNewGoalName);
         mAmount = view.findViewById(R.id.txtNewGoalAmount);
 
-        view.findViewById(R.id.btnAcceptAddGoal).setOnClickListener(l -> {
-            mViewModel.closingDialog();
-            dismissAllowingStateLoss();
-        });
+        view.findViewById(R.id.btnAcceptAddGoal).setOnClickListener(l -> onAccept());
 
         mViewModel = ViewModelProviders.of(getActivity(), new GoalsViewModel.Factory(getActivity().getApplication())).get(GoalsViewModel.class);
         mViewModel.availableTags().observe(getViewLifecycleOwner(), t -> availableTagsChanged(t));
+        mViewModel.goalWasCreated().observe(getViewLifecycleOwner(), t -> finish());
 
         view.post(() -> {
             int width  = view.getMeasuredWidth();

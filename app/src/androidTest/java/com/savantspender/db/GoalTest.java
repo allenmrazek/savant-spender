@@ -30,9 +30,9 @@
 //    public void createDb(){
 //        super.createDb();
 //        //inicalizing DOAs
-//        GoalTagDao goalTagTrackerDao = mDatabase.goalTagTrackerDoa();
+//        GoalTagDao goalTagDao = mDatabase.goalTagDao();
 //        TagDao tagDao = mDatabase.tagDao();
-//        this.goalDao = mDatabase.goalDoa();
+//        this.goalDao = mDatabase.goalDao();
 //
 //        //inicalizing entities
 //        GoalTagsEntity goalTagTrackerE0 = new GoalTagsEntity(this.inputE0.name,this.tagId0);
@@ -45,8 +45,8 @@
 //        tagDao.insert(tagE1);
 //        this.goalDao.insert(this.inputE0);
 //        this.goalDao.insert(this.inputE1);
-//        goalTagTrackerDao.insert(goalTagTrackerE0);
-//        goalTagTrackerDao.insert(goalTagTrackerE1);
+//        goalTagDao.insert(goalTagTrackerE0);
+//        goalTagDao.insert(goalTagTrackerE1);
 //
 //    }
 //

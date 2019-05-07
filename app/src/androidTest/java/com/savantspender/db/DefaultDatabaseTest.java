@@ -231,7 +231,7 @@ public class DefaultDatabaseTest {
                      mDatabase.accountDao().insert(this.accountGenorator(i));
                       break;
 //                  case "Goal":
-//                      mDatabase.goalDoa().insert(this.goalGenorator(i));
+//                      mDatabase.goalDao().insert(this.goalGenorator(i));
 //                       break;
                  case "Transaction":
 
@@ -241,7 +241,7 @@ public class DefaultDatabaseTest {
                       mDatabase.cataloggedDao().insert(this.cataloggedGenorator(i));
                      break;
 //                 case "GoalTagTracker":
-//                     mDatabase.goalTagTrackerDoa().insert(this.goalTagTrackerGenorator(i));
+//                     mDatabase.goalTagDao().insert(this.goalTagTrackerGenorator(i));
 //                      break;
             }
         }

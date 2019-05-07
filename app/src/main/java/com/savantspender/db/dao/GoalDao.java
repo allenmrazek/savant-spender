@@ -1,6 +1,7 @@
 package com.savantspender.db.dao;
 
 
+import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
@@ -24,6 +25,9 @@ public interface GoalDao {
 
     @Query("SELECT * FROM goals")
     LiveData<List<GoalEntity>> getAll();
+
+    @Query("SELECT 1 FROM goals WHERE name == :name LIMIT 1")
+    boolean exists(@NonNull String name);
 
 //    @Query("SELECT * FROM tags WHERE id IN (SELECT tagId FROM go WHERE goalId = :goal_name)")
 //    LiveData<List<TagEntity>> getTags4Goal(String goal_name);
