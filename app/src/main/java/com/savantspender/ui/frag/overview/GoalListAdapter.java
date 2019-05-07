@@ -7,14 +7,17 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.savantspender.Event;
 import com.savantspender.R;
+import com.savantspender.db.entity.Goal;
+
+import java.text.NumberFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 public class GoalListAdapter extends RecyclerView.Adapter<GoalListAdapter.ViewHolder> {
+    private List<? extends Goal> mGoals = new ArrayList<>();
 
     @NonNull
     @Override
@@ -26,14 +29,26 @@ public class GoalListAdapter extends RecyclerView.Adapter<GoalListAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        // todo
+        Goal g = mGoals.get(position);
+
+        NumberFormat formatter = NumberFormat.getCurrencyInstance();
+        String moneyString = formatter.format(g.getAmount());
+
+        holder.mName.setText(g.getName());
+        holder.mTarget.setText(moneyString);
     }
+
 
     @Override
     public int getItemCount() {
-        return 100;
+        return mGoals.size();
     }
-    // todo
+
+
+    public void setGoals(List<? extends Goal> goals) {
+        mGoals = goals;
+        notifyDataSetChanged();
+    }
 
 
 

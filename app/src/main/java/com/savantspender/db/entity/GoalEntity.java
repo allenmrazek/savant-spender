@@ -11,7 +11,7 @@ import androidx.room.PrimaryKey;
     indices = {
         @Index(value = "name", unique = true)
     })
-public class GoalEntity {
+public class GoalEntity implements Goal {
     @NonNull
     @PrimaryKey (autoGenerate = true)
     public int id;
@@ -35,5 +35,20 @@ public class GoalEntity {
         this.name = name;
         this.amount = amount;
         this.predicted = predicted;
+    }
+
+    @Override
+    public String getName() {
+        return name;
+    }
+
+    @Override
+    public double getAmount() {
+        return amount;
+    }
+
+    @Override
+    public double getPredicted() {
+        return predicted;
     }
 }

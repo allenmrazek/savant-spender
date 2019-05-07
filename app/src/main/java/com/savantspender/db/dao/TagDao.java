@@ -38,15 +38,15 @@ public abstract class TagDao {
     public abstract boolean exists(int tagId);
 
     @Query("SELECT 1 FROM tags WHERE name = :tagName")
-    public abstract boolean existss(@NonNull String tagName);
+    public abstract boolean exists(@NonNull String tagName);
 
     @Query("SELECT * FROM tags")
     public abstract LiveData<List<TagEntity>> getTags();
 
-    @Query("SELECT * FROM tags")
+    @Query("SELECT * FROM tags ORDER BY name ASC")
     public abstract List<TagEntity> getTagsSync();
 
-    @Query("SELECT * FROM tags")
+    @Query("SELECT * FROM tags ORDER BY name ASC")
     public abstract List<TagEntity> getAll();
 
 //    //returns tags which arent used in any goal

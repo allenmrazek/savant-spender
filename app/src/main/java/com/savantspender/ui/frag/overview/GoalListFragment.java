@@ -57,6 +57,10 @@ public class GoalListFragment extends Fragment {
             Toast.makeText(getContext(), l.getContentIfNotHandled(), Toast.LENGTH_SHORT).show();
         });
 
+        mViewModel.goals().observe(getViewLifecycleOwner(), l -> {
+            mAdapter.setGoals(l);
+        });
+
         return view;
     }
 }

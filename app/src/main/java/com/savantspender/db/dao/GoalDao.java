@@ -23,7 +23,7 @@ public interface GoalDao {
     @Delete
     void delete(GoalEntity entity);
 
-    @Query("SELECT * FROM goals")
+    @Query("SELECT * FROM goals ORDER BY name ASC")
     LiveData<List<GoalEntity>> getAll();
 
     @Query("SELECT id FROM goals WHERE name = :name LIMIT 1")

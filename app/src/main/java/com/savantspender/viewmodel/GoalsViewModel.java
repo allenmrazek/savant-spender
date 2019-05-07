@@ -13,6 +13,7 @@ import androidx.lifecycle.ViewModelProvider;
 import com.savantspender.Event;
 import com.savantspender.SavantSpender;
 import com.savantspender.db.AppDatabase;
+import com.savantspender.db.entity.Goal;
 import com.savantspender.db.entity.GoalEntity;
 import com.savantspender.db.entity.GoalTagsEntity;
 import com.savantspender.db.entity.Tag;
@@ -26,6 +27,7 @@ public class GoalsViewModel extends ViewModel {
     private final MutableLiveData<Event<Void>> mDialogClosed = new MutableLiveData<>();
     private final MutableLiveData<Event<Void>> mGoalCreated = new MutableLiveData<>();
     private final MutableLiveData<Event<String>> mToast = new MutableLiveData<>();
+    private final LiveData<List<? extends Goal>> mGoals;
 
     private final DataRepository mRepository;
     private final AppDatabase mDatabase;
@@ -37,6 +39,7 @@ public class GoalsViewModel extends ViewModel {
         mDiskIO = diskIO;
 
         mTags = Transformations.map(mDatabase.tagDao().getTags(), l -> l);
+        mGoals = Transformations.map(mDatabase.goalDao().getAll(), l -> l);
     }
 
 
@@ -50,6 +53,10 @@ public class GoalsViewModel extends ViewModel {
 
     public LiveData<Event<String>> toastMessage() {
         return mToast;
+    }
+
+    public LiveData<List<? extends Goal>> goals() {
+        return mGoals;
     }
 
     public void closingDialog() {
