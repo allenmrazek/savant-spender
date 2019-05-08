@@ -50,6 +50,11 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
             Toast.makeText(this, evt.getContentIfNotHandled(), Toast.LENGTH_SHORT).show();
         });
 
+        mViewModel.updateGoals.observe(this, evt -> {
+            if (evt.isHandled()) return;
+            evt.setHandled();
+            ((SavantSpender)getApplication()).dispatchOneTimeGoalUpdate();
+        });
 
         createNotificationChannel();
 

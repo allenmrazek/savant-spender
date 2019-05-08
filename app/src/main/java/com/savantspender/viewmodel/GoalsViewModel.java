@@ -9,9 +9,6 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Transformations;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.work.Constraints;
-import androidx.work.OneTimeWorkRequest;
-import androidx.work.WorkManager;
 
 import com.savantspender.Event;
 import com.savantspender.SavantSpender;
@@ -21,7 +18,6 @@ import com.savantspender.db.entity.GoalEntity;
 import com.savantspender.db.entity.GoalTagsEntity;
 import com.savantspender.db.entity.Tag;
 import com.savantspender.model.DataRepository;
-import com.savantspender.worker.UpdateGoalsWorker;
 
 import java.util.List;
 import java.util.concurrent.Executor;
@@ -132,10 +128,6 @@ public class GoalsViewModel extends ViewModel {
                 makeToast("\"" + name + "\" created!");
                 mGoalCreated.postValue(new Event<>(null));
 
-                OneTimeWorkRequest update = new OneTimeWorkRequest.Builder(UpdateGoalsWorker.class)
-                        .setConstraints(new Constraints.Builder().build()).build();
-
-                WorkManager.getInstance().enqueue(update);
             } catch (Exception e) {
                 Log.e("Spender", "failed to create goal: " + e.getMessage());
             }

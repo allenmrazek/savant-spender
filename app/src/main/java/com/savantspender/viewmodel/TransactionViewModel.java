@@ -66,6 +66,7 @@ public class TransactionViewModel extends ViewModel {
     public void doUnsortTransactions(List<Transaction> transactions) {
         mDiskIO.execute(() -> {
             mDatabase.cataloggedDao().untag(getSelected(transactions));
+
         });
     }
 

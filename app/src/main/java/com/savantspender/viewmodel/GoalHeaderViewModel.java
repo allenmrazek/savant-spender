@@ -3,11 +3,9 @@ package com.savantspender.viewmodel;
 import android.app.Application;
 
 import androidx.annotation.NonNull;
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.savantspender.Event;
 import com.savantspender.SavantSpender;
 import com.savantspender.model.DataRepository;
 
@@ -16,6 +14,9 @@ public class GoalHeaderViewModel extends ViewModel {
     public GoalHeaderViewModel(DataRepository repository) {
 
     }
+
+
+
 
     public static class Factory extends ViewModelProvider.NewInstanceFactory {
         @NonNull

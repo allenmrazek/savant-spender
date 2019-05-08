@@ -70,11 +70,11 @@ public class CategorizerViewModel extends ViewModel {
 
                 // update transactions
                 // todo: constraints?
-
-                OneTimeWorkRequest update = new OneTimeWorkRequest.Builder(UpdateGoalsWorker.class)
-                        .setConstraints(new Constraints.Builder().build()).build();
-
-                WorkManager.getInstance().enqueue(update);
+//
+//                OneTimeWorkRequest update = new OneTimeWorkRequest.Builder(UpdateGoalsWorker.class)
+//                        .setConstraints(new Constraints.Builder().build()).build();
+//
+//                WorkManager.getInstance().enqueue(update);
             } finally {
                 mDatabase.endTransaction();
             }

@@ -21,7 +21,7 @@ public class GoalHeaderFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_goal_progress, container, false);
 
         mViewModel = ViewModelProviders.of(this, new GoalHeaderViewModel.Factory(getActivity().getApplication())).get(GoalHeaderViewModel.class);
-        
+
         return view;
     }
 }

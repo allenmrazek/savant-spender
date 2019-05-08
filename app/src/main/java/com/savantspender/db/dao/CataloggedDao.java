@@ -42,6 +42,10 @@ public abstract class CataloggedDao {
     @Query("SELECT * FROM catalogged")
     public abstract List<CataloggedEntity> getAll();
 
+    @Query("SELECT * FROM catalogged")
+    public abstract LiveData<CataloggedEntity> getCatalogged();
+
+
     @Query("DELETE FROM catalogged WHERE accountId == :accountId AND transactionId == :transactionId AND itemId == :itemId")
     public abstract void untag(@NonNull String accountId, @NonNull String transactionId, @NonNull String itemId);
 

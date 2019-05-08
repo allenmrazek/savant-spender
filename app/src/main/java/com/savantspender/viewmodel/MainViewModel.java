@@ -28,8 +28,8 @@ public class MainViewModel extends ViewModel {
     private final MutableLiveData<Event<List<Transaction>>> mBeginCategorize = new MutableLiveData<>();
     private final MutableLiveData<Event<String>> mToast = new MutableLiveData<>();
     private final MutableLiveData<Event<Void>> mCloseNewTransDialog = new MutableLiveData<>();
-//    private final LiveData<Event<Void>> mGoalsChanged;
-//    private final LiveData<Event<Void>> mTransactionsChanged;
+    public final LiveData<Event<Void>> updateGoals;
+
     private final AppDatabase mDatabase;
     private final Executor mDiskIO;
     private final DataRepository mRepository;
@@ -38,9 +38,7 @@ public class MainViewModel extends ViewModel {
         mDatabase = database;
         mDiskIO = diskIO;
         mRepository = repository;
-
-//        mGoalsChanged = Transformations.map(repository.goals(), l -> new Event<>(null));
-//        mTransactionsChanged = Transformations.map(repository.sortedTransactions(), l -> new Event<>(null));
+        updateGoals = Transformations.map(database.cataloggedDao().getCatalogged(), l -> new Event<>(null));
     }
 
 
@@ -55,8 +53,6 @@ public class MainViewModel extends ViewModel {
         return mToast;
     }
     public LiveData<Event<Void>> closingNewTransDlg() { return mCloseNewTransDialog; }
-//    public LiveData<Event<Void>> goalsChanged() { return mGoalsChanged; }
-//    public LiveData<Event<Void>> transactionsChanged() { return mTransactionsChanged; }
 
     private void makeToast(String text) {
         mToast.postValue(new Event<>(text));
@@ -104,9 +100,6 @@ public class MainViewModel extends ViewModel {
                 makeToast("failed");
             }
         });
-
-
-
     }
 
 
