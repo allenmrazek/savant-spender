@@ -6,6 +6,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -39,6 +40,12 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
             if (l.isHandled()) return;
 
             launchCategorizeFragment(l.getContentIfNotHandled());
+        });
+
+        mViewModel.toastMessage().observe(this, evt -> {
+            if (evt.isHandled()) return;
+
+            Toast.makeText(this, evt.getContentIfNotHandled(), Toast.LENGTH_SHORT);
         });
 
         createNotificationChannel();

@@ -8,7 +8,6 @@ import androidx.room.Query;
 import com.savantspender.db.entity.GoalTagsEntity;
 
 import java.util.List;
-import java.util.Set;
 
 
 @Dao
@@ -24,5 +23,5 @@ public abstract class GoalTagDao {
     public abstract List<GoalTagsEntity> getAll();
 
     @Query("SELECT * FROM goaltags WHERE goalId == :goalId")
-    public abstract Set<GoalTagsEntity> getTagsFor(int goalId);
+    public abstract List<GoalTagsEntity> getTagsFor(int goalId);
 }

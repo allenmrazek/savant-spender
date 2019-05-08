@@ -108,7 +108,7 @@ public class CreateGoalFragment extends DialogFragment {
 
 
     private void finish() {
-        mViewModel.closingDialog();
+//        mViewModel.closingDialog();
         dismissAllowingStateLoss();
     }
 

@@ -5,10 +5,12 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Transformations;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.savantspender.Event;
 import com.savantspender.SavantSpender;
 import com.savantspender.db.AppDatabase;
 import com.savantspender.db.entity.TagEntity;
@@ -28,6 +30,7 @@ public class TransactionViewModel extends ViewModel {
     private final AppDatabase mDatabase;
     private final Executor mDiskIO;
 
+
     public TransactionViewModel(
             @NonNull final DataRepository repository,
             final AppDatabase db,
@@ -45,7 +48,6 @@ public class TransactionViewModel extends ViewModel {
     public LiveData<List<? extends Transaction>> unsortedTransactions() {
         return mUnsortedTrans;
     }
-
     public LiveData<List<? extends Transaction>> sortedTransactions() {
         return mSortedTrans;
     }
@@ -60,25 +62,12 @@ public class TransactionViewModel extends ViewModel {
         return selected;
     }
 
-//    // swap to categorize screen
-//    public void doSortTransactions(List<Transaction> transactions) {
-//        // todo: launch process of adding actual tags instead
-////        mDiskIO.execute(() -> {
-////            if (!mDatabase.tagDao().exists(0))
-////                mDatabase.tagDao().insert(new TagEntity(0, "defaultTag"));
-////
-////            mDatabase.cataloggedDao().insert(getSelected(transactions), 0);
-////        });
-//
-//    }
-
 
     public void doUnsortTransactions(List<Transaction> transactions) {
         mDiskIO.execute(() -> {
             mDatabase.cataloggedDao().untag(getSelected(transactions));
         });
     }
-
 
 
     public static class Factory extends ViewModelProvider.NewInstanceFactory {

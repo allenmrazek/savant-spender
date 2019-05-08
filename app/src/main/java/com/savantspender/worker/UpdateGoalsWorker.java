@@ -17,6 +17,7 @@ import com.savantspender.db.entity.TransactionEntity;
 
 import org.apache.commons.math3.stat.regression.SimpleRegression;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
@@ -44,7 +45,7 @@ public class UpdateGoalsWorker extends Worker {
 
         for (GoalEntity goal : mDatabase.goalDao().getAllSync())
             updateGoal(goal);
-        
+
         return Result.failure();
     }
 
@@ -66,7 +67,7 @@ public class UpdateGoalsWorker extends Worker {
         }
 
         // grab tags for this goal
-        Set<GoalTagsEntity> tags = mDatabase.goalTagDao().getTagsFor(goal.id);
+        List<GoalTagsEntity> tags = mDatabase.goalTagDao().getTagsFor(goal.id);
 
         Pair<Double, Double> prediction = predictEndAmount(goal, tags, queryStart.getTime(), monthStart.getTime());
 
@@ -74,11 +75,11 @@ public class UpdateGoalsWorker extends Worker {
     }
 
 
-    private Pair<Double /* amount */, Double /* prediction */> predictEndAmount(GoalEntity goal, Set<GoalTagsEntity> tags, Date queryStart, Date monthStart) {
+    private Pair<Double /* amount */, Double /* prediction */> predictEndAmount(GoalEntity goal, List<GoalTagsEntity> tags, Date queryStart, Date monthStart) {
         Calendar monthEnd = Calendar.getInstance();
         monthEnd.set(Calendar.DATE, monthEnd.getActualMaximum(Calendar.DATE));
 
-        Set<Integer> tagIds = new HashSet<>();
+        List<Integer> tagIds = new ArrayList<>();
 
         for (GoalTagsEntity gte : tags)
             tagIds.add(gte.tagId);
