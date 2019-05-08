@@ -121,6 +121,8 @@ public class CreateGoalFragment extends DialogFragment {
         View view = LayoutInflater.from(getContext()).inflate(R.layout.dialog_creategoal, container, true);
 
         getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
+        getDialog().getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+
 
         mTable = view.findViewById(R.id.NewGoalTagLayout);
         mGoalName = view.findViewById(R.id.txtNewGoalName);
