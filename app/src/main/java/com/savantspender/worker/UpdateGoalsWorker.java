@@ -39,8 +39,13 @@ public class UpdateGoalsWorker extends Worker {
 
         mDatabase = spender.getDatabase();
 
-        for (GoalEntity goal : mDatabase.goalDao().getAllSync())
+        List<GoalEntity> goals = mDatabase.goalDao().getAllSync();
+
+        for (GoalEntity goal : goals)
             updateGoal(goal);
+
+        if (goals.isEmpty())
+            Log.i("Spender", "no goals to update");
 
         return Result.success();
     }
@@ -111,8 +116,6 @@ public class UpdateGoalsWorker extends Worker {
 
         if (Double.isNaN(goal.rsquared)) goal.rsquared = 0.0;
         if (Double.isNaN(goal.rvalue)) goal.rvalue = 0.0;
-
-        Log.e("Spender", "prediction for " + goal.name + " is " + goal.predicted);
 
         mDatabase.goalDao().update(goal);
     }

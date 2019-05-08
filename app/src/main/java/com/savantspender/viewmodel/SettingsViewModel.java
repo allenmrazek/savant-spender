@@ -76,8 +76,13 @@ public class SettingsViewModel extends ViewModel {
 
 
     public void onDeleteGoalsClicked() {
-        Log.w("Spender", "Deleting goals");
-        mToastMessage.postValue(new Event<>("not implemented"));
+        mExecutor.execute(() -> {
+            Log.i("Spender", "Deleting goals");
+
+            mDatabase.goalDao().deleteAll();
+
+            mToastMessage.postValue(new Event<>("All goals deleted"));
+        });
     }
 
     public void onDeleteTagsClicked() {

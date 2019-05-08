@@ -47,6 +47,8 @@ public class GoalListFragment extends Fragment {
 
         mViewModel = ViewModelProviders.of(getActivity(), new GoalsViewModel.Factory(getActivity().getApplication())).get(GoalsViewModel.class);
         mViewModel.dialogClosed().observe(getViewLifecycleOwner(), l -> {
+            if (l.isHandled()) return;
+
             mAddGoalButton.show();
             l.setHandled();
         });

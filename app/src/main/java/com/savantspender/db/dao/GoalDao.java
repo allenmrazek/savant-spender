@@ -27,6 +27,9 @@ public interface GoalDao {
     @Delete
     void delete(GoalEntity entity);
 
+    @Query("DELETE FROM goals")
+    void deleteAll();
+
     @Query("SELECT * FROM goals ORDER BY name ASC")
     LiveData<List<GoalEntity>> getAll();
 
