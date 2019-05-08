@@ -15,7 +15,9 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.savantspender.Event;
 import com.savantspender.R;
+import com.savantspender.SavantSpender;
 import com.savantspender.db.entity.Transaction;
 import com.savantspender.ui.frag.categories.CategoryMenuFragmentCategorize;
 import com.savantspender.ui.frag.categories.CategoryMenuFragmentList;
@@ -47,6 +49,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
             Toast.makeText(this, evt.getContentIfNotHandled(), Toast.LENGTH_SHORT).show();
         });
+
 
         createNotificationChannel();
 

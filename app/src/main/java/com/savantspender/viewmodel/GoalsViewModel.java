@@ -9,6 +9,9 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Transformations;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.work.Constraints;
+import androidx.work.OneTimeWorkRequest;
+import androidx.work.WorkManager;
 
 import com.savantspender.Event;
 import com.savantspender.SavantSpender;
@@ -18,6 +21,7 @@ import com.savantspender.db.entity.GoalEntity;
 import com.savantspender.db.entity.GoalTagsEntity;
 import com.savantspender.db.entity.Tag;
 import com.savantspender.model.DataRepository;
+import com.savantspender.worker.UpdateGoalsWorker;
 
 import java.util.List;
 import java.util.concurrent.Executor;
@@ -28,6 +32,7 @@ public class GoalsViewModel extends ViewModel {
     private final MutableLiveData<Event<Void>> mGoalCreated = new MutableLiveData<>();
     private final MutableLiveData<Event<String>> mToast = new MutableLiveData<>();
     private final LiveData<List<? extends Goal>> mGoals;
+
 
     private final DataRepository mRepository;
     private final AppDatabase mDatabase;
@@ -43,21 +48,21 @@ public class GoalsViewModel extends ViewModel {
     }
 
 
+
     public LiveData<List<? extends Tag>> availableTags() {
         return mTags;
     }
-
     public LiveData<Event<Void>> dialogClosed() {
         return mDialogClosed;
     }
-
     public LiveData<Event<String>> toastMessage() {
         return mToast;
     }
-
     public LiveData<List<? extends Goal>> goals() {
         return mGoals;
     }
+
+
 
     public void closingDialog() {
         mDialogClosed.postValue(new Event<>(null));
@@ -126,6 +131,11 @@ public class GoalsViewModel extends ViewModel {
                 mDatabase.setTransactionSuccessful();
                 makeToast("\"" + name + "\" created!");
                 mGoalCreated.postValue(new Event<>(null));
+
+                OneTimeWorkRequest update = new OneTimeWorkRequest.Builder(UpdateGoalsWorker.class)
+                        .setConstraints(new Constraints.Builder().build()).build();
+
+                WorkManager.getInstance().enqueue(update);
             } catch (Exception e) {
                 Log.e("Spender", "failed to create goal: " + e.getMessage());
             }

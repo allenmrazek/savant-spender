@@ -7,6 +7,7 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Transformations;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -15,6 +16,7 @@ import com.savantspender.SavantSpender;
 import com.savantspender.db.AppDatabase;
 import com.savantspender.db.entity.Transaction;
 import com.savantspender.db.entity.TransactionEntity;
+import com.savantspender.model.DataRepository;
 import com.savantspender.util.Constants;
 
 import java.util.Calendar;
@@ -26,16 +28,23 @@ public class MainViewModel extends ViewModel {
     private final MutableLiveData<Event<List<Transaction>>> mBeginCategorize = new MutableLiveData<>();
     private final MutableLiveData<Event<String>> mToast = new MutableLiveData<>();
     private final MutableLiveData<Event<Void>> mCloseNewTransDialog = new MutableLiveData<>();
+//    private final LiveData<Event<Void>> mGoalsChanged;
+//    private final LiveData<Event<Void>> mTransactionsChanged;
     private final AppDatabase mDatabase;
     private final Executor mDiskIO;
+    private final DataRepository mRepository;
 
-    public MainViewModel(AppDatabase database, Executor diskIO) {
+    public MainViewModel(AppDatabase database, DataRepository repository, Executor diskIO) {
         mDatabase = database;
         mDiskIO = diskIO;
+        mRepository = repository;
+
+//        mGoalsChanged = Transformations.map(repository.goals(), l -> new Event<>(null));
+//        mTransactionsChanged = Transformations.map(repository.sortedTransactions(), l -> new Event<>(null));
     }
 
+
     public void enterCategorizeMode(List<Transaction> transactions) {
-        Log.e("Spender", "enterCategorizeMode");
         mBeginCategorize.postValue(new Event<>(transactions));
     }
 
@@ -46,6 +55,8 @@ public class MainViewModel extends ViewModel {
         return mToast;
     }
     public LiveData<Event<Void>> closingNewTransDlg() { return mCloseNewTransDialog; }
+//    public LiveData<Event<Void>> goalsChanged() { return mGoalsChanged; }
+//    public LiveData<Event<Void>> transactionsChanged() { return mTransactionsChanged; }
 
     private void makeToast(String text) {
         mToast.postValue(new Event<>(text));
@@ -115,7 +126,7 @@ public class MainViewModel extends ViewModel {
         @SuppressWarnings("unchecked")
         public <T extends ViewModel> T create(Class<T> modelClass) {
             //noinspection unchecked
-            return (T) new MainViewModel(mApplication.getDatabase(), mApplication.getExecutors().diskIO());
+            return (T) new MainViewModel(mApplication.getDatabase(), mApplication.getRepository(), mApplication.getExecutors().diskIO());
         }
     }
 }

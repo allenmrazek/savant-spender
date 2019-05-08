@@ -5,4 +5,5 @@ public interface Goal {
     double getAmount();
     double getPredicted();
     double getRsquared();
+    double getR();
 }

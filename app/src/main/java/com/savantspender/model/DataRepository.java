@@ -4,6 +4,7 @@ package com.savantspender.model;
 import androidx.lifecycle.LiveData;
 
 import com.savantspender.db.AppDatabase;
+import com.savantspender.db.entity.GoalEntity;
 import com.savantspender.db.entity.TransactionEntity;
 
 import java.util.List;
@@ -41,6 +42,10 @@ public class DataRepository {
 
     public LiveData<List<TransactionEntity>> sortedTransactions() {
         return mDatabase.transactionDao().getTaggedTransactions();
+    }
+
+    public LiveData<List<GoalEntity>> goals() {
+        return mDatabase.goalDao().getAll();
     }
 
 

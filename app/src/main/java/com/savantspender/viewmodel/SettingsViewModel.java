@@ -118,7 +118,7 @@ public class SettingsViewModel extends ViewModel {
         mExecutor.execute(() -> {
             int maxDays = Calendar.getInstance().getActualMaximum(Calendar.DATE) - 1;
             double amount = 0.0;
-            final double eachTrans = 100.0;
+            final double eachTrans = 5.55;
 
             Log.e("Spender", "creating values for " + maxDays + " days");
 

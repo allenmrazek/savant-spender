@@ -45,7 +45,8 @@ public class SavantSpender extends Application {
         WorkManager mgr = WorkManager.getInstance();
 
         initializeDownloadRequests(mgr);
-        initializeUpdateRequests(mgr);
+
+        dispatchOneTimeGoalUpdate();
 
         // todo: month summary (use AlarmManager instead of WorkManager)
     }
@@ -69,16 +70,13 @@ public class SavantSpender extends Application {
         mgr.enqueueUniquePeriodicWork(periodicTransWorkTag, ExistingPeriodicWorkPolicy.KEEP, downloadTransactions);
     }
 
-
-    private void initializeUpdateRequests(@NonNull WorkManager mgr) {
+    public void dispatchOneTimeGoalUpdate() {
         String updateTransTag = getResources().getString(R.string.work_update_goals_s);
 
         OneTimeWorkRequest updateGoalsNow = new OneTimeWorkRequest.Builder(UpdateGoalsWorker.class)
                 .addTag(updateTransTag)
                 .build();
 
-        mgr.enqueue(updateGoalsNow);
-
-        // todo: also periodic, daily
+        WorkManager.getInstance().enqueue(updateGoalsNow);
     }
 }
