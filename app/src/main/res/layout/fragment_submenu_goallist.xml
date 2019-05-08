@@ -39,8 +39,10 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:clickable="true"
+        app:fabCustomSize="@dimen/floatingbutton_size"
+        app:fabSize="normal"
         app:layout_constraintBottom_toBottomOf="@+id/goallist_container"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@drawable/ic_dashboard_black_24dp" />
+        app:srcCompat="@drawable/ic_add" />
 </androidx.constraintlayout.widget.ConstraintLayout>
