@@ -47,7 +47,7 @@ public class GoalListAdapter extends RecyclerView.Adapter<GoalListAdapter.ViewHo
 
         holder.mName.setText(g.getName());
         holder.mTarget.setText("Goal: " + formatter.format(g.getGoalAmount()));
-        holder.mPrediction.setText("On track: " + formatter.format(g.getPredicted()));
+        holder.mPrediction.setText("Estimate: " + formatter.format(g.getPredicted()));
         holder.mTotal.setText("Spent so far: " + formatter.format(g.getTotalSpending()));
         holder.mProgress.setProgress(g.getProgress());
 

@@ -92,16 +92,20 @@ public class SettingsViewModel extends ViewModel {
         mExecutor.execute(() -> {
             Log.i("Spender", "Deleting tags");
 
-            mDatabase.beginTransaction();
-            for (TagEntity te : mDatabase.tagDao().getTagsSync())
-                mDatabase.tagDao().delete(te);
+            try {
+                mDatabase.beginTransaction();
+                for (TagEntity te : mDatabase.tagDao().getTagsSync())
+                    mDatabase.tagDao().delete(te);
 
-            mDatabase.insertDefaultTags();
-            mDatabase.setTransactionSuccessful();
-            mDatabase.endTransaction();
+                mDatabase.insertDefaultTags();
+                mDatabase.setTransactionSuccessful();
+                mDatabase.endTransaction();
 
-            mToastMessage.postValue(new Event<>("Tags deleted!"));
-            Log.i("Spender", "Tags were deleted");
+                mToastMessage.postValue(new Event<>("Tags deleted!"));
+                Log.i("Spender", "Tags were deleted");
+            } catch (Exception e) {
+                Log.e("Spender", "failed to delete tags");
+            }
         });
     }
 
@@ -109,15 +113,19 @@ public class SettingsViewModel extends ViewModel {
         mExecutor.execute(() -> {
             Log.i("Spender", "Resetting transaction tags");
 
-            mDatabase.beginTransaction();
-            for (CataloggedEntity ce : mDatabase.cataloggedDao().getAll()) {
-                mDatabase.cataloggedDao().delete(ce);
-            }
-            mDatabase.setTransactionSuccessful();
-            mDatabase.endTransaction();
+            try {
+                mDatabase.beginTransaction();
+                for (CataloggedEntity ce : mDatabase.cataloggedDao().getAll()) {
+                    mDatabase.cataloggedDao().delete(ce);
+                }
+                mDatabase.setTransactionSuccessful();
+                mDatabase.endTransaction();
 
-            mToastMessage.postValue(new Event<>("Transaction tags reset!"));
-            Log.i("Spender", "Transaction tags were reset");
+                mToastMessage.postValue(new Event<>("Transaction tags reset!"));
+                Log.i("Spender", "Transaction tags were reset");
+            } catch (Exception e) {
+                Log.e("Spender", "failed to reset catalog entries");
+            }
         });
     }
 

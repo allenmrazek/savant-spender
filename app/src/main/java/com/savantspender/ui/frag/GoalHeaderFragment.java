@@ -49,7 +49,7 @@ public class GoalHeaderFragment extends Fragment {
 
             FragmentTransaction transaction = fm.beginTransaction();
 
-            transaction.setCustomAnimations(R.anim.enter, R.anim.exit, R.anim.pop_enter, R.anim.pop_exit);
+            transaction.setCustomAnimations(R.anim.enter_slide_down, R.anim.exit_slide_up, R.anim.enter_slide_down, R.anim.exit_slide_up);
             transaction.replace(R.id.action_fragment_container, f);
             transaction.addToBackStack(null);
 

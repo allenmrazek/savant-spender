@@ -46,11 +46,11 @@ public abstract class TransactionDao {
     @Query("SELECT * FROM transactions WHERE amount > 0 ORDER BY postDate DESC")
     public abstract LiveData<List<TransactionEntity>> getSpendingTransactions();
 
-    @Query("SELECT * FROM transactions AS T WHERE amount > 0 AND NOT EXISTS (SELECT 1 FROM catalogged AS C WHERE T.id == C.transactionId LIMIT 1)")
+    @Query("SELECT * FROM transactions AS T WHERE amount > 0 AND NOT EXISTS (SELECT 1 FROM catalogged AS C WHERE T.id == C.transactionId LIMIT 1) ORDER BY postDate DESC")
     public abstract LiveData<List<TransactionEntity>> getUntaggedTransactions();
 
 
-    @Query("SELECT DISTINCT T.id, T.postDate, T.amount, T.accountId, T.itemId, T.pending, T.name FROM transactions AS T INNER JOIN catalogged AS C ON T.id == C.transactionId")
+    @Query("SELECT DISTINCT T.id, T.postDate, T.amount, T.accountId, T.itemId, T.pending, T.name FROM transactions AS T INNER JOIN catalogged AS C ON T.id == C.transactionId ORDER BY t.postDate DESC")
     public abstract LiveData<List<TransactionEntity>> getTaggedTransactions();
 
 

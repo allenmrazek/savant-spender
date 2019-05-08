@@ -31,6 +31,8 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
     private MainViewModel mViewModel;
+    private BottomNavigationView mNavView;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +62,10 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         createNotificationChannel();
 
         setContentView(R.layout.activity_main);
+
+        mNavView = findViewById(R.id.nav_view);
+
+
         BottomNavigationView navView = findViewById(R.id.nav_view);
 
         navView.setOnNavigationItemSelectedListener(this);
@@ -120,7 +126,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         // todo: don't transition if already in correct state
         // todo: appropriate animation directions
 
-        //FragmentManager.BackStackEntry previous = getSupportFragmentManager().getBackStackEntryAt(0);
 
         switch (menuItem.getItemId()) {
             case R.id.navigation_overview:

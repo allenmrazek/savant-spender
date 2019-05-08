@@ -9,10 +9,10 @@
     <color name="progressBarBackground">#E3BB51</color>
     <color name="colorTransparent">#00FFFFFF</color>
 
-    <color name="selectedIcon">#DAF1B33B</color>
+    <color name="selectedIcon">#8AF1B33B</color>
 
     // goal colors
-    <color name="colorGoalGood">#3CDD47</color>
-    <color name="colorGoalWarning">#C0DD47</color>
+    <color name="colorGoalGood">#272727</color>
+    <color name="colorGoalWarning">#D7FF00</color>
     <color name="colorGoalBad">#C2411A</color>
 </resources>
