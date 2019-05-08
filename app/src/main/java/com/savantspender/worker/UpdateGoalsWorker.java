@@ -93,23 +93,23 @@ public class UpdateGoalsWorker extends Worker {
         }
 
         // build regression model
-        SimpleRegression regression = new SimpleRegression(false);
+        SimpleRegression regression = new SimpleRegression(true);
         double accumulatedTotal = 0.0;
 
         // make sure we count only up to the current date: beyond this, the buckets are probably
         // zero and should NOT be included in the regression
         for (int i = 0; i < Calendar.getInstance().get(DATE); ++i) {
-            if (buckets.get(i) < 0.01) continue;
-
+            
             regression.addData((double) i, buckets.get(i) + accumulatedTotal);
             accumulatedTotal += buckets.get(i);
         }
 
-        goal.amount = total;
+        goal.totalSpending = total;
         goal.predicted = regression.predict((double)(daysThisMonth - 1));
 
-        if (goal.predicted < goal.amount || Double.isNaN(goal.predicted))
-            goal.predicted = goal.amount;
+        // because obviously if we'ev spent $200 so far, we're not going to spend less .. ?
+        if (goal.predicted < goal.totalSpending || Double.isNaN(goal.predicted))
+            goal.predicted = goal.totalSpending;
 
         goal.rsquared = regression.getRSquare();
         goal.rvalue = regression.getR();
@@ -118,7 +118,7 @@ public class UpdateGoalsWorker extends Worker {
         if (Double.isNaN(goal.rvalue)) goal.rvalue = 0.0;
 
         // calculate how much of the progress bar the user has filled
-        double ratio = Math.max(0, Math.min(goal.predicted / goal.amount, 1.0));
+        double ratio = Math.max(0, Math.min(goal.predicted / goal.goalAmount, 1.0));
 
         goal.progress = (int)(100.0 * ratio); // todo: no magic numbers
 

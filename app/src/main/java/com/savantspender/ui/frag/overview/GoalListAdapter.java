@@ -32,11 +32,11 @@ public class GoalListAdapter extends RecyclerView.Adapter<GoalListAdapter.ViewHo
         Goal g = mGoals.get(position);
 
         NumberFormat formatter = NumberFormat.getCurrencyInstance();
-        String moneyString = formatter.format(g.getAmount());
 
         holder.mName.setText(g.getName());
-        holder.mTarget.setText(moneyString);
-        holder.mPrediction.setText(formatter.format(g.getPredicted()));
+        holder.mTarget.setText("Goal: " + formatter.format(g.getGoalAmount()));
+        holder.mPrediction.setText("On track: " + formatter.format(g.getPredicted()));
+        holder.mTotal.setText("Spent so far: " + formatter.format(g.getTotalSpending()));
         holder.mProgress.setProgress(g.getProgress());
     }
 
@@ -59,6 +59,7 @@ public class GoalListAdapter extends RecyclerView.Adapter<GoalListAdapter.ViewHo
         private TextView mName;
         private TextView mTarget;
         private TextView mPrediction;
+        private TextView mTotal;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -67,6 +68,7 @@ public class GoalListAdapter extends RecyclerView.Adapter<GoalListAdapter.ViewHo
             mName = itemView.findViewById(R.id.txtGoalName);
             mTarget = itemView.findViewById(R.id.txtGoalTargetAmount);
             mPrediction = itemView.findViewById(R.id.txtPredictionAmount);
+            mTotal = itemView.findViewById(R.id.txtGoalTotal);
         }
     }
 }

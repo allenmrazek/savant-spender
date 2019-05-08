@@ -19,7 +19,8 @@ public class GoalEntity implements Goal {
     @NonNull
     public String name;
 
-    public double amount;
+    public double goalAmount;
+    public double totalSpending;
     public double predicted;
     public double rsquared;
     public double rvalue;
@@ -28,17 +29,19 @@ public class GoalEntity implements Goal {
     @Ignore
     public GoalEntity(@NonNull String name, double amount) {
         this.name = name;
-        this.amount = amount;
+        this.goalAmount = amount;
         this.id = 0;
         predicted = 0.0;
         rsquared = 0.0;
         rvalue = 0.0;
+        totalSpending = 0.0;
     }
 
-    public GoalEntity(int id, @NonNull String name, double amount, double predicted, double rsquared, double rvalue, int progress) {
+    public GoalEntity(int id, @NonNull String name, double goalAmount, double totalSpending, double predicted, double rsquared, double rvalue, int progress) {
         this.id = id;
         this.name = name;
-        this.amount = amount;
+        this.goalAmount = goalAmount;
+        this.totalSpending = totalSpending;
         this.predicted = predicted;
         this.rsquared = rsquared;
         this.rvalue = rvalue;
@@ -51,8 +54,8 @@ public class GoalEntity implements Goal {
     }
 
     @Override
-    public double getAmount() {
-        return amount;
+    public double getGoalAmount() {
+        return goalAmount;
     }
 
     @Override
@@ -72,4 +75,9 @@ public class GoalEntity implements Goal {
 
     @Override
     public int getProgress() { return progress; }
+
+    @Override
+    public double getTotalSpending() {
+        return totalSpending;
+    }
 }
