@@ -40,6 +40,9 @@ public class CreateManualTransactionFragment extends DialogFragment {
             dismissAllowingStateLoss();
         });
 
+        getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
+        getDialog().getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+
         return view;
     }
 
