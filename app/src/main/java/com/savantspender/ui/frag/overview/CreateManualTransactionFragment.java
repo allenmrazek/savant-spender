@@ -18,7 +18,7 @@ import com.savantspender.viewmodel.MainViewModel;
 
 public class CreateManualTransactionFragment extends DialogFragment {
     private MainViewModel mViewModel;
-    private EditText mTransName;
+    private EditText mTransDescription;
     private EditText mTransAmount;
 
 
@@ -28,19 +28,19 @@ public class CreateManualTransactionFragment extends DialogFragment {
 
         getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
 
-        mTransName = view.findViewById(R.id.txtNewTransName);
+        mTransDescription = view.findViewById(R.id.txtNewTransDescr);
         mTransAmount = view.findViewById(R.id.txtManualTransAmt);
 
         view.findViewById(R.id.btnAddManualTrans).setOnClickListener(l -> onAccept());
 
-        mViewModel = ViewModelProviders.of(getActivity()).get(MainViewModel.class);
+        mViewModel = ViewModelProviders.of(getActivity(), new MainViewModel.Factory(getActivity().getApplication())).get(MainViewModel.class);
         mViewModel.closingNewTransDlg().observe(getViewLifecycleOwner(), l -> dismissAllowingStateLoss());
 
         return view;
     }
 
     private void onAccept() {
-        mViewModel.createManualTransaction(mTransName.getText().toString(), mTransAmount.getText().toString());
+        mViewModel.createManualTransaction(mTransDescription.getText().toString(), mTransAmount.getText().toString());
     }
 
 

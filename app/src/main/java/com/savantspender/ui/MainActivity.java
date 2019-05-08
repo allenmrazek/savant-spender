@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mViewModel = ViewModelProviders.of(this).get(MainViewModel.class);
+        mViewModel = ViewModelProviders.of(this, new MainViewModel.Factory(getApplication())).get(MainViewModel.class);
 
         mViewModel.beginCategorize().observe(this, l -> {
             if (l.isHandled()) return;
@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         mViewModel.toastMessage().observe(this, evt -> {
             if (evt.isHandled()) return;
 
-            Toast.makeText(this, evt.getContentIfNotHandled(), Toast.LENGTH_SHORT);
+            Toast.makeText(this, evt.getContentIfNotHandled(), Toast.LENGTH_SHORT).show();
         });
 
         createNotificationChannel();

@@ -31,6 +31,7 @@ import com.savantspender.db.entity.InstitutionEntity;
 import com.savantspender.db.entity.ItemEntity;
 import com.savantspender.db.entity.TagEntity;
 import com.savantspender.db.entity.TransactionEntity;
+import com.savantspender.util.Constants;
 
 
 @Database(entities = {
@@ -82,18 +83,18 @@ public abstract class AppDatabase extends RoomDatabase {
 
     private void insertManualTransactionDummyEntries() {
 
-        if (!mAppDatabase.institutionDao().existsSync("manual_inst_id"))
+        if (!mAppDatabase.institutionDao().existsSync(Constants.ManualInstitutionId))
             mAppDatabase.institutionDao().insert(
-                    new InstitutionEntity("manual_inst_id", "Manual Entry"));
+                    new InstitutionEntity(Constants.ManualInstitutionId, Constants.ManualInstitutionName));
 
-        if (!mAppDatabase.itemDao().exists("manual_item_id"))
+        if (!mAppDatabase.itemDao().exists(Constants.ManualItemId))
             mAppDatabase.itemDao().insert(
-                    new ItemEntity("manual_item_id", "manual_inst_id", "na"));
+                    new ItemEntity(Constants.ManualItemId, Constants.ManualInstitutionId, "na"));
 
-        if (!mAppDatabase.accountDao().existsSync("manual_account", "manual_item_id"))
+        if (!mAppDatabase.accountDao().existsSync(Constants.ManualAccountId, Constants.ManualItemId))
             mAppDatabase.accountDao().insert(
                     new AccountEntity(
-                            "manual_account", "manual_item_id", "Manual Entry"));
+                            Constants.ManualAccountId, Constants.ManualItemId, Constants.ManualAccountName));
     }
 
     public void insertDefaultTags() {
