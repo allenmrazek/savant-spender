@@ -2,7 +2,6 @@ package com.savantspender.ui.frag.overview;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -84,6 +83,7 @@ public class CreateGoalFragment extends DialogFragment {
     public void onDismiss(DialogInterface dialog) {
         super.onDismiss(dialog);
         mViewModel.closingDialog();
+        mViewModel.requestGoalStatusUpdate();
     }
 
 
@@ -108,12 +108,6 @@ public class CreateGoalFragment extends DialogFragment {
     }
 
 
-    private void finish() {
-        dismissAllowingStateLoss();
-        Log.e("Spender", "create goal fragment finished");
-    }
-
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -132,7 +126,7 @@ public class CreateGoalFragment extends DialogFragment {
         mViewModel.goalWasCreated().observe(getViewLifecycleOwner(), t -> {
             if (t.isHandled()) return;
             t.setHandled();
-            finish();
+            dismissAllowingStateLoss();
         });
 
         view.post(() -> {

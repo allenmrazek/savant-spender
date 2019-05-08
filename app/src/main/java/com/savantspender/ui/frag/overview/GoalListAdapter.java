@@ -36,7 +36,8 @@ public class GoalListAdapter extends RecyclerView.Adapter<GoalListAdapter.ViewHo
 
         holder.mName.setText(g.getName());
         holder.mTarget.setText(moneyString);
-        holder.mPrediction.setText("$" + String.format(Double.toString(g.getPredicted()), "%.2f"));
+        holder.mPrediction.setText(formatter.format(g.getPredicted()));
+        holder.mProgress.setProgress(g.getProgress());
     }
 
 

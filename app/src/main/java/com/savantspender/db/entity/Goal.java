@@ -6,4 +6,5 @@ public interface Goal {
     double getPredicted();
     double getRsquared();
     double getR();
+    int getProgress();
 }

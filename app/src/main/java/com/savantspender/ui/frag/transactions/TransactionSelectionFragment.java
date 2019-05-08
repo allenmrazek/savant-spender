@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.savantspender.R;
+import com.savantspender.SavantSpender;
 import com.savantspender.ui.frag.transactions.adapter.TransactionViewAdapter;
 import com.savantspender.viewmodel.TransactionViewModel;
 
@@ -51,6 +52,12 @@ public abstract class TransactionSelectionFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mViewModel = ViewModelProviders.of(getActivity(), new TransactionViewModel.Factory(getActivity().getApplication())).get(TransactionViewModel.class);
+
+        mViewModel.goalUpdateRequested().observe(getViewLifecycleOwner(), l -> {
+            if (l.isHandled()) return;
+            l.setHandled();
+            ((SavantSpender)getActivity().getApplication()).dispatchOneTimeGoalUpdate();
+        });
 
         mFloatingButton.setOnClickListener(v -> onFloatingButtonClicked());
 

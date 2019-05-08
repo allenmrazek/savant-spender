@@ -1,6 +1,7 @@
 package com.savantspender;
 
 import android.app.Application;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.work.Constraints;
@@ -71,6 +72,8 @@ public class SavantSpender extends Application {
     }
 
     public void dispatchOneTimeGoalUpdate() {
+        Log.e("Spender", "dispatching goal update");
+
         String updateTransTag = getResources().getString(R.string.work_update_goals_s);
 
         OneTimeWorkRequest updateGoalsNow = new OneTimeWorkRequest.Builder(UpdateGoalsWorker.class)

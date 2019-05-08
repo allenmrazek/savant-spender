@@ -34,7 +34,11 @@ public class CreateManualTransactionFragment extends DialogFragment {
         view.findViewById(R.id.btnAddManualTrans).setOnClickListener(l -> onAccept());
 
         mViewModel = ViewModelProviders.of(getActivity(), new MainViewModel.Factory(getActivity().getApplication())).get(MainViewModel.class);
-        mViewModel.closingNewTransDlg().observe(getViewLifecycleOwner(), l -> dismissAllowingStateLoss());
+        mViewModel.closingNewTransDlg().observe(getViewLifecycleOwner(), l -> {
+            if (l.isHandled()) return;
+            l.setHandled();
+            dismissAllowingStateLoss();
+        });
 
         return view;
     }

@@ -4,6 +4,7 @@ import android.app.Application;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -26,6 +27,8 @@ import java.util.concurrent.Executor;
 
 public class CategorizerViewModel extends ViewModel {
     private final MutableLiveData<List<? extends Transaction>> mToCategorize = new MutableLiveData<>();
+    private final MutableLiveData<Event<Void>> mSignalFinished = new MutableLiveData<>();
+
     private final AppDatabase mDatabase;
     private final Executor mDiskIO;
 
@@ -42,6 +45,7 @@ public class CategorizerViewModel extends ViewModel {
     public LiveData<List<? extends Transaction>> needTags() {
         return mToCategorize;
     }
+    public LiveData<Event<Void>> finished() { return mSignalFinished; }
 
 
     public void categorize(List<? extends Tag> usingTags, List<? extends Transaction> transactions) {
@@ -67,14 +71,7 @@ public class CategorizerViewModel extends ViewModel {
                     }
                 }
                 mDatabase.setTransactionSuccessful();
-
-                // update transactions
-                // todo: constraints?
-//
-//                OneTimeWorkRequest update = new OneTimeWorkRequest.Builder(UpdateGoalsWorker.class)
-//                        .setConstraints(new Constraints.Builder().build()).build();
-//
-//                WorkManager.getInstance().enqueue(update);
+                mSignalFinished.postValue(new Event<>(null));
             } finally {
                 mDatabase.endTransaction();
             }

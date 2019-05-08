@@ -117,6 +117,11 @@ public class UpdateGoalsWorker extends Worker {
         if (Double.isNaN(goal.rsquared)) goal.rsquared = 0.0;
         if (Double.isNaN(goal.rvalue)) goal.rvalue = 0.0;
 
+        // calculate how much of the progress bar the user has filled
+        double ratio = Math.max(0, Math.min(goal.predicted / goal.amount, 1.0));
+
+        goal.progress = (int)(100.0 * ratio); // todo: no magic numbers
+
         mDatabase.goalDao().update(goal);
     }
 

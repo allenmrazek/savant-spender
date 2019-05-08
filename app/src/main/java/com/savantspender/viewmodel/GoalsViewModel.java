@@ -29,6 +29,8 @@ public class GoalsViewModel extends ViewModel {
     private final MutableLiveData<Event<String>> mToast = new MutableLiveData<>();
     private final LiveData<List<? extends Goal>> mGoals;
 
+    private final MutableLiveData<Event<Void>> mUpdateGoals = new MutableLiveData<>();
+
 
     private final DataRepository mRepository;
     private final AppDatabase mDatabase;
@@ -57,6 +59,7 @@ public class GoalsViewModel extends ViewModel {
     public LiveData<List<? extends Goal>> goals() {
         return mGoals;
     }
+    public LiveData<Event<Void>> dispatchUpdateGoals() { return mUpdateGoals; }
 
 
 
@@ -68,6 +71,9 @@ public class GoalsViewModel extends ViewModel {
         return mGoalCreated;
     }
 
+    public void requestGoalStatusUpdate() {
+        mUpdateGoals.postValue(new Event<>(null));
+    }
 
     private void makeToast(String text) {
         mToast.postValue(new Event<>(text));

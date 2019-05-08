@@ -25,6 +25,7 @@ import java.util.concurrent.Executor;
 public class TransactionViewModel extends ViewModel {
     private final LiveData<List<? extends Transaction>> mUnsortedTrans;
     private final LiveData<List<? extends Transaction>> mSortedTrans;
+    private final MutableLiveData<Event<Void>> mUpdateGoals = new MutableLiveData<>();
 
     private final DataRepository mRepository;
     private final AppDatabase mDatabase;
@@ -51,6 +52,11 @@ public class TransactionViewModel extends ViewModel {
     public LiveData<List<? extends Transaction>> sortedTransactions() {
         return mSortedTrans;
     }
+    public LiveData<Event<Void>> goalUpdateRequested() { return mUpdateGoals; }
+
+    private void requestGoalUpdate() {
+        mUpdateGoals.postValue(new Event<>(null));
+    }
 
     protected List<TransactionEntity> getSelected(List<Transaction> transactions) {
         List<TransactionEntity> selected = new ArrayList<>(transactions.size());
@@ -66,7 +72,7 @@ public class TransactionViewModel extends ViewModel {
     public void doUnsortTransactions(List<Transaction> transactions) {
         mDiskIO.execute(() -> {
             mDatabase.cataloggedDao().untag(getSelected(transactions));
-
+            requestGoalUpdate();
         });
     }
 

@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.savantspender.R;
+import com.savantspender.SavantSpender;
 import com.savantspender.viewmodel.GoalsViewModel;
 
 public class GoalListFragment extends Fragment {
@@ -61,6 +62,11 @@ public class GoalListFragment extends Fragment {
 
         mViewModel.goals().observe(getViewLifecycleOwner(), l -> {
             mAdapter.setGoals(l);
+        });
+
+        mViewModel.dispatchUpdateGoals().observe(getViewLifecycleOwner(), l -> {
+            if (!l.isHandled()) l.setHandled();
+            ((SavantSpender)getActivity().getApplication()).dispatchOneTimeGoalUpdate();
         });
 
         return view;

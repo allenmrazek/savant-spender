@@ -28,7 +28,7 @@ public class MainViewModel extends ViewModel {
     private final MutableLiveData<Event<List<Transaction>>> mBeginCategorize = new MutableLiveData<>();
     private final MutableLiveData<Event<String>> mToast = new MutableLiveData<>();
     private final MutableLiveData<Event<Void>> mCloseNewTransDialog = new MutableLiveData<>();
-    public final LiveData<Event<Void>> updateGoals;
+    private final MutableLiveData<Event<Void>> mManualTransCreated = new MutableLiveData<>();
 
     private final AppDatabase mDatabase;
     private final Executor mDiskIO;
@@ -38,7 +38,6 @@ public class MainViewModel extends ViewModel {
         mDatabase = database;
         mDiskIO = diskIO;
         mRepository = repository;
-        updateGoals = Transformations.map(database.cataloggedDao().getCatalogged(), l -> new Event<>(null));
     }
 
 
@@ -53,6 +52,7 @@ public class MainViewModel extends ViewModel {
         return mToast;
     }
     public LiveData<Event<Void>> closingNewTransDlg() { return mCloseNewTransDialog; }
+    public LiveData<Event<Void>> createdTransaction() { return mManualTransCreated; }
 
     private void makeToast(String text) {
         mToast.postValue(new Event<>(text));
@@ -96,6 +96,7 @@ public class MainViewModel extends ViewModel {
                 mCloseNewTransDialog.postValue(new Event<>(null));
 
                 makeToast("Added " + description);
+                mManualTransCreated.postValue(new Event<>(null));
             } catch (SQLiteConstraintException sqe) {
                 makeToast("failed");
             }

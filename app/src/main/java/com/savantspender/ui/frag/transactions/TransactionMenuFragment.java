@@ -13,6 +13,7 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.tabs.TabLayout;
 import com.savantspender.R;
+import com.savantspender.SavantSpender;
 import com.savantspender.ui.frag.transactions.adapter.TransactionPagerAdapter;
 import com.savantspender.viewmodel.TransactionViewModel;
 

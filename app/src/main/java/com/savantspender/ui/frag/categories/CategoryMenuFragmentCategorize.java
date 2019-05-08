@@ -12,6 +12,7 @@ import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.savantspender.R;
+import com.savantspender.SavantSpender;
 import com.savantspender.db.entity.Tag;
 import com.savantspender.db.entity.Transaction;
 import com.savantspender.viewmodel.CategorizerViewModel;
@@ -38,6 +39,13 @@ public class CategoryMenuFragmentCategorize extends CategoryMenuFragmentBase {
             mCategorizerViewModel.setTransactions(mContainer);
 
         mCategorizerViewModel.needTags().observe(getViewLifecycleOwner(), l -> onNeedTags(l));
+        mCategorizerViewModel.finished().observe(getViewLifecycleOwner(), l -> {
+            if (l.isHandled()) return;
+
+            l.setHandled();
+            ((SavantSpender)getActivity().getApplication()).dispatchOneTimeGoalUpdate();
+            getActivity().getSupportFragmentManager().popBackStack();
+        });
 
         mFloatingAccept.setOnClickListener(l -> complete());
         return result;
@@ -56,7 +64,6 @@ public class CategoryMenuFragmentCategorize extends CategoryMenuFragmentBase {
                 tags.add(tag);
 
         mCategorizerViewModel.categorize(tags, mContainer);
-        getActivity().getSupportFragmentManager().popBackStack();
     }
 
 
