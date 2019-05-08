@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -11,6 +13,11 @@ import androidx.fragment.app.Fragment;
 
 import com.savantspender.R;
 import com.savantspender.ui.MainActivity;
+
+import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Currency;
 
 public class OverviewMenuFragment extends Fragment {
     @Override
@@ -22,7 +29,7 @@ public class OverviewMenuFragment extends Fragment {
         });
 
         view.findViewById(R.id.btnSummary).setOnClickListener(l -> {
-            // todo
+            Toast.makeText(getContext(), "coming soon", Toast.LENGTH_SHORT).show();
         });
 
         view.findViewById(R.id.btnCreateManual).setOnClickListener(l -> {
@@ -30,6 +37,13 @@ public class OverviewMenuFragment extends Fragment {
 
             mtf.show(getFragmentManager(), "dialog_createtrans");
         });
+
+        TextView dateText = view.findViewById(R.id.txtOverviewDate);
+
+        SimpleDateFormat sdf = new SimpleDateFormat("MMMM dd, yyyy");
+
+        dateText.setText(sdf.format(Calendar.getInstance().getTime()));
+
         return view;
     }
 }

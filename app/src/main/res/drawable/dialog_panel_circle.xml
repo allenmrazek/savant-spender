@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="oval">
+
+    <solid android:color="#619FC8" />
+    <!--border color and border width-->
+    <size android:width="@dimen/overview_circle_size" android:height="@dimen/overview_circle_size"></size>
+    <stroke android:width="3dp" android:color="@color/colorAccent"></stroke>
+</shape>

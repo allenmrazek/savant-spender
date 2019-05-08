@@ -26,12 +26,12 @@
         android:id="@+id/btnCreateManual"
         android:layout_width="151dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="16dp"
         android:background="@drawable/dialog_panel_rounded"
         android:text="Add Manual"
         android:textColor="@color/colorText"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.502"
+        app:layout_constraintHorizontal_bias="0.165"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/constraintLayout2" />
 
@@ -39,35 +39,40 @@
         android:id="@+id/btnViewGoalList"
         android:layout_width="@dimen/overview_circle_size"
         android:layout_height="@dimen/overview_circle_size"
-        android:layout_marginStart="60dp"
-        android:layout_marginTop="44dp"
+        android:layout_marginStart="96dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="64dp"
         android:background="@drawable/dialog_panel_circle"
         android:text="Goals"
         android:textColor="@color/colorText"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnCreateManual" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/btnCreateManual"
+        app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
     <Button
         android:id="@+id/btnSummary"
         android:layout_width="@dimen/overview_circle_size"
         android:layout_height="@dimen/overview_circle_size"
-        android:layout_marginTop="44dp"
-        android:layout_marginEnd="60dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginBottom="8dp"
         android:background="@drawable/dialog_panel_circle"
         android:text="Summary"
         android:textColor="@color/colorText"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnCreateManual" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/btnViewGoalList"
+        app:layout_constraintTop_toTopOf="@+id/btnViewGoalList"
+        app:layout_constraintVertical_bias="0.0" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout2"
         android:layout_width="264dp"
         android:layout_height="94dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="12dp"
         android:layout_marginEnd="8dp"
         android:background="@drawable/icon_unselected_bkg"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.068"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView2">
 
@@ -111,6 +116,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_end="231dp" />
+        app:layout_constraintGuide_begin="180dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
