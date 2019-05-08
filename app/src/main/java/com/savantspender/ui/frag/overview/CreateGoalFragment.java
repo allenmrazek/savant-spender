@@ -8,12 +8,14 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.DialogFragment;
 import androidx.lifecycle.ViewModelProviders;
 
@@ -67,6 +69,9 @@ public class CreateGoalFragment extends DialogFragment {
             TextView tv = item.findViewById(R.id.txtCatName);
             tv.setText(tag.getName());
 
+            ImageView iv = item.findViewById(R.id.imgCatBackground);
+            iv.setImageDrawable(ResourcesCompat.getDrawable(getResources(), tag.getIconId(), null));
+
             onItemCreated(item, tag);
 
             tr.addView(item);
@@ -88,9 +93,11 @@ public class CreateGoalFragment extends DialogFragment {
 
 
     private void onItemCreated(View view, Tag tag) {
+        View layout = view.findViewById(R.id.cat_icon_bkg);
+
         view.setOnClickListener(l -> {
-            l.setActivated(!l.isActivated());
-            tag.setSelected(l.isActivated());
+            layout.setActivated(!layout.isActivated());
+            tag.setSelected(layout.isActivated());
         });
     }
 
