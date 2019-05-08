@@ -6,16 +6,45 @@
     android:layout_height="match_parent"
     android:background="@color/colorPrimary">
 
+    <View
+        android:id="@+id/divider2"
+        android:layout_width="0dp"
+        android:layout_height="16dp"
+        android:layout_marginTop="4dp"
+        android:background="@color/colorAccent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView10" />
+
+    <TextView
+        android:id="@+id/textView10"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:text="@string/title_settings"
+        android:textAlignment="textStart"
+        android:textColor="@color/colorText"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <Button
         android:id="@+id/btnLinkNew"
         android:layout_width="263dp"
         android:layout_height="0dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="64dp"
         android:layout_marginEnd="8dp"
+        android:background="@drawable/dialog_panel_rounded"
         android:text="Link New Account"
+        android:textColor="@color/colorText"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.518"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -24,11 +53,13 @@
         android:layout_width="263dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="12dp"
         android:layout_marginEnd="8dp"
+        android:background="@drawable/dialog_panel_rounded"
         android:text="Remove an Account"
+        android:textColor="@color/colorText"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.518"
+        app:layout_constraintHorizontal_bias="0.506"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnLinkNew" />
 
@@ -54,7 +85,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/colorPrimaryDark"
-                android:text="Mute application"
+                android:text="Allow Sound"
                 android:textColor="@color/colorText"
                 android:textSize="24sp"
                 android:typeface="normal" />
@@ -80,60 +111,77 @@
                 android:typeface="normal" />
 
             <Button
-                android:id="@+id/btnGenDemoTransactions"
+                android:id="@+id/btnRandomTransaction"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Generate Example Trans"
-                android:visibility="gone" />
+                android:background="@drawable/dialog_panel_rounded"
+                android:text="Generate Random Transaction"
+                android:textColor="@color/colorText"
+                android:visibility="visible" />
 
             <Button
                 android:id="@+id/btnDeleteGoals"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@drawable/dialog_panel_rounded"
                 android:text="Delete Goals"
-                android:visibility="gone" />
+                android:textColor="@color/colorText"
+                android:visibility="visible" />
 
             <Button
                 android:id="@+id/btnDeleteTransactions"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@drawable/dialog_panel_rounded"
                 android:text="Delete Transactions"
-                android:visibility="gone" />
+                android:textColor="@color/colorText"
+                android:visibility="visible" />
 
             <Button
                 android:id="@+id/btnDeleteTags"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@drawable/dialog_panel_rounded"
                 android:text="Delete Tags"
-                android:visibility="gone" />
+                android:textColor="@color/colorText"
+                android:visibility="visible" />
 
             <Button
                 android:id="@+id/btnDeleteCategorized"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@drawable/dialog_panel_rounded"
                 android:text="Uncategorize Transactions"
-                android:visibility="gone" />
+                android:textColor="@color/colorText"
+                android:visibility="visible" />
 
             <Button
                 android:id="@+id/btnUpdateNow"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@drawable/dialog_panel_rounded"
                 android:text="Download Transactions"
-                android:visibility="gone" />
+                android:textColor="@color/colorText"
+                android:visibility="visible" />
 
             <Button
                 android:id="@+id/btnDeleteDatabase"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@drawable/dialog_panel_rounded"
                 android:text="Delete Database"
-                android:visibility="gone" />
+                android:textColor="@color/colorText"
+                android:visibility="visible" />
 
             <Button
-                android:id="@+id/btnRandomTransaction"
+                android:id="@+id/btnGenDemoTransactions"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Generate Random Transaction"
-                android:visibility="gone" />
+                android:background="@drawable/dialog_panel_rounded"
+                android:text="Generate Example Trans"
+                android:textColor="@color/colorText"
+                android:visibility="visible" />
+
         </LinearLayout>
     </ScrollView>
 

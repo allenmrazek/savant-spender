@@ -107,7 +107,8 @@ public class SettingsMenuFragment extends Fragment {
         // delete account button -> launches a new fragment (hosted by MainActivity)
         mDeleteAccountButton = view.findViewById(R.id.btnDeleteAccount);
         mDeleteAccountButton.setOnClickListener(v -> {
-            ((MainActivity)getActivity()).TransitionTo(new DeleteItemsFragment(), true);
+            //((MainActivity)getActivity()).TransitionTo(new DeleteItemsFragment(), true);
+            Toast.makeText(getContext(), "coming soon!", Toast.LENGTH_SHORT).show();
         });
 
         // update button -> downloads all available transactions

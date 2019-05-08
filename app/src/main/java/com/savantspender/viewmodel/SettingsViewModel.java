@@ -17,6 +17,7 @@ import com.savantspender.db.entity.CataloggedEntity;
 import com.savantspender.db.entity.TagEntity;
 import com.savantspender.db.entity.TransactionEntity;
 import com.savantspender.util.Constants;
+import com.savantspender.util.DemoUtil;
 
 import java.util.Calendar;
 import java.util.UUID;
@@ -46,10 +47,12 @@ public class SettingsViewModel extends ViewModel {
     }
 
     public void onGenerateRandomTransactionClicked() {
-        Log.w("Spender", "Generate random transaction here");
+        mExecutor.execute(() -> {
+            TransactionEntity randTrans = DemoUtil.generateRandom();
 
-        // todo: insert dummy instid if none
-        // todo: add toast message
+            mDatabase.transactionDao().insert(randTrans);
+            mToastMessage.postValue(new Event<>("Random Trans. generated"));
+        });
     }
 
 
@@ -137,8 +140,6 @@ public class SettingsViewModel extends ViewModel {
 
                 date.add(Calendar.DATE, i);
 
-                Log.e("Spender", "creating example on date " + date.toString());
-
                 mDatabase.transactionDao().insert(
                         new TransactionEntity(
                                 "demo_" + (i + 1),
@@ -148,11 +149,10 @@ public class SettingsViewModel extends ViewModel {
                                 eachTrans,
                                 false,
                                 date.getTime()));
-
-                mToastMessage.postValue(new Event<>("example transactions created"));
             }
 
-            Log.e("Spender", "prediction should estimate about " + (maxDays * eachTrans) + " on day " + maxDays);
+            Log.w("Spender", "prediction should estimate about " + (maxDays * eachTrans) + " on day " + maxDays);
+            mToastMessage.postValue(new Event<>("example transactions created"));
         });
 
     }
