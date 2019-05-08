@@ -80,6 +80,13 @@
                 android:typeface="normal" />
 
             <Button
+                android:id="@+id/btnGenDemoTransactions"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Generate Example Trans"
+                android:visibility="gone" />
+
+            <Button
                 android:id="@+id/btnDeleteGoals"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

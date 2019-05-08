@@ -19,6 +19,8 @@ public class TagEntity implements Tag {
     @NonNull
     protected String name;
 
+    public int iconId;
+
     @Ignore
     public boolean selected = false;
 
@@ -29,6 +31,11 @@ public class TagEntity implements Tag {
 
     public int getId() {
         return id;
+    }
+
+    @Override
+    public int getIconId() {
+        return iconId;
     }
 
     @NonNull

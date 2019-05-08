@@ -15,7 +15,11 @@ import com.savantspender.SavantSpender;
 import com.savantspender.db.AppDatabase;
 import com.savantspender.db.entity.CataloggedEntity;
 import com.savantspender.db.entity.TagEntity;
+import com.savantspender.db.entity.TransactionEntity;
+import com.savantspender.util.Constants;
 
+import java.util.Calendar;
+import java.util.UUID;
 import java.util.concurrent.Executor;
 
 public class SettingsViewModel extends ViewModel {
@@ -106,6 +110,30 @@ public class SettingsViewModel extends ViewModel {
             mToastMessage.postValue(new Event<>("Transaction tags reset!"));
             Log.i("Spender", "Transaction tags were reset");
         });
+    }
+
+
+    public void generateExampleTransactions() {
+        mExecutor.execute(() -> {
+            for (int i = 0; i < 5; ++i) {
+                Calendar date = Calendar.getInstance();
+
+                date.add(Calendar.DATE, i);
+
+                mDatabase.transactionDao().insert(
+                        new TransactionEntity(
+                                UUID.randomUUID().toString(),
+                                Constants.ManualAccountId,
+                                Constants.ManualItemId,
+                                "example " + i,
+                                100.0,
+                                false,
+                                date.getTime()));
+
+                mToastMessage.postValue(new Event<>("example transactions created"));
+            }
+        });
+
     }
 
     public static class Factory extends ViewModelProvider.NewInstanceFactory {

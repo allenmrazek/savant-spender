@@ -62,7 +62,8 @@ public class SettingsMenuFragment extends Fragment {
                     R.id.btnDeleteCategorized,
                     R.id.btnDeleteTags,
                     R.id.btnDeleteGoals,
-                    R.id.btnDeleteTransactions));
+                    R.id.btnDeleteTransactions,
+                    R.id.btnGenDemoTransactions));
 
             for (Integer id : debugButtons)
                 view.findViewById(id).setVisibility(View.VISIBLE);
@@ -115,12 +116,14 @@ public class SettingsMenuFragment extends Fragment {
 
         mViewModel.toastMessages().observe(getViewLifecycleOwner(), m -> {
             if (m.isHandled()) {
-                Log.i("Spender", "toast message already handled");
                 return;
             }
-            Log.i("Spender", "creating toast message");
 
             Toast.makeText(getContext(), m.getContentIfNotHandled(), Toast.LENGTH_SHORT).show();
+        });
+
+        view.findViewById(R.id.btnGenDemoTransactions).setOnClickListener(l -> {
+            mViewModel.generateExampleTransactions();
         });
 
         return view;

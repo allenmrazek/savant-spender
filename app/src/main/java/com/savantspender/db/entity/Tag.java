@@ -6,4 +6,5 @@ public interface Tag {
 
     String getName();
     int getId();
+    int getIconId();
 }
