@@ -8,8 +8,10 @@ import androidx.room.Insert;
 import androidx.room.Query;
 
 import com.savantspender.db.entity.CataloggedEntity;
+import com.savantspender.db.entity.TagEntity;
 import com.savantspender.db.entity.TransactionEntity;
 
+import java.util.Date;
 import java.util.List;
 
 import io.reactivex.Flowable;
@@ -24,7 +26,7 @@ public abstract class CataloggedDao {
 
     @Insert
     public void insert(List<TransactionEntity> transactions, int tagId) {
-        CataloggedEntity ce = new CataloggedEntity("", "", "",0);
+        CataloggedEntity ce = new CataloggedEntity("", "", "", 0);
 
         for (TransactionEntity t : transactions) {
             ce.accountId = t.accountId;
@@ -57,4 +59,10 @@ public abstract class CataloggedDao {
             untag(t.accountId, t.id, t.itemId);
         }
     }
+
+
+    @Query("SELECT * FROM transactions AS T WHERE amount > 0 AND postDate BETWEEN :start AND :end AND EXISTS ("
+            + "SELECT 1 FROM catalogged AS C WHERE C.accountId == T.accountId AND C.transactionId == T.id"
+            + " AND C.tagId IN (:tags) LIMIT 1)")
+    public abstract List<TransactionEntity> getTransactions(@NonNull Date start, @NonNull Date end, List<Integer> tags);
 }

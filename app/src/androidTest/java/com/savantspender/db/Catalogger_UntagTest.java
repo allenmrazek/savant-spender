@@ -2,6 +2,8 @@ package com.savantspender.db;
 
 import com.savantspender.db.entity.AccountEntity;
 import com.savantspender.db.entity.CataloggedEntity;
+import com.savantspender.db.entity.GoalEntity;
+import com.savantspender.db.entity.GoalTagsEntity;
 import com.savantspender.db.entity.InstitutionEntity;
 import com.savantspender.db.entity.ItemEntity;
 import com.savantspender.db.entity.TagEntity;
@@ -10,6 +12,7 @@ import com.savantspender.db.entity.TransactionEntity;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
@@ -93,4 +96,25 @@ public class Catalogger_UntagTest extends DefaultDatabaseTest {
         assertThat(mDatabase.cataloggedDao().hasTags(trans), equalTo(true));
     }
 
+
+    @Test
+    public void getTransactions() {
+//        mDatabase.goalDao().insert(new GoalEntity(0, "test goal", 500, 0));
+//        mDatabase.goalTagDao().insert(new GoalTagsEntity(0, TagId));
+//
+        Calendar start = Calendar.getInstance();
+        Calendar end = Calendar.getInstance();
+
+        mDatabase.cataloggedDao().insert(new CataloggedEntity(AccountId, TransactionId, ItemId, TagId));
+
+        start.add(Calendar.DATE, -1); // yesterday
+        end.add(Calendar.DATE, 1); // tomorrow
+
+        assertThat(mDatabase.cataloggedDao().hasTags(new TransactionEntity(TransactionId, AccountId, ItemId, "sometrans1", 0.0, false, CurrentDate)), equalTo(true));
+
+        Date startDate = start.getTime();
+        Date endDate = end.getTime();
+
+        assertThat(mDatabase.cataloggedDao().getTransactions(startDate, endDate, Arrays.asList(TagId)).size(), equalTo(1));
+    }
 }

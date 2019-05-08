@@ -8,6 +8,9 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.work.Constraints;
+import androidx.work.OneTimeWorkRequest;
+import androidx.work.WorkManager;
 
 import com.savantspender.Event;
 import com.savantspender.SavantSpender;
@@ -16,6 +19,7 @@ import com.savantspender.db.entity.CataloggedEntity;
 import com.savantspender.db.entity.Tag;
 import com.savantspender.db.entity.Transaction;
 import com.savantspender.db.entity.TransactionEntity;
+import com.savantspender.worker.UpdateGoalsWorker;
 
 import java.util.List;
 import java.util.concurrent.Executor;
@@ -64,6 +68,13 @@ public class CategorizerViewModel extends ViewModel {
                 }
                 mDatabase.setTransactionSuccessful();
 
+                // update transactions
+                // todo: constraints?
+
+                OneTimeWorkRequest update = new OneTimeWorkRequest.Builder(UpdateGoalsWorker.class)
+                        .setConstraints(new Constraints.Builder().build()).build();
+
+                WorkManager.getInstance().enqueue(update);
             } finally {
                 mDatabase.endTransaction();
             }

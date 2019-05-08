@@ -48,6 +48,8 @@
     // Work types
     <string name="work_dl_trans_p">work_download_transactions_periodic</string>
     <string name="work_dl_trans_s">work_download_transactions_single</string>
+    <string name="work_update_goals_p">goals_update_periodic</string>
+    <string name="work_update_goals_s">goals_update_single</string>
 
     // Database
     <string name="db_manual_itemId">manual_item</string>

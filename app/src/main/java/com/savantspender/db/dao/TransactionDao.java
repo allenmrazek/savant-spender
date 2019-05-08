@@ -11,6 +11,8 @@ import androidx.room.Transaction;
 import androidx.room.Update;
 
 import com.savantspender.db.entity.TransactionEntity;
+
+import java.util.Date;
 import java.util.List;
 
 @Dao
@@ -58,6 +60,7 @@ public abstract class TransactionDao {
 
     @Query("SELECT CASE WHEN EXISTS (SELECT * FROM transactions WHERE id = :transId LIMIT 1) THEN 1 ELSE 0 END")
     public abstract boolean exists(@NonNull String transId);
+
 
 //    @Query("SELECT DISTINCT * FROM transactions WHERE id IN " +
 //            "(SELECT transactionId FROM catalogged WHERE tagId IN " +

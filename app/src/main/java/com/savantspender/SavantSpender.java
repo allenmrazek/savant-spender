@@ -2,6 +2,7 @@ package com.savantspender;
 
 import android.app.Application;
 
+import androidx.annotation.NonNull;
 import androidx.work.Constraints;
 import androidx.work.ExistingPeriodicWorkPolicy;
 import androidx.work.NetworkType;
@@ -39,24 +40,27 @@ public class SavantSpender extends Application {
 
 
     private void initializePeriodicWorkRequests() {
-        String periodicWorkTag = getResources().getString(R.string.work_dl_trans_p);
+        WorkManager mgr = WorkManager.getInstance();
+
+        initializeDownloadRequests(mgr);
+    }
+
+
+    private void initializeDownloadRequests(@NonNull WorkManager mgr) {
+        String periodicTransWorkTag = getResources().getString(R.string.work_dl_trans_p);
 
         Constraints constraints = new Constraints.Builder()
                 .setRequiredNetworkType(NetworkType.CONNECTED)
                 .build();
 
-        // todo: check setting option, limit to wifi if required
-        WorkManager.getInstance().cancelAllWorkByTag(periodicWorkTag);
-
-
         PeriodicWorkRequest downloadTransactions =
                 new PeriodicWorkRequest.Builder(DownloadTransactionsWorker.class, 15, TimeUnit.MINUTES)
                         .setConstraints(constraints)
-                        .addTag(periodicWorkTag)
+                        .addTag(periodicTransWorkTag)
                         .build();
 
         // ensure download transaction task is scheduled; this will occur in background even if
         // app not in foreground or active
-        WorkManager.getInstance().enqueueUniquePeriodicWork(periodicWorkTag, ExistingPeriodicWorkPolicy.KEEP, downloadTransactions);
+        mgr.enqueueUniquePeriodicWork(periodicTransWorkTag, ExistingPeriodicWorkPolicy.KEEP, downloadTransactions);
     }
 }
