@@ -25,17 +25,14 @@ public abstract class TagDao {
     public abstract void update(TagEntity tag);
 
 
-    public void upsert(TagEntity tag) {
-        if (exists(tag.getId())) {
-            update(tag);
+    public void insert_default(TagEntity tag) {
+        if (exists(tag.name)) {
             return;
         } else {
             insert(tag);
         }
     }
 
-    @Query("SELECT 1 FROM tags WHERE id = :tagId")
-    public abstract boolean exists(int tagId);
 
     @Query("SELECT 1 FROM tags WHERE name = :tagName")
     public abstract boolean exists(@NonNull String tagName);

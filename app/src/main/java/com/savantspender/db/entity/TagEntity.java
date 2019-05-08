@@ -17,7 +17,7 @@ public class TagEntity implements Tag {
     int id;
 
     @NonNull
-    protected String name;
+    public String name;
 
     public int iconId;
 

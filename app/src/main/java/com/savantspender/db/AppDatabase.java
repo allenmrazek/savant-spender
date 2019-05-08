@@ -100,15 +100,11 @@ public abstract class AppDatabase extends RoomDatabase {
 
     private void insertTag(@NonNull String name, int iconId) {
         TagEntity tag = new TagEntity(0, name, iconId);
-        mAppDatabase.tagDao().upsert(tag);
+        mAppDatabase.tagDao().insert_default(tag);
     }
+
+
     public void insertDefaultTags() {
-        TagDao tagDao = mAppDatabase.tagDao();
-
-        String[] defaultTags = new String[] {
-                "Food", "Fuel", "Fun", "Fast Food"
-        };
-
         insertTag("Car", R.drawable.ic_car);
         insertTag("Dance", R.drawable.ic_dance);
         insertTag("Fun", R.drawable.ic_entertainment);

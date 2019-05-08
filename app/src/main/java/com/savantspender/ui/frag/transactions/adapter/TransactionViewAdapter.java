@@ -17,6 +17,8 @@ import com.savantspender.Event;
 import com.savantspender.R;
 import com.savantspender.db.entity.Transaction;
 
+import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -40,8 +42,12 @@ public class TransactionViewAdapter extends RecyclerView.Adapter<TransactionView
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Transaction trans = mData.get(position);
 
+        NumberFormat formatter = NumberFormat.getCurrencyInstance();
+        SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
+
         holder.txtTransactionName.setText(trans.getName());
-        holder.txtTransactionPrice.setText(Double.toString(trans.getAmount()));
+        holder.txtTransactionPrice.setText(formatter.format(trans.getAmount()));
+        holder.txtTransactionDate.setText(sdf.format(trans.getDate()));
         holder.bind(trans.isSelected());
     }
 
@@ -55,7 +61,7 @@ public class TransactionViewAdapter extends RecyclerView.Adapter<TransactionView
         whichVh.bind(newState);
 
         mSelections += newState ? 1 : -1;
-        mSelectionsChanged.postValue(new Event<Integer>(new Integer(mSelections)));
+        mSelectionsChanged.postValue(new Event<>(new Integer(mSelections)));
     }
 
 
@@ -115,10 +121,6 @@ public class TransactionViewAdapter extends RecyclerView.Adapter<TransactionView
 
         public void bind(boolean isSelected) {
             itemView.setActivated(isSelected);
-
-            if (isSelected)
-                itemView.setBackgroundColor(Color.RED);
-            else itemView.setBackgroundColor(Color.TRANSPARENT);
         }
     }
 }
