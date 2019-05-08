@@ -6,12 +6,14 @@ import androidx.annotation.NonNull;
 import androidx.work.Constraints;
 import androidx.work.ExistingPeriodicWorkPolicy;
 import androidx.work.NetworkType;
+import androidx.work.OneTimeWorkRequest;
 import androidx.work.PeriodicWorkRequest;
 import androidx.work.WorkManager;
 
 import com.savantspender.db.AppDatabase;
 import com.savantspender.model.DataRepository;
 import com.savantspender.worker.DownloadTransactionsWorker;
+import com.savantspender.worker.UpdateGoalsWorker;
 
 import java.util.concurrent.TimeUnit;
 
@@ -43,6 +45,9 @@ public class SavantSpender extends Application {
         WorkManager mgr = WorkManager.getInstance();
 
         initializeDownloadRequests(mgr);
+        initializeUpdateRequests(mgr);
+
+        // todo: month summary (use AlarmManager instead of WorkManager)
     }
 
 
@@ -62,5 +67,18 @@ public class SavantSpender extends Application {
         // ensure download transaction task is scheduled; this will occur in background even if
         // app not in foreground or active
         mgr.enqueueUniquePeriodicWork(periodicTransWorkTag, ExistingPeriodicWorkPolicy.KEEP, downloadTransactions);
+    }
+
+
+    private void initializeUpdateRequests(@NonNull WorkManager mgr) {
+        String updateTransTag = getResources().getString(R.string.work_update_goals_s);
+
+        OneTimeWorkRequest updateGoalsNow = new OneTimeWorkRequest.Builder(UpdateGoalsWorker.class)
+                .addTag(updateTransTag)
+                .build();
+
+        mgr.enqueue(updateGoalsNow);
+
+        // todo: also periodic, daily
     }
 }

@@ -65,6 +65,7 @@ public class SettingsViewModel extends ViewModel {
                 }
 
                 mDatabase.transactionDao().deleteAll();
+                mDatabase.setTransactionSuccessful();
             } finally {
                 mDatabase.endTransaction();
             }
@@ -115,23 +116,38 @@ public class SettingsViewModel extends ViewModel {
 
     public void generateExampleTransactions() {
         mExecutor.execute(() -> {
-            for (int i = 0; i < 5; ++i) {
+            int maxDays = Calendar.getInstance().getActualMaximum(Calendar.DATE) - 1;
+            double amount = 0.0;
+            final double eachTrans = 100.0;
+
+            Log.e("Spender", "creating values for " + maxDays + " days");
+
+            for (int i = 0; i < maxDays; ++i) {
                 Calendar date = Calendar.getInstance();
+
+
+                date.set(Calendar.HOUR_OF_DAY, 0);
+                date.set(Calendar.DAY_OF_MONTH, 1);
+                date.set(Calendar.MINUTE, 0);
 
                 date.add(Calendar.DATE, i);
 
+                Log.e("Spender", "creating example on date " + date.toString());
+
                 mDatabase.transactionDao().insert(
                         new TransactionEntity(
-                                UUID.randomUUID().toString(),
+                                "demo_" + (i + 1),
                                 Constants.ManualAccountId,
                                 Constants.ManualItemId,
-                                "example " + i,
-                                100.0,
+                                "example " + (i + 1),
+                                eachTrans,
                                 false,
                                 date.getTime()));
 
                 mToastMessage.postValue(new Event<>("example transactions created"));
             }
+
+            Log.e("Spender", "prediction should estimate about " + (maxDays * eachTrans) + " on day " + maxDays);
         });
 
     }

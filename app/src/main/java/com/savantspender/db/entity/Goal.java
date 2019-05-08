@@ -4,4 +4,5 @@ public interface Goal {
     String getName();
     double getAmount();
     double getPredicted();
+    double getRsquared();
 }
