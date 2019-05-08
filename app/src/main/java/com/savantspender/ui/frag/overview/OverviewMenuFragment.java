@@ -25,7 +25,7 @@ public class OverviewMenuFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_menu_overview, container, false);
 
         view.findViewById(R.id.btnViewGoalList).setOnClickListener(l -> {
-            ((MainActivity)getActivity()).TransitionTo(new GoalListFragment(), true);
+            launchGoalFragment();
         });
 
         view.findViewById(R.id.btnSummary).setOnClickListener(l -> {
@@ -45,5 +45,9 @@ public class OverviewMenuFragment extends Fragment {
         dateText.setText(sdf.format(Calendar.getInstance().getTime()));
 
         return view;
+    }
+
+    public void launchGoalFragment() {
+        ((MainActivity)getActivity()).TransitionTo(new GoalListFragment(), true);
     }
 }

@@ -14,5 +14,5 @@
     // goal colors
     <color name="colorGoalGood">#3CDD47</color>
     <color name="colorGoalWarning">#C0DD47</color>
-    <color name="colorGoalBad">#AA626B</color>
+    <color name="colorGoalBad">#C2411A</color>
 </resources>

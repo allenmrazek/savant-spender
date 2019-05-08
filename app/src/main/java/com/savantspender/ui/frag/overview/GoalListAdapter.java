@@ -1,5 +1,10 @@
 package com.savantspender.ui.frag.overview;
 
+import android.content.Context;
+import android.content.res.Resources;
+import android.graphics.Color;
+import android.graphics.ColorFilter;
+import android.graphics.PorterDuff;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -7,10 +12,12 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.savantspender.R;
 import com.savantspender.db.entity.Goal;
+import com.savantspender.util.ColorSystemDecider;
 
 import java.text.NumberFormat;
 import java.util.ArrayList;
@@ -18,6 +25,11 @@ import java.util.List;
 
 public class GoalListAdapter extends RecyclerView.Adapter<GoalListAdapter.ViewHolder> {
     private List<? extends Goal> mGoals = new ArrayList<>();
+    private final Resources mResources;
+
+    public GoalListAdapter(Resources resources) {
+        mResources = resources;
+    }
 
     @NonNull
     @Override
@@ -38,6 +50,8 @@ public class GoalListAdapter extends RecyclerView.Adapter<GoalListAdapter.ViewHo
         holder.mPrediction.setText("On track: " + formatter.format(g.getPredicted()));
         holder.mTotal.setText("Spent so far: " + formatter.format(g.getTotalSpending()));
         holder.mProgress.setProgress(g.getProgress());
+
+        holder.mProgress.getProgressDrawable().setColorFilter(mResources.getColor(ColorSystemDecider.getColorId(ColorSystemDecider.getState(g))), PorterDuff.Mode.SRC_IN);
     }
 
 

@@ -39,8 +39,8 @@
         android:id="@+id/btnViewGoalList"
         android:layout_width="@dimen/overview_circle_size"
         android:layout_height="@dimen/overview_circle_size"
-        android:layout_marginStart="60dp"
-        android:layout_marginTop="44dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="64dp"
         android:background="@drawable/dialog_panel_circle"
         android:text="Goals"
         android:textColor="@color/colorText"
@@ -51,8 +51,8 @@
         android:id="@+id/btnSummary"
         android:layout_width="@dimen/overview_circle_size"
         android:layout_height="@dimen/overview_circle_size"
-        android:layout_marginTop="44dp"
-        android:layout_marginEnd="60dp"
+        android:layout_marginTop="64dp"
+        android:layout_marginEnd="16dp"
         android:background="@drawable/dialog_panel_circle"
         android:text="Summary"
         android:textColor="@color/colorText"
@@ -111,6 +111,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_end="231dp" />
+        app:layout_constraintGuide_end="206dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

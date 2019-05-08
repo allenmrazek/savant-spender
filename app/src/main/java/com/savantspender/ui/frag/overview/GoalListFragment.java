@@ -30,7 +30,7 @@ public class GoalListFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_submenu_goallist, container, false);
 
         mRecycler = view.findViewById(R.id.lstGoals);
-        mAdapter = new GoalListAdapter();
+        mAdapter = new GoalListAdapter(getResources());
 
         mRecycler.setHasFixedSize(false);
         mRecycler.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false));
@@ -68,6 +68,7 @@ public class GoalListFragment extends Fragment {
             if (!l.isHandled()) l.setHandled();
             ((SavantSpender)getActivity().getApplication()).dispatchOneTimeGoalUpdate();
         });
+
 
         return view;
     }
