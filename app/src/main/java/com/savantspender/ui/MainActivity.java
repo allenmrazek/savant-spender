@@ -110,7 +110,8 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
             return;
         }
 
-        TransitionTo(new CategoryMenuFragmentCategorize(transactions), true);
+        //TransitionTo(new CategoryMenuFragmentCategorize(transactions), true);
+        TransitionTo(CategoryMenuFragmentCategorize.newInstance(transactions), true);
     }
 
 

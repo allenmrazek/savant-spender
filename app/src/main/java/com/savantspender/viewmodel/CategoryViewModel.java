@@ -26,6 +26,7 @@ public class CategoryViewModel extends ViewModel {
     private final Executor mDiskIO;
     private final LiveData<List<? extends Tag>> mTags;
 
+
     public CategoryViewModel(
             @NonNull final DataRepository repository,
             final AppDatabase db,
@@ -36,6 +37,7 @@ public class CategoryViewModel extends ViewModel {
         mDiskIO = diskIO;
 
         mTags = Transformations.map(mDatabase.tagDao().getTags(), tl -> tl);
+
     }
 
 

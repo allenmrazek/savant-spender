@@ -1,14 +1,13 @@
 package com.savantspender.ui.frag.categories;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.savantspender.R;
@@ -25,8 +24,13 @@ public class CategoryMenuFragmentCategorize extends CategoryMenuFragmentBase {
     private List<? extends Transaction> mContainer;
     private CategorizerViewModel mCategorizerViewModel;
 
-    public CategoryMenuFragmentCategorize(@NonNull List<? extends Transaction> transactions) {
-        mContainer = transactions;
+
+    public static CategoryMenuFragmentCategorize newInstance(@NonNull List<? extends Transaction> transactions) {
+        CategoryMenuFragmentCategorize frag = new CategoryMenuFragmentCategorize();
+
+        frag.mContainer = transactions;
+
+        return frag;
     }
 
     @Override
@@ -85,7 +89,7 @@ public class CategoryMenuFragmentCategorize extends CategoryMenuFragmentBase {
     @Override
     protected void onItemCreated(View item, Tag which) {
         item.setOnClickListener(l -> {
-            ImageView iv = item.findViewById(R.id.imgCatBackground);
+            ConstraintLayout iv = item.findViewById(R.id.cat_icon_bkg);
 
 
             which.setSelected(!which.isSelected());

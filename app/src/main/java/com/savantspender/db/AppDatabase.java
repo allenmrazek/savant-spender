@@ -11,6 +11,7 @@ import androidx.room.TypeConverters;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import com.savantspender.AppExecutors;
+import com.savantspender.R;
 import com.savantspender.db.converter.DateConverter;
 import com.savantspender.db.dao.AccountDao;
 import com.savantspender.db.dao.CataloggedDao;
@@ -97,6 +98,10 @@ public abstract class AppDatabase extends RoomDatabase {
                             Constants.ManualAccountId, Constants.ManualItemId, Constants.ManualAccountName));
     }
 
+    private void insertTag(@NonNull String name, int iconId) {
+        TagEntity tag = new TagEntity(0, name, iconId);
+        mAppDatabase.tagDao().upsert(tag);
+    }
     public void insertDefaultTags() {
         TagDao tagDao = mAppDatabase.tagDao();
 
@@ -104,11 +109,22 @@ public abstract class AppDatabase extends RoomDatabase {
                 "Food", "Fuel", "Fun", "Fast Food"
         };
 
-        int counter = 0;
-
-        for (String tag : defaultTags) {
-            tagDao.upsert(new TagEntity(counter++, tag));
-        }
+        insertTag("Car", R.drawable.ic_car);
+        insertTag("Dance", R.drawable.ic_dance);
+        insertTag("Fun", R.drawable.ic_entertainment);
+        insertTag("Flight", R.drawable.ic_flight);
+        insertTag("Food", R.drawable.ic_food);
+        insertTag("Gas", R.drawable.ic_gas);
+        insertTag("General", R.drawable.ic_general);
+        insertTag("Money", R.drawable.ic_money);
+        insertTag("Music", R.drawable.ic_music);
+        insertTag("Pets", R.drawable.ic_pets);
+        insertTag("Phone", R.drawable.ic_phone);
+        insertTag("Rent", R.drawable.ic_rent);
+        insertTag("Shopping", R.drawable.ic_shopping);
+        insertTag("TV", R.drawable.ic_tv);
+        insertTag("Utilities", R.drawable.ic_utilities);
+        insertTag("Vacation", R.drawable.ic_vacation);
     }
 
 

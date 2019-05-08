@@ -6,32 +6,47 @@
     android:layout_height="@dimen/listitem_category_height"
     android:clickable="true">
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cat_icon_bkg"
+        android:layout_width="74dp"
+        android:layout_height="74dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/category_selector"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
     <ImageView
         android:id="@+id/imgCatBackground"
-        android:layout_width="64dp"
-        android:layout_height="64dp"
-        android:backgroundTint="@color/colorGoalBad"
-        android:backgroundTintMode="multiply"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginBottom="8dp"
+        android:backgroundTintMode="add"
         android:clickable="false"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/cat_icon_bkg"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.368"
-        app:srcCompat="@drawable/category_selector" />
+        app:srcCompat="@drawable/ic_car" />
 
     <TextView
         android:id="@+id/txtCatName"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
+        android:layout_marginTop="8dp"
         android:clickable="false"
         android:text="TextView"
         android:textAlignment="center"
         android:textColor="@color/colorText"
         android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.666"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imgCatBackground" />
+        app:layout_constraintTop_toBottomOf="@+id/cat_icon_bkg"
+        app:layout_constraintVertical_bias="1.0" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

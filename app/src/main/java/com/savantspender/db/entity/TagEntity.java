@@ -13,7 +13,7 @@ import java.util.TreeMap;
 @Entity(tableName = "tags",
     indices = { @Index("id"), @Index(value = "name", unique = true) })
 public class TagEntity implements Tag {
-    @PrimaryKey
+    @PrimaryKey (autoGenerate = true)
     int id;
 
     @NonNull
@@ -24,9 +24,10 @@ public class TagEntity implements Tag {
     @Ignore
     public boolean selected = false;
 
-    public TagEntity(int id, @NonNull String name) {
+    public TagEntity(int id, @NonNull String name, int iconId) {
         this.id = id;
         this.name = name;
+        this.iconId = iconId;
     }
 
     public int getId() {

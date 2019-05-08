@@ -1,23 +1,27 @@
 package com.savantspender.ui.frag.categories;
 
+import android.graphics.Color;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.savantspender.R;
 import com.savantspender.db.entity.Tag;
+import com.savantspender.util.SelectorUtil;
 import com.savantspender.viewmodel.CategoryViewModel;
 
 import java.util.ArrayList;
@@ -75,6 +79,13 @@ public abstract class CategoryMenuFragmentBase extends Fragment {
 
             TextView tv = item.findViewById(R.id.txtCatName);
             tv.setText(tag.getName());
+
+            ImageView iv = item.findViewById(R.id.imgCatBackground);
+            iv.setImageDrawable(ResourcesCompat.getDrawable(getResources(), tag.getIconId(), null));
+            //iv.setBackground(SelectorUtil.makeSelector(Color.RED));
+            //iv.setImageDrawable(SelectorUtil.makeSelector(Color.RED));
+
+            //iv.setBackground(SelectorUtil.makeSelector(R.color.selectedIcon));
 
             onItemCreated(item, tag);
 

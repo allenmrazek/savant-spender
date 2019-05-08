@@ -49,6 +49,10 @@ public abstract class TagDao {
     @Query("SELECT * FROM tags ORDER BY name ASC")
     public abstract List<TagEntity> getAll();
 
+    @Query("SELECT DISTINCT iconId FROM tags")
+    public abstract LiveData<List<Integer>> getTagIds();
+
+
 //    //returns tags which arent used in any goal
 //    @Query("SELECT * FROM tags WHERE id NOT IN " +
 //            "(SELECT tagId FROM GoalTagsEntity)")

@@ -4,5 +4,5 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="listitem_category_width">80dp</dimen>
     <dimen name="listitem_category_height">100dp</dimen>
-    <dimen name="floatingbutton_size">32dp</dimen>
+    <dimen name="floatingbutton_size">48dp</dimen>
 </resources>
