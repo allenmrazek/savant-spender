@@ -13,6 +13,7 @@ import com.savantspender.db.entity.TransactionEntity;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 import io.reactivex.Flowable;
 
@@ -64,5 +65,5 @@ public abstract class CataloggedDao {
     @Query("SELECT * FROM transactions AS T WHERE amount > 0 AND postDate BETWEEN :start AND :end AND EXISTS ("
             + "SELECT 1 FROM catalogged AS C WHERE C.accountId == T.accountId AND C.transactionId == T.id"
             + " AND C.tagId IN (:tags) LIMIT 1)")
-    public abstract List<TransactionEntity> getTransactions(@NonNull Date start, @NonNull Date end, List<Integer> tags);
+    public abstract List<TransactionEntity> getTransactions(@NonNull Date start, @NonNull Date end, Set<Integer> tags);
 }
