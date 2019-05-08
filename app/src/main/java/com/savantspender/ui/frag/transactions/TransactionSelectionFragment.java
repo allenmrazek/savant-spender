@@ -21,7 +21,7 @@ public abstract class TransactionSelectionFragment extends Fragment {
     protected TransactionViewModel mViewModel;
     protected RecyclerView mRecyclerView;
     protected TransactionViewAdapter mAdapter;
-    private FloatingActionButton mFloatingButton;
+    protected FloatingActionButton mFloatingButton;
 
     @Nullable
     @Override

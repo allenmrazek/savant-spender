@@ -1,6 +1,16 @@
 package com.savantspender.ui.frag.transactions;
 
+import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
+
+import com.savantspender.R;
 
 public class SortedTransactionsFragment extends TransactionSelectionFragment {
 
@@ -13,6 +23,8 @@ public class SortedTransactionsFragment extends TransactionSelectionFragment {
 
             toggleFloatingButton(num.getContentIfNotHandled() > 0);
         });
+
+
     }
 
     @Override
@@ -20,9 +32,13 @@ public class SortedTransactionsFragment extends TransactionSelectionFragment {
         mViewModel.doUnsortTransactions(mAdapter.getSelected());
     }
 
-    public void transactionsWereSorted() {
-        // todo: remove this
-        Log.e("Spender", "transactions were sorted");
-    }
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View view = super.onCreateView(inflater, container, savedInstanceState);
 
+        mFloatingButton.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.ic_trash));
+
+        return view;
+    }
 }
